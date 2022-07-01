@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>异常炉台整改</title>
+  <!--追加效果
+  1、整改单表格可下拉筛选；
+  2、整改单表格分页展示；
+  3、点击炉号进入查看整改单；
+  4、整改单表格设“新建”、”修改“及查询栏，修改权限只能修改自己创建的表格；
+  3、newCreate显示最新创建的整改单-->
+  <script src="../vue/vue.js"></script>
+  <style>
+    #tab{
+      margin-left: 55%;
+      margin-top: 10%;
+    }
+    #tab,tr,td,th{
+        border-collapse: collapse;
+        padding: 10px;
+        border: 1px black solid;
+        text-align: center;
+    }
+    #newCreate{
+        border: blue 1px solid;
+        position: fixed;
+        width: 50%;
+        height: 90%;
+    }
+    iframe{
+        width: 100%;
+        height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <header style="text-align: center;margin-bottom: 1%">
+    <h1>异常炉台整改</h1>
+  </header>
+  <div id="newCreate">
+    <iframe src="abnormalPuller_from.html"></iframe>
+  </div>
+  <article>
+    <table id="tab" border="1px">
+      <tr>
+        <th>片区</th>
+        <th>炉号</th>
+        <th>异常分类</th>
+        <th>提交人</th>
+        <th>创建时间</th>
+      </tr>
+      <tr v-for="tr in table">
+       <td>{{tr.section}}</td>
+       <td v-html="tr.puller">{{tr.puller}}</td>
+       <td>{{tr.class}}</td>
+       <td>{{tr.subPerson}}</td>
+       <td>{{tr.time}}</td>
+      </tr>
+    </table>
+  </article>
+  <script>
+    const app = new Vue({
+        el: '#tab',
+        data: {
+            table: [{
+                section:'A',
+                puller: '<a href="abnormalPuller_from.html">A01</a>',
+                class: '人',
+                subPerson: '马栋文',
+                time: '2022-02-01'
+            },{
+                section:'B',
+                puller: '<a href="abnormalPuller_from.html">B33</a>',
+                class: '机',
+                subPerson: '王芳',
+                time: '2022-03-01'
+            }
+
+            ]
+        }
+    })
+  </script>
+</body>
+</html>

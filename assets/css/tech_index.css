@@ -1,0 +1,62 @@
+@media(max-width:540px){ html { font-size:84.375px; } } /*Android常用宽度*/
+@media(max-width:480px){ html { font-size:75px; } }/*Android常用宽度*/
+@media(max-width:414px){ html { font-size:64.69px; } } /*i6Plus,i7Plus宽度*/
+@media(max-width:950px){ html { font-size:100px; } } /*电脑*/
+* {
+    box-sizing: border-box;
+    padding:0;
+    margin:0;
+}
+
+header{
+    height: 10vh;
+    padding-left: 20px;
+    line-height: 10vh;
+    background: #4a83de;
+}
+.sidebar{
+    width: 15%;
+    position: absolute;
+    background-color: #f6f6f3;
+    left: 0;
+    top: 10%;
+    bottom: 0;
+    text-align: center;
+    font-size: 1rem;
+}
+.content{
+    position: absolute;
+    width: 85%;
+    right: 0px;
+    top: 10%;
+    bottom: 0px;
+}
+#nav{
+    list-style: none;
+    position: absolute;
+    left: 0;right: 0;
+    line-height: 30px;
+ }
+#nav a:link,#nav a:visited{
+    color: black;
+    diaplay: block;
+}
+#nav a:hover{
+    color: white;
+    background-color: #255f9e;
+    diaplay: block;
+}
+#nav li{
+    border: solid 1px;
+    border-bottom-width: 0px;
+}
+#nav li:last-child{border-bottom-width: 1px}
+#nav a{
+    text-decoration: none;
+    display: block;
+}
+
+/*定义下拉二级菜单*/
+.techul {
+    display: none;
+}

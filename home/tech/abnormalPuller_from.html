@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>异常炉台整改单</title>
+    <style>
+        input:focus{
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+   <form>
+    <h2 align="center">整改单</h2>
+
+    <table border="1" width="70%" align="center">
+      <tr>
+          <td width="150px" colspan="2">
+              需整改炉号
+          </td>
+          <td>
+                  <input type="text">
+          </td>
+          <td width="150px">
+              需整改提报人员
+          </td>
+          <td>
+                  <input type="text">
+          </td>
+      </tr>
+      <tr>
+          <td colspan="2">
+              需整改接收人员
+          </td>
+          <td>
+                 <input type="text">
+          </td>
+          <td>
+              整改接收时间
+          </td>
+          <td>
+                  <input type="date">
+          </td>
+      </tr>
+      <tr>
+          <td colspan="2">
+              异常原因问题
+          </td>
+          <td colspan="3">
+              <textarea rows="10px" cols="95">请在此输入异常原因和问题</textarea>
+          </td>
+      </tr>
+      <tr>
+          <td colspan="2" align="center">
+              部门
+          </td>
+          <td colspan="3" align="center">
+              整改方案
+          </td>
+      </tr>
+      <tr>
+          <td rowspan="3" WIDTH="90">
+             具体整改方案及注意事项
+          </td>
+          <td WIDTH="100" align="center">
+              技</br>
+              术</br>
+              工</br>
+              艺</br>
+              部
+          </td>
+          <td colspan="3">
+              <textarea rows="10" cols="95">请在此输入整改内容</textarea>
+          </td>
+      </tr>
+      <tr>
+          <td WIDTH="100" align="center">
+              设</br>
+              备</br>
+              动</br>
+              力</br>
+              部
+          </td>
+          <td colspan="3">
+              <textarea rows="10" cols="95">请在此输入整改内容</textarea>
+          </td>
+      </tr>
+        <tr>
+            <td WIDTH="100" align="center">
+                单</br>
+                晶</br>
+                制</br>
+                造</br>
+                部
+            </td>
+            <td colspan="3">
+                <textarea rows="10" cols="95">请在此输入整改内容</textarea>
+            </td>
+        </tr>
+        <!--整改完成确认-->
+        <tr>
+            <td rowspan="3">
+                整改完成确认
+            </td>
+            <td>
+                技术工艺部
+            </td>
+            <td colspan="3">
+                    签字：
+                    <input type="text">
+                    日期：
+                    <input type="date">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                设备动力部
+            </td>
+            <td colspan="3">
+                    签字：
+                    <input type="text">
+                    日期：
+                    <input type="date">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                单晶制造部
+            </td>
+            <td colspan="3">
+                    签字：
+                    <input type="text">
+                    日期：
+                    <input type="date">
+            </td>
+        </tr>
+        <!--整改后产量跟踪-->
+        <tr>
+            <td rowspan="3">
+                整改后效果跟踪
+            </td>
+            <td>
+                成晶率（%）
+            </td>
+            <td colspan="3">
+                <form>
+                    整改后第一炉
+                    <input type="number">
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                单产（%）
+            </td>
+            <td colspan="3">
+                    整改后第一炉
+                    <input type="number">
+            </td>
+        </tr>
+        <tr>
+            <td>
+               其它
+            </td>
+            <td colspan="3">
+                    整改后第一炉
+                    <input type="text">
+            </td>
+        </tr>
+      </table>
+      <input type="submit" value="提交" style="margin-left: 50%">
+    </form>
+</body>
+</html>

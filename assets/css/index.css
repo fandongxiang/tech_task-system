@@ -1,0 +1,25 @@
+* {
+    box-sizing: border-box;
+    padding:0;
+    margin:0;
+}
+html,body {
+    height: 100vh;
+    width: 100vw;
+}
+
+body {
+    margin: 0px;
+}
+
+/* navbar */
+@media (min-width: 768px){
+.navbar-expand-md .navbar-nav .nav-link {
+    padding-right: 5.2rem;
+    padding-left: 5.2rem;
+    color: white;
+}   
+}
+.content{
+    height:100vh;
+}

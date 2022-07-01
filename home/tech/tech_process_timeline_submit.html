@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新增工艺路线</title>
+    <script src="../../assets/lib/JQuery.js"></script>
+    <script src="../../assets/js/baseAPI.js"></script>
+    <script src="../../assets/js/bootstrap.bundle.js"></script>
+    <script src="../../assets/lib/template-web.js"></script>
+    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
+    <style>
+        h3 {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            text-align: center;
+        }
+
+        .select {
+            padding-top: calc(0.375rem + 1px);
+        }
+
+        .table td,
+        .table th {
+            padding: 0.1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" style="background-color: #f0f0f0;">
+        <h3 class="bg-info">工艺变更项提交区</h3>
+        <form id="timeline-form" action="/">
+            <div class="form-group row">
+                <div class="col-sm-1 col-form-label">
+                    <label>片区选择</label>
+                </div>
+                <div class="col-sm-6 select">
+                    <div class=" form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox1" value="车间" name="zoom">
+                        <label class="form-check-label" for="inlineCheckbox1">车间</label>
+                    </div>
+                    <div class=" form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox1" value="A1" name="zoom">
+                        <label class="form-check-label" for="inlineCheckbox1">A1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox2" value="A2" name="zoom">
+                        <label class="form-check-label" for="inlineCheckbox2">A2</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox3" value="B1" name="zoom">
+                        <label class="form-check-label" for="inlineCheckbox3">B1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox3" value="B2" name="zoom">
+                        <label class="form-check-label" for="inlineCheckbox3">B2</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox3" value="C1" name="zoom">
+                        <label class="form-check-label" for="inlineCheckbox3">C1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox3" value="C2" name="zoom">
+                        <label class="form-check-label" for="inlineCheckbox3">C2</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox3" value="D1" name="zoom">
+                        <label class="form-check-label" for="inlineCheckbox3">D1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox3" value="D2" name="zoom">
+                        <label class="form-check-label" for="inlineCheckbox3">D2</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox3" value="E1" name="zoom">
+                        <label class="form-check-label" for="inlineCheckbox3">E1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox3" value="E2" name="zoom">
+                        <label class="form-check-label" for="inlineCheckbox3">E2</label>
+                    </div>
+                </div>
+            </div>
+            <!-- 时间选择 -->
+            <div class="form-group row">
+                <label for="exampleInputPassword1" class="col-sm-1 col-form-label">变更时间</label>
+                <div class="col-sm-5">
+                    <input type="date" class="form-control" id="exampleInputPassword1" name="subDay">
+                </div>
+            </div>
+            <!-- 变更目的 -->
+            <div class="form-group row">
+                <label for="target" class="col-sm-1 col-form-label">变更目的</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="target" aria-describedby="emailHelp" name="purpose">
+                    <small id="emailHelp" class="form-text text-muted">请简述你本次的变更目的</small>
+                </div>
+            </div>
+            <!-- 变更内容 -->
+            <div class="form-group row">
+                <label for="target" class="col-sm-1 col-form-label">变更内容</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="target" aria-describedby="emailHelp" name="content">
+                    <small id="emailHelp" class="form-text text-muted">请简述你本次的变更内容</small>
+                </div>
+            </div>
+            <!-- 变更分类 -->
+            <div class="form-group row">
+                <div class="col-sm-1 col-form-label">
+                    <label>变更分类</label>
+                </div>
+                <div class="col-sm-6 select">
+                    <div class=" form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox1" value="工艺" name="changeSort">
+                        <label class="form-check-label" for="inlineCheckbox1">工艺</label>
+                    </div>
+                    <div class=" form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox1" value="热场" name="changeSort">
+                        <label class="form-check-label" for="inlineCheckbox1">热场</label>
+                    </div>
+                    <div class=" form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox1" value="人员" name="changeSort">
+                        <label class="form-check-label" for="inlineCheckbox1">人员</label>
+                    </div>
+                </div>
+            </div>
+            <!-- 影响分类 -->
+            <div class="form-group row">
+                <div class="col-sm-1 col-form-label">
+                    <label>影响分类</label>
+                </div>
+                <div class="col-sm-6 select">
+                    <div class=" form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox1" value="断线" name="affectSort">
+                        <label class="form-check-label" for="inlineCheckbox1">断线</label>
+                    </div>
+                    <div class=" form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox1" value="品质" name="affectSort">
+                        <label class="form-check-label" for="inlineCheckbox1">品质</label>
+                    </div>
+                    <div class=" form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox1" value="事故" name="affectSort">
+                        <label class="form-check-label" for="inlineCheckbox1">事故</label>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">提交</button>
+            <a class="btn btn-danger" style="float: right;" href="./tech_process_timeline.html">关闭</a>
+        </form>
+        <h4 class="mt-4 mb-2">历史提交区</h4>
+        <table class="table  table-bordered tableinfo" style="font-size: 0.8rem;">
+            <thead>
+                <tr>
+                    <th>片区</th>
+                    <th>变更时间</th>
+                    <th>变更目的</th>
+                    <th>变更内容</th>
+                    <th>变更分类</th>
+                    <th>影响分类</th>
+                    <th>提交人</th>
+                    <th>提交时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="history">
+
+            </tbody>
+        </table>
+    </div>
+    <script type="text/html" id="history-info">
+        {{each data}}
+            <tr>
+                <td>{{$value.zoom}}</td>
+                <td>{{$value.subDay}}</td>
+                <td>{{$value.purpose}}</td>
+                <td>{{$value.content}}</td>
+                <td>{{$value.changeSort}}</td>
+                <td>{{$value.affectSort}}</td>
+                <td>{{$value.submitter}}</td>
+                <td>{{$value.subTime}}</td>
+                <td><a href="javascript:;" id="del" data-id="{{$value.id}}" >删除</a></td>
+            </tr>
+        {{/each}}
+    </script>
+    <script>
+        $(function () {
+            // 提交信息区
+            $('#timeline-form').submit(function (e) {
+                e.preventDefault()
+                const data = $(this).serialize()
+                console.log(data);
+                $.ajax({
+                    type: 'POST',
+                    url: '/tech/timeline/subInfo',
+                    headers: { Authorization: localStorage.getItem('token') || '' },
+                    data: data,
+                    success: function (res) {
+                        if (res.status != 0) return alert('提交失败！')
+                        alert('提交成功！')
+                        $('#timeline-form')[0].reset()
+                        getHistoryInfo()
+                    }
+                })
+            })
+
+            // 渲染历史提交区
+            function getHistoryInfo() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/tech/timeline/getHistoryInfo',
+                    headers: { Authorization: localStorage.getItem('token') || '' },
+                    success: function (res) {
+                        console.log(res);
+                        let info = res.message
+                        function getDate(string) {
+                            const y = string.substr(0, 4)
+                            const m = string.substr(5, 2)
+                            const d = (parseInt(string.substr(8, 2)) + 1) < 10 ? '0' + (parseInt(string.substr(8, 2)) + 1) : (parseInt(string.substr(8, 2)) + 1)
+                            return y + '-' + m + '-' + d
+                        }
+                        function formatDate(info) {
+                            for (var i = 0; i < info.length; i++) {
+                                info[i].subDay = getDate(info[i].subDay)
+                                info[i].subTime = getDate(info[i].subTime)
+                            }
+                        }
+                        formatDate(info)
+                        const data = template('history-info', { data: info })
+                        $('#history').html(data)
+                    }
+                })
+            }
+            getHistoryInfo()
+
+            // 删除请求
+            $('#history').on('click', '#del', function () {
+                const id = $(this).attr('data-id')
+                $.ajax({
+                    type: 'GET',
+                    url: '/tech/timeline/del',
+                    headers: { Authorization: localStorage.getItem('token') || '' },
+                    data: { id: id },
+                    success: function (res) {
+                        getHistoryInfo()
+                        alert(res.message)
+                    }
+                })
+            })
+        })
+    </script>
+</body>
+
+</html>

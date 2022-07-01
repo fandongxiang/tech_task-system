@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+      }
+      html,body {
+          width: 100vw;
+          height: 100vh;
+      }
+      form {
+          width: 100%;
+      }
+
+      /*暂存、提交、关闭*/
+      .control {
+          position: fixed;
+          top: 4vh;
+          right: 2vw;
+      }
+      .control button {
+          width: 5vw;
+      }
+
+      ul {
+          float: left;
+          width: 35%;
+          /*   text-align: left;*/
+          background: #fff;
+      }
+      ul li {
+          margin-top: 10px;
+          list-style: none;
+          height: 7vh;
+          padding-left: 10%;
+      }
+      .name {
+          /*text-align: center;*/
+          background: #f6f3f3;
+          width: 15%;
+          font-weight: 550;
+      }
+      .name li {
+          text-align: center;
+      }
+      .userPut {
+          height: 20vh;
+          line-height: 20vh;
+      }
+      .userPut input {
+          border: black 1px solid;
+          height: 15vh;
+          width: 90%;
+      }
+
+      #taskName {
+          margin: 5vh 30vw;
+      }
+
+      input {
+          border-top-width: 0;
+          border-left-width: 0;
+          border-right-width: 0;
+          border-bottom-width: 1px;
+          outline: medium;
+      }
+      #date {
+
+      }
+  </style>
+</head>
+<body>
+  <form>
+    <div class="control">
+      <button>暂存</button>
+      <button>提交</button>
+      <button>关闭</button>
+    </div>
+    <section id="taskName" style="font-weight: 550">
+      主题&nbsp&nbsp&nbsp<input type="text">
+    </section>
+    <section>
+      <ul class="name">
+        <li>委托人</li>
+        <li>电话</li>
+        <li>接受人</li>
+        <li class="userPut">概述</li>
+        <li class="userPut">目标</li>
+      </ul>
+      <ul>
+        <li><input type="text" value="樊东祥">*</li>
+        <li><input type="text" value="17395096946">*</li>
+        <li>请选择
+          <select>
+            <option>法龙超</option>
+            <option>马栋文</option>
+            <option>王芳</option>
+            <option>樊东祥</option>
+            <option>孙海敏</option>
+            <option>马勇</option>
+            <option>王小刚</option>
+            <option>王睿鹏</option>
+          </select>
+
+        </li>
+        <li class="userPut"><input type="text"></li>
+        <li class="userPut"><input type="text"></li>
+      </ul>
+      <ul class="name">
+        <li>所在部门</li>
+        <li>创建日期</li>
+        <li>完成期限</li>
+        <li class="userPut">完成时间</li>
+        <li class="userPut">当前进度</li>
+      </ul>
+      <ul>
+        <li><input type="text" value="单晶技术一部">*</li>
+        <li><input type="text" id="date">*</li>
+        <li><input type="date" value="2022.3.30"></li>
+        <li class="userPut"><input type="text"></li>
+        <li class="userPut"><input type="text"></li>
+      </ul>
+    </section>
+  </form>
+
+  <script>
+    var date = new Date();
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var dates = date.getDate();
+    document.getElementById('date').value = year + '-' + month + '-' + dates;
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sticky notes using CSS3 and Google Fonts (Step 5)</title>
+  <link  href="http://fonts.googleapis.com/css?family=Reenie+Beanie:regular" rel="stylesheet" type="text/css">
+  <style type="text/css">
+      *{
+          margin:0;
+          padding:0;
+      }
+      body{
+          font-family:arial,sans-serif;
+          font-size:100%;
+          margin:3em;
+          background:#666;
+          color:#fff;
+      }
+      h2,p{
+          font-size:100%;
+          font-weight:normal;
+      }
+      ul,li{
+          list-style:none;
+      }
+      ul{
+          overflow:hidden;
+          padding:3em;
+      }
+      ul li a{
+          text-decoration:none;
+          color:#000;
+          background:#ffc;
+          display:block;
+          height:10em;
+          width:10em;
+          padding:1em;
+          -moz-box-shadow:5px 5px 7px rgba(33,33,33,1);
+          -webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+          box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+          -moz-transition:-moz-transform .15s linear;
+          -o-transition:-o-transform .15s linear;
+          -webkit-transition:-webkit-transform .15s linear;
+      }
+      ul li{
+          margin:1em;
+          float:left;
+      }
+      ul li h2{
+          font-size:140%;
+          font-weight:bold;
+          padding-bottom:10px;
+      }
+      ul li p{
+          font-family:"Reenie Beanie",arial,sans-serif;
+          font-size:100%;
+      }
+      ul li a{
+          -webkit-transform: rotate(-6deg);
+          -o-transform: rotate(-6deg);
+          -moz-transform:rotate(-6deg);
+      }
+      ul li a button {
+          margin: 2em 4em;
+      }
+      .get,.getTime {
+          display: none;
+      }
+      ul li:nth-child(even) a{
+          -o-transform:rotate(4deg);
+          -webkit-transform:rotate(4deg);
+          -moz-transform:rotate(4deg);
+          position:relative;
+          top:5px;
+          background:#cfc;
+      }
+      ul li:nth-child(3n) a{
+          -o-transform:rotate(-3deg);
+          -webkit-transform:rotate(-3deg);
+          -moz-transform:rotate(-3deg);
+          position:relative;
+          top:-5px;
+          background:#ccf;
+      }
+      ul li:nth-child(5n) a{
+          -o-transform:rotate(5deg);
+          -webkit-transform:rotate(5deg);
+          -moz-transform:rotate(5deg);
+          position:relative;
+          top:-10px;
+      }
+      ul li a:hover,ul li a:focus{
+          box-shadow:10px 10px 7px rgba(0,0,0,.7);
+          -moz-box-shadow:10px 10px 7px rgba(0,0,0,.7);
+          -webkit-box-shadow: 10px 10px 7px rgba(0,0,0,.7);
+          -webkit-transform: scale(1.25);
+          -moz-transform: scale(1.25);
+          -o-transform: scale(1.25);
+          position:relative;
+          z-index:5;
+      }
+      ol{text-align:center;}
+      ol li{display:inline;padding-right:1em;}
+      ol li a{color:#fff;}
+  </style>
+</head>
+<body>
+<ul>
+  <li>
+    <a href="#">
+      <h2>翻翻翻？</h2>
+      <p>N型片区翻料问题</p>
+      <p style="text-align: right">悬赏人：王芳</p>
+      <p style="text-align: right;font-size: 150%">2022.3.30</p>
+      <p class="get" style="text-align: right"></p>
+      <p class="getTime" style="text-align: right"></p>
+      <button>承接</button>
+    </a>
+  </li>
+  <li>
+    <a href="#">
+      <h2>看不见了？</h2>
+      <p>加高炉筒视野捕捉困难</p>
+      <p style="text-align: right">悬赏人：王小刚</p>
+      <p style="text-align: right">2022.2.25</p>
+      <button>承接</button>
+    </a>
+  </li>
+  <li>
+    <a href="#">
+      <h2>一起来挖坑？</h2>
+      <p>头部直径挖坑改善</p>
+      <p style="text-align: right">悬赏人：马勇</p>
+      <p style="text-align: right">2022.1.15</p>
+    </a>
+  </li>
+  <li>
+    <a href="#">
+      <h2>赶走O2</h2>
+      <p>890A0氧回收高解决</p>
+      <p style="text-align: right">悬赏人：马栋文</p>
+      <p style="text-align: right">2022.4.6</p>
+      <button>承接</button>
+    </a>
+  </li>
+  <li>
+    <a href="#">
+      <h2>Title #5</h2>
+      <p>Text Content #5</p>
+    </a>
+  </li>
+  <li>
+    <a href="#">
+      <h2>Title #6</h2>
+      <p>Text Content #6</p>
+    </a>
+  </li>
+  <li>
+    <a href="#">
+      <h2>Title #7</h2>
+      <p>Text Content #2</p>
+    </a>
+  </li>
+  <li>
+    <a href="#">
+      <h2>Title #8</h2>
+      <p>Text Content #7</p>
+    </a>
+  </li>
+  <li>
+    <a href="#">
+      <h2>Title #9</h2>
+      <p>Text Content #8</p>
+    </a>
+  </li>
+  <li>
+    <a href="#">
+      <h2>Title #10</h2>
+      <p>Text Content #8</p>
+    </a>
+  </li>
+</ul>
+  <script>
+    var a = document.querySelector('a');
+    var button = document.querySelector('button');
+    var get = document.querySelector('.get');
+    var getTime = document.querySelector('.getTime');
+    var date = new Date();
+    console.log(date);
+    document.getElementsByClassName('getTime').innerHTML = date;
+    button.onclick = function () {
+      var input = prompt('请输入你的姓名');
+      get.innerHTML = input;
+      a.style.backgroundColor = 'gray';
+      button.innerHTML = '已承接';
+      get.style.display = 'block';
+      getTime.style.display = 'block';
+    }
+  </script>
+</body>
+</html>

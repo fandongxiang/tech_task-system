@@ -1,0 +1,115 @@
+* {
+  box-sizing: border-box;     
+}
+html,body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background: url('../images/bg-index.png')
+  no-repeat center;
+  /* background=size: cover 铺满全屏 */
+  background-size: cover;                  
+}
+a {
+  text-decoration: none;
+  color: #998f8d;
+}
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../font/login/icomoon.eot?iq6lrg');
+  src:  url('../font/login//icomoon.eot?iq6lrg#iefix') format('embedded-opentype'),
+    url('../font/login/icomoon.ttf?iq6lrg') format('truetype'),
+    url('../font/login/icomoon.woff?iq6lrg') format('woff'),
+    url('../font/login/icomoon.svg?iq6lrg#icomoon') format('svg');
+  font-weight: normal;;
+  font-style: normal;
+  font-display: block;
+}
+/* logo */
+.pic {
+  margin: 30px 104px;
+}
+/* 登录框 */
+.login {
+  display: block;
+  width: 566px;
+  height: 433px;
+  margin: 150px auto;
+  background-color: #fdfefd;
+}
+h1 {
+  color: #16aae8;
+  line-height: 70px;
+  text-align: center;
+  margin: 0;
+}
+/* 登录输入框 */
+.input-box {
+  width: 480px;
+  height: 55px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 25px;
+  position: relative;
+}
+/* 字体图标 */
+.u-input::before {
+  position: absolute;
+  content: '';
+  font-family: icomoon;
+  padding-left: 15px;
+  line-height: 55px;
+  font-size: 20px;
+  color: #998f8d;
+}
+.p-input::before {
+  position: absolute;
+  content: '';
+  font-family: icomoon;
+  padding-left: 15px;
+  line-height: 55px;
+  font-size: 20px;
+  color: #998f8d;
+}
+#username,#password,.btn {
+  width: 100%;
+  height: 100%;
+  font-size: 20px;
+}
+#username,#password {
+  padding-left: 50px;
+  color: #998f8d;
+}
+.btn {
+  color: white;
+  background-color: #1197ff;
+}
+#reg {
+  float: right;
+}
+
+/* 注册输入框 */
+.reg {
+  display: none;
+  width: 566px;
+  height: 433px;
+  margin: 150px auto;
+  background-color: #fdfefd;
+}
+#reg-username,#reg-password,#con-password,.reg-btn {
+  width: 100%;
+  height: 100%;
+  font-size: 20px;
+}
+#reg-username,#reg-password,#con-password {
+  padding-left: 50px;
+  color: #998f8d;
+}
+.reg-btn {
+  color: white;
+  background-color: #1197ff;
+}
+#login {
+  float: right;
+}

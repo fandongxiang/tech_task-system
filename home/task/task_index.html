@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>任务管理</title>
+  <style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    html,
+    body{
+        height: 100vh;
+        width: 100vw;
+    }
+    header{
+        height: 15vh;
+        padding-left: 2%;
+        padding: 2%;
+        border-bottom: 1px gray dotted;
+    }
+    .sidebar{
+        float: left;
+        height: 85vh;
+        width: 10vw;
+    }
+    .create{
+        height: 20%;
+        background: #ffffff;
+    }
+    .create a {
+        display: block;
+        text-align: center;
+        text-decoration: none;
+        color: black;
+    }
+    .create a img {
+        width: 60%;
+        height: 60%;
+    }
+    nav{
+        height: 80%;
+        font-size: larger;
+        background: #efe9e9;
+    }
+    nav a{
+        display: block;
+        padding: 15% 0 15% 20%;
+        text-decoration: none;
+        color: black;
+    }
+    nav a:hover{
+        background: #f6f5f5;
+    }
+    /*内容区*/
+    .content {
+        float: left;
+        height: 85vh;
+        width: 90vw;
+    }
+    .content img {
+        width: 100%;
+        height: 100%;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <h2>任务管理</h2>
+  </header>
+  <!--侧边导航栏-->
+  <div class="sidebar">
+    <div class="create">
+      <a href="task_createNew.html">
+        <img src="image/新建图标.png">
+        <h3>新建任务</h3>
+      </a>
+    </div>
+    <nav>
+      <a href="#">常用操作▽</a>
+      <a href="#">我的任务</a>
+      <a href="#">我启动的</a>
+      <a href="#">我发布的</a>
+      <a href="#">我参与的</a>
+      <a href="task_stickyNote.html" target="content">赏金任务</a>
+    </nav>
+  </div>
+  <!--内容区-->
+  <div class="content">
+    <iframe name="content" width="100%" height="100%"></iframe>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>登录</title>
+  <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+  <script src="./assets/lib/JQuery.js"></script>
+  <script src="./assets/js/bootstrap.bundle.js"></script>
+  <link rel="stylesheet" href="./assets/css/login.css">
+</head>
+
+<body>
+  <div class="content-fluid">
+    <!-- <div class="pic"><img src="./assets/images/logo.png" alt=""></div> -->
+    <div class="login">
+      <h1>LOGIN</h1>
+      <form action="/" id="login-form">
+        <div class="input-box u-input">
+          <input type="text" placeholder="请输入用户名" name="username" id="username">
+        </div>
+        <div class="input-box p-input">
+          <input type="password" name="password" id="password" placeholder="请输入密码">
+        </div>
+        <div class="input-box">
+          <button type="submit" class="btn">登录</button>
+        </div>
+        <div class="input-box">
+          <a id="reg" href="javascript:;">去注册</a>
+        </div>
+      </form>
+    </div>
+
+    <div class="reg">
+      <h1>REGISTER</h1>
+      <form action="/" id="reg-form">
+        <div class="input-box u-input">
+          <input type="text" placeholder="请输入用户名" name="username" id="reg-username">
+        </div>
+        <div class="input-box p-input">
+          <input type="password" name="password" id="reg-password" placeholder="请输入密码">
+        </div>
+        <div class="input-box p-input">
+          <input type="password" name="con-password" id="con-password" placeholder="请再次输入密码">
+        </div>
+        <div class="input-box">
+          <button type="submit" class="reg-btn">注册</button>
+        </div>
+      </form>
+      <div class="input-box">
+        <a id="login" href="javascript:;">去登录</a>
+      </div>
+    </div>
+  </div>
+  <!-- 导入 jQuery -->
+  <script src="./assets/lib/JQuery.js"></script>
+  <!-- 导入拼接 url 的函数 -->
+  <script src="./assets/js/baseAPI.js"></script>
+  <!-- 导入登录js -->
+  <script src="./assets/js/login.js"></script>
+  <script>
+
+  </script>
+</body>
+
+</html>

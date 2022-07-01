@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>工艺管理</title>
+    <meta name="viewport" content="width=device-width,user-scalable=no"/>
+    <link rel="stylesheet" type="text/css" href="tech_index.css">
+    <script src="../vue/vue.js"></script>
+    <script>
+     /*   function displaySubMenu(a) {
+            var  subMenu = a.getElementsByTagName("ul")[0];
+            if (subMenu.style.display == "block")
+            {subMenu.style.display = "none"}
+            else {subMenu.style.display = "block"}
+        }*/
+
+    </script>
+</head>
+<body>
+  <header>
+      <h2>工艺管理</h2>
+  </header>
+  <div class="sidebar">
+      <p style="padding:10px">菜单内容</p>
+      <ul id="nav">         <!--ul li列表显示菜单栏内容-->
+          <li><a href="tech_product.html" target="iframe_a">产品规格</a></li>
+          <li  id="techStand"><a href="tech_standard.html"  target="iframe_a">工艺标准</a>
+          </li>
+          <li><a href="heat_bag.html"  target="iframe_a">热场标准</a></li>
+          <li><a href="tech_arguments.html"  target="iframe_a">工艺参数</a></li>
+          <li><a href="quest_bag.html"  target="iframe_a">异常处理</a></li>
+          <li><a href="time_bag.html"  target="iframe_a">工艺时间线</a></li>
+      </ul>
+  </div>
+  <div class="content">
+      <iframe  style="width: 100%;height: 100%;right: 0px" src="tech_product.html" name="iframe_a">
+      </iframe>
+  </div>
+</body>
+</html>

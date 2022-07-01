@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>新建任务</title>
+  <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    html,body {
+        width: 100vw;
+        height: 100vh;
+    }
+
+    header {
+        height: 10vh;
+        line-height: 10vh;
+    }
+    header ul {
+        display: block;
+    }
+
+    article {
+        height: 90vh;
+        width: 100%;
+    }
+    nav {
+        float: left;
+        width: 15%;
+        height: 100%;
+        text-align: center;
+        background: #ece9e9;
+    }
+    nav a:visited,nav a:link {
+        display: block;
+        text-decoration: none;
+        color: black;
+        height: 10vh;
+        background: #ece9e9;
+        line-height: 10vh;
+    }
+    nav a:hover {
+        background: #f3f2f2;
+    }
+
+    .content {
+        float: right;
+        width: 82%;
+        height: 90vh;
+        border: black 1px solid;
+    }
+  </style>
+
+</head>
+<body>
+  <!--页面头部-->
+  <header>
+    <h3 style="font-weight: normal">新建任务类别</h3>
+  </header>
+
+  <article>
+    <!--任务导航栏-->
+    <nav>
+      <a href="task_createNew_myTask.html" target="content">个人任务</a>
+      <a href="task_createNew_delegatedTask.html" target="content">委托任务</a>
+      <a href="#">赏金任务</a>
+    </nav>
+    <!--右侧内容区-->
+    <div class="content">
+      <iframe name="content" width="100%" height="100%" src="task_createNew_myTask.html">
+      </iframe>
+  </article>
+
+</body>
+</html>
