@@ -15,8 +15,10 @@ body {
 /* navbar */
 @media (min-width: 768px){
 .navbar-expand-md .navbar-nav .nav-link {
-    padding-right: 5.2rem;
-    padding-left: 5.2rem;
+    /* padding-right: 3rem;
+    padding-left: 3rem; */
+    width: 8rem;
+    text-align: center;
     color: white;
 }   
 }

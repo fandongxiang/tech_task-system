@@ -2,7 +2,7 @@
 $.ajaxPrefilter(function (options) {
   // options.url = 'http://10.4.6.132:3008' + options.url                 // 此处不能写本地 127.0.0.1 不然手机端访问不到
   // options.url = 'http://192.168.1.14:3008' + options.url
-  options.url = 'http://192.168.66.59:3008' + options.url
+  options.url = 'http://192.168.43.7:3008' + options.url
 
   // 全局统一挂载 complete ，实现权限拦截
   options.complete = function (res) {
