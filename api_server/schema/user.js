@@ -1,6 +1,6 @@
 // 安装@hapi/joi包：为每个表单携带的数据项，制定验证规则  npm i @hapi/joi@17.1.0
 // 安装@escook/express-joi中间件，实现自动对表单数据进行验证功能  npm i @escook/express-joi
-const joi = require('@hapi/joi')
+const joi = require('joi')
 const expressJoi = require('@escook/express-joi')
 
 // 定义用户登录和注册验证规则
