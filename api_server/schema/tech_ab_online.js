@@ -1,4 +1,4 @@
-const joi = require('@hapi/joi')
+const joi = require('joi')
 exports.subabnor = {
   body: {
     zoom:joi.string().alphanum().min(1).max(1).required(),
