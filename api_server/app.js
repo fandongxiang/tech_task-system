@@ -7,7 +7,7 @@ app.listen(3008, () => {
 })
 
 // 托管静态资源
-app.use(express.static('../../tech/', { index: 'login.html' }))
+app.use(express.static('../../tech_task-system/', { index: 'login.html' }))
 app.use(express.static('../assets/css/'))
 app.use(express.static('../assets/font/'))
 app.use(express.static('../assets/images/'))
@@ -23,7 +23,7 @@ app.use(cors())
 app.use(urlencoded({ extended: false }))
 
 // 导入@hapi/joi模块
-const joi = require('@hapi/joi')
+const joi = require('joi')
 
 // 响应错误的全局中间件：自己封装一个函数
 app.use((req, res, next) => {
