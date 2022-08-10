@@ -53,7 +53,6 @@ app.use('/my', userinfoRouter)
 
 // 全局登录拦截处理函数
 app.use((req,res,next) => {
-    console.log(req.user);
     next()
 })
 
