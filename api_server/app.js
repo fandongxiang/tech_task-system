@@ -23,7 +23,7 @@ app.use(cors())
 app.use(urlencoded({ extended: false }))
 
 // 导入@hapi/joi模块
-const joi = require('@hapi/joi')
+const joi = require('joi')
 
 // 响应错误的全局中间件：自己封装一个函数
 app.use((req, res, next) => {
@@ -53,7 +53,6 @@ app.use('/my', userinfoRouter)
 
 // 全局登录拦截处理函数
 app.use((req,res,next) => {
-    console.log(req.user);
     next()
 })
 
