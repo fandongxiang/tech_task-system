@@ -1,4 +1,4 @@
-const joi = require('joi')             // @hapi-joi被弃用，已经更新未joi
+const joi = require('joi')             // @hapi-joi被弃用，已经更新未joi,
 exports.subabnor = {
   body: {
     zoom:joi.string().alphanum().min(1).max(1).required(),
