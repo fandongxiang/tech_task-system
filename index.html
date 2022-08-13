@@ -74,8 +74,12 @@
         <li class="nav-item">
           <a class="nav-link" href="#">公告</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">我的</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link" href="#" data-toggle="dropdown">我的</a>
+          <div class="dropdown-menu">
+            <a href="./home/admin.html" class="dropdown-item" id="admin">后台管理</a>
+            <a href="#" class="dropdown-item">个人中心</a>
+          </div>
         </li>
         <li class="nav-item" id="search">
           <form class="form-inline">
@@ -112,6 +116,12 @@
           if (res.status !== 0) return console.log(res.message)
           const nickname = res.data['nickname']
           $('.Uname').html(nickname)
+
+          // 根据用户名判断隐藏个人中心-后台管理
+          if (res.data['username'] != 'fandongxiang') {
+           const admin = document.querySelector('#admin')
+           admin.style.display = 'none'
+          }
         }
       })
 
