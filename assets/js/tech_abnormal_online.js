@@ -195,12 +195,6 @@ $(function() {
   // 调用当日分片区异常炉台函数
   dayAbnor()
 
-  $('#select').change(function() {
-    var p = this.selectedIndex;
-    q = $('option').eq(p).val();
-    alert(q)
-  })
-
   // 根据提交人负责片区自动选择片区
   $.ajax({
     type: 'GET',
@@ -210,12 +204,25 @@ $(function() {
     success: function(res) {
       if (res.status !== 0) return console.log(res.message);
       const nickname = res.data['nickname']
-      if (nickname == '樊东祥') {
-        let select = document.querySelector('#select')
-        let value = select.options[select.selectedIndex].value
-        select.value = "B"
-        console.log(value);
+      let puller = '';
+      switch (nickname) {
+        case "樊东祥":
+          puller = "A";
+          break;
+        case "法龙超":
+          puller = "A";
+          break;
+        case "王金华":
+          puller = "A";
+          break;
+        case "王芳":
+          puller = "B";
+          break;
+        case "孙海敏":
+          puller = "C";
+          break;
       }
+      document.querySelector('#select').value = puller;
     }
   })
 })

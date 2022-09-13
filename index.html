@@ -2,138 +2,139 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./assets/font/tech/iconfont.css">
-    <link rel="stylesheet" type="text/css" href="./assets/css/index.css">
-    <script src="./assets/lib/JQuery.js"></script>
-    <script src="./assets/js/baseAPI.js"></script>
-    <script src="./assets/js/bootstrap.bundle.js"></script>
-    <style>
-        .iconfont {
-            font-family: "iconfont" !important;
-            font-size: 3rem;
-            font-style: normal;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        /* 未退出按钮添加格式  */
-        
-        #quit {
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        
-        h1 {
-            font-weight: bolder;
-            margin-bottom: 2rem;
-        }
-        
-        .header {
-            background: url('./assets/images/bg-index.png');
-            background-position: center;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>工艺任务管理系统</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./assets/font/tech/iconfont.css">
+  <link rel="stylesheet" type="text/css" href="./assets/css/index.css">
+  <script src="./assets/lib/JQuery.js"></script>
+  <script src="./assets/js/baseAPI.js"></script>
+  <script src="./assets/js/bootstrap.bundle.js"></script>
+  <style>
+    .iconfont {
+      font-family: "iconfont" !important;
+      font-size: 3rem;
+      font-style: normal;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    /* 未退出按钮添加格式  */
+    
+    #quit {
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    h1 {
+      font-weight: bolder;
+      margin-bottom: 2rem;
+    }
+    
+    .header {
+      background: url('./assets/images/bg-index.png');
+      background-position: center;
+    }
+  </style>
 </head>
 
 <body>
 
-    <!-- Header 配置 -->
-    <div class="jumbotron text-center" style="margin-bottom:0;">
-        <h1>工 艺 任 务 管 理 系 统</h1>
-        <h5>打通数据共享的壁垒，实现信息共建、共享</h5>
-        <h5>实现任务可视化跟踪，赋予任务价值</h5>
-    </div>
-    <!-- 导航栏 -->
-    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-        <a class="navbar-brand" href="./index.html">首页</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+  <!-- Header 配置 -->
+  <div class="jumbotron text-center" style="margin-bottom:0;">
+    <h1>工 艺 任 务 管 理 系 统</h1>
+    <h5>打通数据共享的壁垒，实现信息共建、共享</h5>
+    <h5>实现任务可视化跟踪，赋予任务价值</h5>
+  </div>
+  <!-- 导航栏 -->
+  <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <a class="navbar-brand" href="./index.html">首页</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
-        <div class="collapse navbar-collapse" id="collapsibleNavbar">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">工艺</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">产品</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">热场</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link" href="#" data-toggle="dropdown">
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#">工艺</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">产品</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">热场</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link" href="#" data-toggle="dropdown">
             指标
           </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Link 1</a>
-                        <a class="dropdown-item" href="#">Link 2</a>
-                        <a class="dropdown-item" href="#">Link 3</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">公告</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link" href="#" data-toggle="dropdown">我的</a>
-                    <div class="dropdown-menu">
-                        <a href="./home/admin.html" class="dropdown-item" id="admin">后台管理</a>
-                        <a href="#" class="dropdown-item">个人中心</a>
-                    </div>
-                </li>
-                <li class="nav-item" id="search">
-                    <form class="form-inline">
-                        <input class="form-control" type="text" placeholder="Search">
-                        <button class="btn btn-success" type="button">Search</button>
-                    </form>
-                </li>
-            </ul>
-            <span class="navbar-brand ml-5" href="#">欢迎您 <span class="Uname"></span></span>
-            <span class="iconfont" id="quit">&#xe611;</span>
-        </div>
-    </nav>
-    <!-- iframe区域 -->
-    <div class="content">
-        <iframe style="width: 100%;height: 100%;right: 0px; scroll-behavior: smooth;" src="./home/index_frame.html" name="b">
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Link 1</a>
+            <a class="dropdown-item" href="#">Link 2</a>
+            <a class="dropdown-item" href="#">Link 3</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">公告</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link" href="#" data-toggle="dropdown">我的</a>
+          <div class="dropdown-menu">
+            <a href="./home/admin/admin.html" class="dropdown-item" id="admin">后台管理</a>
+            <a href="#" class="dropdown-item">个人中心</a>
+          </div>
+        </li>
+        <li class="nav-item" id="search">
+          <form class="form-inline">
+            <input class="form-control" type="text" placeholder="Search">
+            <button class="btn btn-success" type="button">Search</button>
+          </form>
+        </li>
+      </ul>
+      <span class="navbar-brand ml-5" href="#">欢迎您 <span class="Uname"></span></span>
+      <span class="iconfont" id="quit">&#xe611;</span>
+    </div>
+  </nav>
+  <!-- iframe区域 -->
+  <div class="content">
+    <iframe style="width: 100%;height: 100%;right: 0px; scroll-behavior: smooth;" src="./home/index_frame.html" name="b">
     </iframe>
-    </div>
-    <div class="jumbotron text-center" style="margin-bottom:0;background-color: #333333">
-        <p style="color: white">fandongxiang@17395096946</p>
-    </div>
-    <script>
-        $(function() {
-            // 获取用户名请求
-            $.ajax({
-                type: 'GET',
-                url: '/my/userinfo',
-                // headers 就是请求头配置文件
-                headers: {
-                    Authorization: localStorage.getItem('token') || ''
-                },
-                success: function(res) {
-                    if (res.status !== 0) return console.log(res.message)
-                    const nickname = res.data['nickname']
-                    $('.Uname').html(nickname)
+  </div>
+  <div class="jumbotron text-center" style="margin-bottom:0;background-color: #333333">
+    <p style="color: white">fandongxiang@17395096946</p>
+  </div>
+  <script>
+    $(function() {
+      // 获取用户名请求
+      $.ajax({
+        type: 'GET',
+        url: '/my/userinfo',
+        // headers 就是请求头配置文件
+        headers: {
+          Authorization: localStorage.getItem('token') || ''
+        },
+        success: function(res) {
+          if (res.status !== 0) return console.log(res.message)
+          const nickname = res.data['nickname']
+          $('.Uname').html(nickname)
 
-                    // 根据用户名判断隐藏个人中心-后台管理
-                    if (res.data['username'] != 'fandongxiang') {
-                        const admin = document.querySelector('#admin')
-                        admin.style.display = 'none'
-                    }
-                }
-            })
+          // 根据用户名判断隐藏个人中心-后台管理
+          if (res.data['username'] != 'fandongxiang') {
+            const admin = document.querySelector('#admin')
+            admin.style.display = 'none'
+          }
+        }
+      })
 
-            // 点击退出功能
-            $('#quit').on('click', function() {
-                // 1. 清空token
-                localStorage.removeItem('token')
-                    // 2. 返回登陆页面
-                location.href = '/login.html'
-            })
-        })
-    </script>
+      // 点击退出功能
+      $('#quit').on('click', function() {
+        // 1. 清空token
+        localStorage.removeItem('token')
+          // 2. 返回登陆页面
+        location.href = '/login.html'
+      })
+    })
+  </script>
 </body>
 
 </html>

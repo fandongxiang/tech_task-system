@@ -1,0 +1,110 @@
+/* 
+    要点：a 标签使用 display:blcok 将行内元素转换为块状元素，撑起整个导航栏区域
+    */
+
+
+/* 兼容浏览器 */
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+}
+
+a {
+  text-decoration: none;
+}
+
+
+/* 导航栏样式 */
+
+.container-left {
+  float: left;
+  width: 19%;
+  height: 600px;
+  background-color: #191f29;
+}
+
+
+/* 导航栏-标题样式 */
+
+.title {
+  width: 100%;
+  height: 40px;
+}
+
+.title>a {
+  /* a 标签成为块级元素，设置宽高 */
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* 垂直居中 */
+  line-height: 40px;
+  /* 水平居中 */
+  text-align: center;
+  color: white;
+}
+
+
+/* 导航栏-分割线样式 */
+
+.seg {
+  width: 100%;
+  height: 1px;
+  background-color: #0e1218;
+  /* 上下距离 */
+  margin: 5px 0;
+}
+
+
+/* 导航栏-主标题 */
+
+.nav-title {
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  /* 添加悬浮显示小手 */
+  cursor: pointer;
+  color: #eceff2;
+}
+
+
+/* 导航栏-子标题 */
+
+.nav-content {
+  background-color: #0d1117;
+}
+
+.nav-content>a {
+  /* 使 a 标签成为块状元素 */
+  display: block;
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  color: #afafaf;
+  /* 优化字体大小 */
+  font-size: 15px;
+}
+
+
+/* 子标题伪类 */
+
+.nav-content>a:hover {
+  color: #eceff2;
+}
+
+
+/* 内容区样式 */
+
+.container-right {
+  float: right;
+  width: 81%;
+  height: 600px;
+  background-color: #5a8aea;
+}

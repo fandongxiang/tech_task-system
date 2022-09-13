@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>抽屉样式2</title>
+  <!-- 导入Jquery -->
+  <script src="../../assets/lib/JQuery.js"></script>
+  <link rel="stylesheet" href="../../assets/css/admin/admin.css">
+  <script>
+    // Jquery 入口函数
+    $(function() {
+      // 隐藏所有子菜单
+      $('.nav-content').hide() // jQuery 自带遍历功能，不用foreach
+
+      // 为主菜单添加点击事件
+      $('.nav-title').click(function() {
+
+        // 杀死所有，判断自己
+        $('.nav-content').slideUp(600)
+
+        // 判断是否为折叠状态
+        if ($(this).next().css('display') == 'none') {
+          // 传入延迟属性
+          // 向下展开
+          $(this).next().slideDown(600)
+        } else {
+          // 向上收起
+          $(this).next().slideUp(600)
+        }
+        // $(this).next().slideToggle()            // 这里用 slideToggle() 为什么会出现不能关闭自身？？？
+      })
+    })
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <!-- 导航栏 -->
+    <div class="container-left">
+
+      <div class="title">
+        <a href="#">后台管理</a>
+      </div>
+
+      <!-- 用 div 实现分割线-->
+      <div class="seg"></div>
+
+      <!-- 菜单栏导航 -->
+      <div class="nav">
+
+        <!-- 菜单项1 -->
+        <div class="nav-menu">
+          <!-- 主标题 -->
+          <div class="nav-title">商品管理</div>
+          <!-- 子标题 -->
+          <div class="nav-content">
+            <a href="#">商品列表</a>
+            <a href="#">添加商品</a>
+          </div>
+        </div>
+
+        <!-- 菜单项2 -->
+        <div class="nav-menu">
+          <!-- 主标题 -->
+          <div class="nav-title">订单管理</div>
+          <!-- 子标题 -->
+          <div class="nav-content">
+            <a href="#">订单列表</a>
+            <a href="#">添加订单</a>
+          </div>
+        </div>
+
+        <!-- 菜单项3 -->
+        <div class="nav-menu">
+          <!-- 主标题 -->
+          <div class="nav-title">类目管理</div>
+          <!-- 子标题 -->
+          <div class="nav-content">
+            <a href="#">类目列表</a>
+            <a href="#">添加类目</a>
+          </div>
+        </div>
+
+        <!-- 分割线 -->
+        <div class="seg" style="margin-top: 10px;"></div>
+
+      </div>
+
+    </div>
+    <!-- 内容区 -->
+    <div class="container-right">
+      <h1>内容区</h1>
+    </div>
+  </div>
+</body>
+
+</html>
