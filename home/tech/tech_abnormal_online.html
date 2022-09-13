@@ -13,96 +13,11 @@
   <script src="../../assets/js/bootstrap.bundle.js"></script>
   <script src="../../assets/lib/echarts.min.js"></script>
   <script src="../../assets/js/tech_abnormal_online.js"></script>
-  <style>
-    @media screen and (max-width: 768px) {
-
-      .col-md-8 td,
-      .col-md-8 th {
-        font-size: 0.7rem;
-      }
-
-      .preview-div,
-      .preview-h6 {
-        display: none;
-      }
-    }
-
-    /* 取消iframe 底部滚动条 */
-    body {
-      overflow-x: hidden;
-    }
-
-    .preview {
-      table-layout: fixed;
-    }
-
-    .col-md-8 td,
-    .col-md-8 th {
-      padding: 0.75rem 0rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      text-align: center;
-    }
-
-    /* 设置单元格内 input 格式 */
-    .table td,
-    .table th {
-      padding: 0.3rem 0.4rem;
-      text-align: center;
-    }
-
-    .tdinput-abM {
-      outline: none;
-      border: none;
-      text-align: center;
-      width: 20rem;
-      padding: 0;
-    }
-
-    .tdinput-abM:focus {
-      border-bottom: 1px solid black;
-    }
-
-    .tdinput {
-      outline: none;
-      border: none;
-      text-align: center;
-      width: 100%;
-      padding: 0;
-    }
-
-    .tdinput:focus {
-      border-bottom: 1px solid black;
-    }
-
-    .tdd {
-      width: 5rem;
-    }
-
-    .abinput {
-      width: 10rem;
-    }
-
-    /* 完整信息区表格居中 */
-    .tableinfo {
-      display: block;
-      margin: auto !important;
-    }
-
-    /* 图表宽度 */
-    #dayAbnor div {
-      width: 100%;
-    }
-
-    /* p 标签字体 粗细 */
-    h6 {
-      font-weight: 800;
-    }
-  </style>
+  <link rel="stylesheet" href="../../assets/css/tech_abnormal_online.css">
 </head>
 
 <body>
+  <!-- 提交区 -->
   <div class="container-flud" style="padding-left: 1rem;">
     <h2 style="text-align: center;" class="pb-5 pt-5 bg-info">在线异常炉台</h2>
     <!-- 提交区 -->
@@ -113,12 +28,12 @@
         <form class="form" action="/action_page.php">
           <div class="input-group mb-2 mr-sm-2">
             <div class="input-group-prepend">
-              <select class="form-control" id="sel1" name="zoom">
-                <option>A</option>
-                <option>B</option>
-                <option>C</option>
-                <option>D</option>
-                <option>E</option>
+              <select class="form-control" id="select" name="zoom">
+                <option class="select-zoom">A</option>
+                <option class="select-zoom">B</option>
+                <option class="select-zoom">C</option>
+                <option class="select-zoom">D</option>
+                <option class="select-zoom">E</option>
               </select>
             </div>
             <input type="number" class="form-control " placeholder="炉号" name="puller">
@@ -131,10 +46,10 @@
             </div>
           </div>
 
-          <input type="text" class="form-control mb-2 mr-sm-2" id="pwd2" placeholder="分类" name="sort">
-          <input type="text" class="form-control mb-2 mr-sm-2" id="pwd2" placeholder="异常点" name="abnormal">
-          <input type="text" class="form-control mb-2 mr-sm-2" id="pwd2" placeholder="异常原因" name="abCause">
-          <input type="text" class="form-control mb-2 mr-sm-2" id="pwd2" placeholder="异常措施" name="abMeasure">
+          <input type="text" class="form-control mb-2 mr-sm-2" placeholder="分类" name="sort">
+          <input type="text" class="form-control mb-2 mr-sm-2" placeholder="异常点" name="abnormal">
+          <input type="text" class="form-control mb-2 mr-sm-2" placeholder="异常原因" name="abCause">
+          <input type="text" class="form-control mb-2 mr-sm-2" placeholder="异常措施" name="abMeasure">
           <div class="input-group mb-2 mr-sm-2">
             <select class="form-control" name="state">
               <option>调温</option>
@@ -170,6 +85,7 @@
         </table>
       </div>
     </div>
+
     <!-- 完整展示区 -->
     <div class="row preview-div  pb-3">
       <div class="col-10 offset-md-2">
@@ -217,41 +133,7 @@
 
       </div>
     </div>
-    <!-- 测试提交多个name
-    <div class="row">
-      <form action="/" id="test">
-          <input type="text" name="id" id="">
-          <input type="text" name="uname" id="">
-          <input type="text" name="pw" id="">
-          <input type="text" name="id" id="">
-          <input type="text" name="uname" id="">
-          <input type="text" name="pw" id="">
-        <input type="submit" value="submit" id="btn">
-      </form>
-    </div> -->
-
   </div>
-  <!-- 测试删除
-  <script>
-    $(function() {
-      $('#btn').on('click',function() {
-        console.log($('#f1').serialize());
-      })
-      $('#test').submit(function(e) {
-        e.preventDefault()
-        const data = $(this).serialize()
-        console.log(data);
-        $.ajax({
-          type: 'POST',
-          url: '/api/test',
-          data: data,
-          success: function(res) {
-            console.log(res);
-          }
-        })
-      })
-    })
-  </script> -->
 
   <!-- 提交预览区 -->
   <script type="text/html" id="getMyinfo">
@@ -259,261 +141,64 @@
     <tr>
       {{if $value.puller >= 33}}
       <td>{{$value.zoom}}2</td>
-      {{else if $value.puller < 33}}
-      <td>{{$value.zoom}}1</td>
-      {{/if}}
-      {{if $value.puller < 10}}
-      <td>{{$value.zoom}}0{{$value.puller}}</td>
-      {{else if $value.puller >= 10}}
-      <td>{{$value.zoom}}{{$value.puller}}</td>
-      {{/if}}
-      <td>{{$value.sort}}</td>
-      <td>{{$value.runtime}}h</td>
-      <td>{{$value.abnormal}}</td>
-      <td class="abcause">{{$value.abCause}}</td>
-      <td class="abMeasure">{{$value.abMeasure}}</td>
-      <td data-id="{{$value.state}}" class="td-state">{{$value.state}}</td>
-      </td>
-      <td><a href="javascript:;" class="del" data-id={{$value.id}}>删除</a></td>
+      {{else if $value.puller
+      < 33}} <td>{{$value.zoom}}1</td>
+        {{/if}} {{if $value.puller
+        < 10}} <td>{{$value.zoom}}0{{$value.puller}}</td>
+          {{else if $value.puller >= 10}}
+          <td>{{$value.zoom}}{{$value.puller}}</td>
+          {{/if}}
+          <td>{{$value.sort}}</td>
+          <td>{{$value.runtime}}h</td>
+          <td>{{$value.abnormal}}</td>
+          <td class="abcause">{{$value.abCause}}</td>
+          <td class="abMeasure">{{$value.abMeasure}}</td>
+          <td data-id="{{$value.state}}" class="td-state">{{$value.state}}</td>
+          </td>
+          <td><a href="javascript:;" class="del" data-id={{$value.id}}>删除</a></td>
     </tr>
     {{/each}}
   </script>
+
   <!-- 完整信息展示区 -->
   <script type="text/html" id="getAllinfo">
     {{each data}}
-      <tr>
-        <!-- 片区 -->
-        {{if $value.puller >= 33}}
-        <td>{{$value.zoom}}2</td>
-        {{else if $value.puller < 33}}
-        <td>{{$value.zoom}}1</td>
+    <tr>
+      <!-- 片区 -->
+      {{if $value.puller >= 33}}
+      <td>{{$value.zoom}}2</td>
+      {{else if $value.puller
+      < 33}} <td>{{$value.zoom}}1</td>
         {{/if}}
         <!-- 炉号 -->
-        {{if $value.puller < 10}}
-          {{if $value.state != '等径'}}
-          <td class="tdd bg-danger">{{$value.zoom}}0{{$value.puller}}</td>
+        {{if $value.puller
+        < 10}} {{if $value.state !='等径' }} <td class="tdd bg-danger">{{$value.zoom}}0{{$value.puller}}</td>
           {{else}}
           <td class="tdd bg-success">{{$value.zoom}}0{{$value.puller}}</td>
-          {{/if}}
-        {{else if $value.puller >= 10}}
-          {{if $value.state != '等径'}}
+          {{/if}} {{else if $value.puller >= 10}} {{if $value.state != '等径'}}
           <td class="tdd bg-danger">{{$value.zoom}}{{$value.puller}}</td>
           {{else}}
           <td class="tdd bg-success">{{$value.zoom}}{{$value.puller}}</td>
-          {{/if}}
-        {{/if}}
-        <td class="idclass" data-id="{{$value.id}}">{{$value.sort}}</td>
-        <td class="tdd">{{$value.time}}</td>
-        <td style="width: 10rem;" class="abinput"><input contenteditable="true"  type="text" name="abnormal" class="tdinput" value="{{$value.abnormal}}"></td>
-        <td>{{$value.abCause}}</td>
-        <td><input type="text" name="abMeasure" class="tdinput-abM" value="{{$value.abMeasure}}" contenteditable="true"></td>
-        <td style="width: 5rem;" ><input type="text" name="state" class="tdinput" value="{{$value.state}}"></td>
-        <td>{{$value.submitter}}</td>
-        <td>{{$value.subTime}}</td>
-      </tr>
-      {{/each}}
+          {{/if}} {{/if}}
+          <!-- 分类 -->
+          <td class="idclass" data-id="{{$value.id}}">{{$value.sort}}</td>
+          <!-- 运行时间 -->
+          <td class="tdd">{{$value.time}}</td>
+          <td style="width: 10rem;" class="abinput"><input contenteditable="true" type="text" name="abnormal" class="tdinput" value="{{$value.abnormal}}"></td>
+          <!-- 异常原因 -->
+          <td>{{$value.abCause}}</td>
+          <!-- 异常措施 -->
+          <td><input type="text" name="abMeasure" class="tdinput-abM" value="{{$value.abMeasure}}" contenteditable="true"></td>
+          <!-- 运行状态 -->
+          <td style="width: 5rem;"><input type="text" name="state" class="tdinput" value="{{$value.state}}"></td>
+          <!-- 提交人 -->
+          <td>{{$value.submitter}}</td>
+          <!-- 提交时间 -->
+          <td>{{$value.subTime}}</td>
+    </tr>
+    {{/each}}
   </script>
-  <script>
-    $(function () {
-      // 表格中 input与td 宽度自适应
-      $('.test').bind('input propertychange', function () {
-        var $this = $(this);
-        var text_length = $this.val().length;//获取当前文本框的长度
-        var current_width = parseInt(text_length) * 14;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
-        console.log(current_width);
-        $this.css("width", current_width + "px");
-      });
 
-      // 渲染当前登录人提交炉台信息
-      // 注意：模板引擎渲染出来的数据 不能包含 - 格式数据
-      function getMyPuller() {
-        $.ajax({
-          type: 'GET',
-          url: '/tech/abnor',
-          headers: { Authorization: localStorage.getItem('token') || '' },
-          success: function (res) {
-            // if (!res.status == 0) return console.log(res);
-            const pullerinfo = res['data']
-            const dataStr = template('getMyinfo', { data: pullerinfo })
-            $('#preview').html(dataStr)               // 注意：这里不能写 append
-          }
-        })
-      }
-      getMyPuller()
-
-      // 提交炉台信息请求
-      $('.form').submit(function (e) {
-        e.preventDefault()
-        var data = $(this).serialize()
-        $.ajax({
-          type: 'POST',
-          headers: { Authorization: localStorage.getItem('token') || '' },
-          url: '/tech/subabnor',
-          data: data,
-          success: function (res) {
-            // 注意：要实现提交后渲染请求，必须在 success 里面调用
-            getMyPuller()
-            getAllinfo()
-            dayAbnor()
-            // 提交成功后清空表单
-            if (res.status !== 0) return alert(res.message)
-            return $('.form')[0].reset()
-          }
-        })
-      })
-
-      // 删除预览信息区域炉台
-      $('#preview').on('click', '.del', function () {
-        var id = $(this).attr('data-id')
-        $.ajax({
-          type: 'GET',
-          url: '/tech/delabnor',
-          data: { id: id },
-          headers: { Authorization: localStorage.getItem('token') || '' },
-          success: function (res) {
-            getMyPuller()
-            getAllinfo()
-            dayAbnor()
-            alert('删除成功！')
-          }
-        })
-      })
-
-      // 获取完整炉台信息请求
-      function getAllinfo() {
-        $.ajax({
-          type: 'GET',
-          url: '/tech/getAllabnor',
-          headers: { Authorization: localStorage.getItem('token') || '' },
-          success: function (res) {
-            if (res['status'] !== 0) return alert('获取炉台信息失败！')
-            const pullerinfo = res['data']
-            for (let i = 0; i < pullerinfo.length; i++) {
-              let time = countDown(pullerinfo[i].subDay) + pullerinfo[i].runtime
-              pullerinfo[i].time = time
-            }
-            // 定义计算倒计时的函数
-            function countDown(subDay) {
-              const nowTime = +new Date();
-              const subtime = +new Date(subDay)
-              const times = (nowTime - subtime) / 1000;
-              let h = parseInt(times / 60 / 60 % 24)
-              return h
-            }
-            const dataStr = template('getAllinfo', { data: pullerinfo })
-            $('#allinfo').html(dataStr)
-          }
-        })
-      }
-      getAllinfo()
-
-      // 更新炉台的请求
-      // 此处表单与表格嵌套 + 表单id不符 折腾 1h
-      $('.upinfo').submit(function (e) {
-        e.preventDefault()
-        var data = $(this).serialize()
-        // 遍历获取 id 拼接成字符串
-        var idStr = ''
-        $('.idclass').each(function (index, domEle) {
-          idStr += '&' + 'id=' + $(domEle).attr('data-id')
-        })
-        // 注意：node 后台只能解析一次 string 
-        var data = data + idStr
-        $.ajax({
-          type: 'POST',
-          url: '/tech/updateAbnorOnline',
-          headers: { Authorization: localStorage.getItem('token') || '' },
-          data: data,
-          success: function (res) {
-            if (res['status'] !== 0) return alert('更新炉台信息失败！')
-            getMyPuller()
-            getAllinfo()
-            alert('更新成功！')
-          }
-        })
-      })
-
-      // 当日分片区异常炉台展示
-      function dayAbnor() {
-        $.ajax({
-          type: 'GET',
-          url: '/tech/dayAbnor',
-          headers: { Authorization: localStorage.getItem('token') || '' },
-          success: function (res) {
-            const yAxisArry = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'D1', 'D2', 'E1', 'E2']
-            // 遍历查找片区赋值
-            for (var i = 0; i < yAxisArry.length; i++) {
-              var k = 0;
-              for (var j = 0; j < res.length; j++) {
-                if (yAxisArry[i] == res[j].zooms) {
-                  k++;
-                  yAxisArry[i] = res[j].amount
-                }
-              }
-              if (k == 0) {
-                yAxisArry[i] = 0;
-              }
-            }
-            // echarts 图表渲染
-            var chartDom = document.getElementById('dayAbnor');
-            var myChart = echarts.init(chartDom);
-            var option;
-
-            option = {
-              title: {
-                text: '当日异常炉台',
-                x: 'center',
-                y: 'top',
-                textStyle: {
-                  fontStyle: 'oblique',
-                  fontFamily: 'Courier New'
-                }
-              },
-              grid: {
-                show: true,
-                // backgroundColor: 'rgb(128, 128, 128)'
-              },
-              // tooltip: {
-              //   show: true,
-              //   trigger: 'item'
-              // },
-              toolbox: {
-                show: true,
-                feature: {
-
-                }
-              },
-              xAxis: {
-                type: 'category',
-                data: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'D1', 'D2', 'E1', 'E2']
-              },
-              yAxis: {
-                type: 'value'
-              },
-              series: [
-                {
-                  data: yAxisArry,
-                  type: 'bar',
-                  markPoint: {
-                    data: [
-                      { type: 'max', name: '最大值' },
-                      // { type: 'min', name: '最小值' }
-                    ]
-                  },
-                  label: {
-                    show: true
-                  },
-                }
-              ]
-            };
-            myChart.setOption(option);
-          }
-        })
-      }
-      // 调用当日分片区异常炉台函数
-      dayAbnor()
-    })
-  </script>
 </body>
 
 </html>
