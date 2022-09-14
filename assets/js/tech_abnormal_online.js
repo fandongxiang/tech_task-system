@@ -41,7 +41,9 @@ $(function() {
         dayAbnor()
           // 提交成功后清空表单
         if (res.status !== 0) return alert(res.message)
-        return $('.form')[0].reset()
+        let zoom_value = $('#select').val()
+        $('.form')[0].reset()
+        return $('#select').val(zoom_value)
       }
     })
   })
@@ -220,6 +222,12 @@ $(function() {
           break;
         case "孙海敏":
           puller = "C";
+          break;
+        case "魏铭琪":
+          puller = "D";
+          break;
+        case "马勇":
+          puller = "E";
           break;
       }
       document.querySelector('#select').value = puller;

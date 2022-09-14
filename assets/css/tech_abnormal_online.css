@@ -1,85 +1,93 @@
 @media screen and (max-width: 768px) {
-
-    .col-md-8 td,
-    .col-md-8 th {
-        font-size: 0.7rem;
-    }
-
-    .preview-div,
-    .preview-h6 {
-        display: none;
-    }
+  .col-md-8 td,
+  .col-md-8 th {
+    font-size: 0.7rem;
+  }
+  .preview-div,
+  .preview-h6 {
+    display: none;
+  }
 }
 
+
 /* 取消iframe 底部滚动条 */
+
 body {
-    overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 .preview {
-    table-layout: fixed;
+  table-layout: fixed;
 }
 
 .col-md-8 td,
 .col-md-8 th {
-    padding: 0.75rem 0rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: center;
+  padding: 0.75rem 0rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
 }
 
+
 /* 设置单元格内 input 格式 */
+
 .table td,
 .table th {
-    padding: 0.3rem 0.4rem;
-    text-align: center;
+  padding: 0.3rem 0.4rem;
+  text-align: center;
 }
 
 .tdinput-abM {
-    outline: none;
-    border: none;
-    text-align: center;
-    width: 20rem;
-    padding: 0;
+  outline: none;
+  border: none;
+  text-align: center;
+  width: 20rem;
+  padding: 0;
 }
 
 .tdinput-abM:focus {
-    border-bottom: 1px solid black;
+  border-bottom: 1px solid black;
 }
 
 .tdinput {
-    outline: none;
-    border: none;
-    text-align: center;
-    width: 100%;
-    padding: 0;
+  outline: none;
+  border: none;
+  text-align: center;
+  width: 100%;
+  padding: 0;
 }
 
 .tdinput:focus {
-    border-bottom: 1px solid black;
+  border-bottom: 1px solid black;
 }
 
 .tdd {
-    width: 5rem;
+  width: 5rem;
 }
 
 .abinput {
-    width: 10rem;
+  width: 10rem;
 }
+
 
 /* 完整信息区表格居中 */
+
 .tableinfo {
-    display: block;
-    margin: auto !important;
+  display: block;
+  margin: auto !important;
 }
+
 
 /* 图表宽度 */
+
 #dayAbnor div {
-    width: 100%;
+  width: 100%;
 }
 
+
 /* p 标签字体 粗细 */
+
 h6 {
-    font-weight: 800;
+  font-weight: 800;
 }
