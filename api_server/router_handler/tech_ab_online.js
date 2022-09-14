@@ -19,7 +19,21 @@ exports.getAbnor_online = (req, res) => {
 
 // 获取所有异常炉台的路由函数
 exports.getAllabnor = (req, res) => {
-  const dataStr = 'select * from abnormal_online where to_days(subDay) = to_days(now()) order by zoom,puller'
+  // const dataStr = 'select * from abnormal_online where to_days(subDay) = to_days(now()) order by zoom,puller'
+  const dataStr = `select t1.*,t2.amount count from (SELECT 
+    COUNT(*) AS amount, CONCAT(zoom, puller) pullers
+FROM
+    abnormal_online
+WHERE
+    TO_DAYS(subDay) > (TO_DAYS(NOW()) - 15)
+GROUP BY pullers ) t2 ,(SELECT 
+    *,concat(zoom,puller) as pullers
+FROM
+    abnormal_online
+WHERE
+    TO_DAYS(subDay) = TO_DAYS(NOW())) t1
+where t1.pullers = t2.pullers
+order by zoom,puller`;
   db.query(dataStr, (err, results) => {
     if (err) return res.cc(err)
     res.send({
@@ -51,7 +65,7 @@ exports.subAbnor_online = (req, res) => {
 
 // 删除预览区域炉台路由函数
 exports.delAbnor = (req, res) => {
-  const id = req.query['id']             // req.query 是对象
+  const id = req.query['id'] // req.query 是对象
   const dataStr = 'delete from abnormal_online where id = ?'
   db.query(dataStr, id, (err, results) => {
     if (err) return res.cc(err)
@@ -66,7 +80,7 @@ exports.delAbnor = (req, res) => {
 // 更新所有炉台信息的路由函数
 exports.updateAbnor = (req, res) => {
   const data = req.body
-  const {abnormal: abnormalArr, abMeasure: abMeasureArr, state: stateArr, id: idArr } = data
+  const { abnormal: abnormalArr, abMeasure: abMeasureArr, state: stateArr, id: idArr } = data
   const arr = []
   for (var i = 0; i < abnormalArr.length; i++) {
     arr.push([idArr[i], abnormalArr[i], abMeasureArr[i], stateArr[i]])
@@ -82,7 +96,7 @@ exports.updateAbnor = (req, res) => {
 // 当日分片区异常炉台路由函数
 exports.getdayAbnor = (req, res) => {
   const dataStr = 'select t.zooms,count(*) as amount from (select if(puller>32,concat(zoom,2),concat(zoom,1)) zooms from abnormal_online where to_days(subDay) = to_days(now())) t group by t.zooms;'
-  db.query(dataStr,(err,results) => {
+  db.query(dataStr, (err, results) => {
     if (err) return res.cc(err)
     res.send(results)
   })

@@ -74,11 +74,19 @@ $(function() {
       success: function(res) {
         if (res['status'] !== 0) return alert('获取炉台信息失败！')
         const pullerinfo = res['data']
-        for (let i = 0; i < pullerinfo.length; i++) {
-          let time = countDown(pullerinfo[i].subDay) + pullerinfo[i].runtime
-          pullerinfo[i].time = time
-        }
-        // 定义计算倒计时的函数
+        console.log(pullerinfo);
+        // 根据提交时间自动更新运行时间
+        // for (let i = 0; i < pullerinfo.length; i++) {
+        //   let time = countDown(pullerinfo[i].subDay) + pullerinfo[i].runtime
+        //   pullerinfo[i].time = time
+        // }
+        // 根据提交时间自动更新运行时间（map方法）
+        let newPullerArr = pullerinfo.map(Element => {
+            let time = countDown(Element.subDay) + Element.runtime
+            Element.time = time;
+            return Element;
+          })
+          // 定义计算倒计时的函数
         function countDown(subDay) {
           const nowTime = +new Date();
           const subtime = +new Date(subDay)
@@ -86,7 +94,8 @@ $(function() {
           let h = parseInt(times / 60 / 60 % 24)
           return h
         }
-        const dataStr = template('getAllinfo', { data: pullerinfo })
+
+        const dataStr = template('getAllinfo', { data: newPullerArr })
         $('#allinfo').html(dataStr)
       }
     })
@@ -231,6 +240,23 @@ $(function() {
           break;
       }
       document.querySelector('#select').value = puller;
+    }
+  })
+
+  // 限制输入内容
+  $('.abCause-limit').keyup(function() {
+    $('.p-abCause').html('')
+    if ($(this).val().length > 13) {
+      $(this).val($(this).val().replace($(this).val(), $(this).val().substr(0, 13)))
+      $('.p-abCause').html('异常原因不能超过12个字符！')
+    }
+  })
+
+  $('.abMeasure-limit').keyup(function() {
+    $('.p-abMeasure').html('')
+    if ($(this).val().length > 24) {
+      $(this).val($(this).val().replace($(this).val(), $(this).val().substr(0, 24)))
+      $('.p-abMeasure').html('异常原因不能超过24个字符！')
     }
   })
 })

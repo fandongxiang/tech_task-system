@@ -51,7 +51,43 @@
         $('.form')[0].reset()
         return $('#select').val(zoom_value)
       ```
+    （3）完整展示区增加异常次数
+      ``` sql
+        <!-- 内连接查询实现 -->
+        select t1.*,t2.count from (SELECT 
+        COUNT(*) AS amount, CONCAT(zoom, puller) pullers
+        FROM
+            abnormal_online
+        WHERE
+            TO_DAYS(subDay) > (TO_DAYS(NOW()) - 15)
+        GROUP BY pullers ) t2 ,(SELECT 
+            *,concat(zoom,puller) as pullers
+        FROM
+            abnormal_online
+        WHERE
+            TO_DAYS(subDay) = TO_DAYS(NOW())) t1
+        where t1.pullers = t2.pullers
+        order by zoom,puller;
+      ```
+    （4）优化提交区异常原因和异常措施输入限制
+      ``` js
+        // 限制输入内容
+        $('.abCause-limit').keyup(function() {
+          $('.p-abCause').html('')
+          if ($(this).val().length > 13) {
+            $(this).val($(this).val().replace($(this).val(), $(this).val().substr     (0, 13)))
+            $('.p-abCause').html('异常原因不能超过12个字符！')
+          }
+        })
 
+        $('.abMeasure-limit').keyup(function() {
+          $('.p-abMeasure').html('')
+          if ($(this).val().length > 24) {
+            $(this).val($(this).val().replace($(this).val(), $(this).val().substr     (0, 24)))
+            $('.p-abMeasure').html('异常原因不能超过24个字符！')
+          }
+        })
+      ```
 2. **数据库优化**：规整数据库
      (1) 将原来`my_db_01`数据库中的`users`表格复制到`tech_task`总表中；
 
@@ -82,4 +118,3 @@
       select id,username,password,nickname,email,  user_pic,status from my_db_01.users;
      ```
 
-3. 其它

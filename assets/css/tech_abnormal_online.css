@@ -44,6 +44,9 @@ body {
   text-align: center;
   width: 20rem;
   padding: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .tdinput-abM:focus {

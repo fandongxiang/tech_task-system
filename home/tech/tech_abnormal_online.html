@@ -48,8 +48,10 @@
 
           <input type="text" class="form-control mb-2 mr-sm-2" placeholder="分类" name="sort">
           <input type="text" class="form-control mb-2 mr-sm-2" placeholder="异常点" name="abnormal">
-          <input type="text" class="form-control mb-2 mr-sm-2" placeholder="异常原因" name="abCause">
-          <input type="text" class="form-control mb-2 mr-sm-2" placeholder="异常措施" name="abMeasure">
+          <input type="text" class="form-control mb-2 mr-sm-2 abCause-limit" placeholder="异常原因" name="abCause">
+          <p class="p-abCause"></p>
+          <input type="text" class="form-control mb-2 mr-sm-2 abMeasure-limit" placeholder="异常措施" name="abMeasure">
+          <p class="p-abMeasure"></p>
           <div class="input-group mb-2 mr-sm-2">
             <select class="form-control" name="state">
               <option>调温</option>
@@ -96,7 +98,7 @@
           <table class="table  table-bordered tableinfo">
             <thead>
               <tr>
-                <td colspan="10">
+                <td colspan="11">
                   <h4 style="text-align: center">七车间引放异常炉台</h4>
                 </td>
               </tr>
@@ -109,6 +111,7 @@
                 <th>异常原因</th>
                 <th>异常措施</th>
                 <th>运行状态</th>
+                <th>异常次数</th>
                 <th>提交人</th>
                 <th>提交时间</th>
               </tr>
@@ -116,7 +119,10 @@
             <tbody id="allinfo">
             </tbody>
             <tr>
-              <td colspan="10"> <button type="submit" class="btn btn-success btn-block mb-2 mt-2">更新</button></td>
+              <td colspan="11" style="text-align: left;color: red"><b>备注：</b>异常次数为近15天出现的次数</td>
+            </tr>
+            <tr>
+              <td colspan="11"> <button type="submit" class="btn btn-success btn-block mb-2 mt-2">更新</button></td>
             </tr>
           </table>
         </form>
@@ -174,11 +180,11 @@
         {{if $value.puller
         < 10}} {{if $value.state !='等径' }} <td class="tdd bg-danger">{{$value.zoom}}0{{$value.puller}}</td>
           {{else}}
-          <td class="tdd bg-success">{{$value.zoom}}0{{$value.puller}}</td>
+          <td class="idclass bg-success">{{$value.zoom}}0{{$value.puller}}</td>
           {{/if}} {{else if $value.puller >= 10}} {{if $value.state != '等径'}}
-          <td class="tdd bg-danger">{{$value.zoom}}{{$value.puller}}</td>
+          <td class="idclass bg-danger">{{$value.zoom}}{{$value.puller}}</td>
           {{else}}
-          <td class="tdd bg-success">{{$value.zoom}}{{$value.puller}}</td>
+          <td class="idclass bg-success">{{$value.zoom}}{{$value.puller}}</td>
           {{/if}} {{/if}}
           <!-- 分类 -->
           <td class="idclass" data-id="{{$value.id}}">{{$value.sort}}</td>
@@ -186,11 +192,14 @@
           <td class="tdd">{{$value.time}}</td>
           <td style="width: 10rem;" class="abinput"><input contenteditable="true" type="text" name="abnormal" class="tdinput" value="{{$value.abnormal}}"></td>
           <!-- 异常原因 -->
-          <td>{{$value.abCause}}</td>
+          <td style="text-align: left;">{{$value.abCause}}</td>
           <!-- 异常措施 -->
-          <td><input type="text" name="abMeasure" class="tdinput-abM" value="{{$value.abMeasure}}" contenteditable="true"></td>
+          <td><input type="text" name="abMeasure" class="tdinput-abM onverHiden" style="text-align: left;" value="{{$value.abMeasure}}" contenteditable="true"></td>
           <!-- 运行状态 -->
           <td style="width: 5rem;"><input type="text" name="state" class="tdinput" value="{{$value.state}}"></td>
+          <!-- 异常次数 -->
+          <td>{{$value.count}}</td>
+
           <!-- 提交人 -->
           <td>{{$value.submitter}}</td>
           <!-- 提交时间 -->
