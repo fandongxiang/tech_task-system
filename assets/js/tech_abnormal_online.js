@@ -38,7 +38,7 @@ $(function() {
         // 注意：要实现提交后渲染请求，必须在 success 里面调用
         getMyPuller()
         getAllinfo()
-        dayAbnor()
+        getdayAbnor()
           // 提交成功后清空表单
         if (res.status !== 0) return alert(res.message)
         let zoom_value = $('#select').val()
@@ -59,7 +59,7 @@ $(function() {
       success: function(res) {
         getMyPuller()
         getAllinfo()
-        dayAbnor()
+        getdayAbnor()
         alert('删除成功！')
       }
     })
@@ -129,13 +129,14 @@ $(function() {
   })
 
   // 当日分片区异常炉台展示
-  function dayAbnor() {
+  function getdayAbnor() {
     $.ajax({
       type: 'GET',
       url: '/tech/dayAbnor',
       headers: { Authorization: localStorage.getItem('token') || '' },
       success: function(res) {
-        const yAxisArry = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'D1', 'D2', 'E1', 'E2']
+        // y轴数据处理
+        let yAxisArry = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'D1', 'D2', 'E1', 'E2']
           // 遍历查找片区赋值
         for (var i = 0; i < yAxisArry.length; i++) {
           var k = 0;
@@ -149,6 +150,19 @@ $(function() {
             yAxisArry[i] = 0;
           }
         }
+        // console.log(res[2].zooms);
+        // puller.forEach((element, index, arr) => {
+        //   // console.log(res[index].zooms);
+        //   console.log(index);
+        //   if (element == res[index].zooms) {
+        //     return element = res[index].amount
+        //   } else {
+        //     res.splice(index - 1, 1)
+        //     return element = 0;
+        //   }
+        // })
+        // console.log(puller);
+
         // echarts 图表渲染
         var chartDom = document.getElementById('dayAbnor');
         var myChart = echarts.init(chartDom);
@@ -157,16 +171,21 @@ $(function() {
         option = {
           title: {
             text: '当日异常炉台',
+            padding: [10, 10, 10, 10],
             x: 'center',
             y: 'top',
             textStyle: {
-              fontStyle: 'oblique',
+              // fontStyle: 'oblique',
               fontFamily: 'Courier New'
             }
           },
           grid: {
             show: true,
-            // backgroundColor: 'rgb(128, 128, 128)'
+            containLable: true,
+            left: '5%',
+            right: '2%',
+            top: '20%',
+            bottom: '8%',
           },
           // tooltip: {
           //   show: true,
@@ -190,7 +209,7 @@ $(function() {
             type: 'bar',
             markPoint: {
               data: [
-                { type: 'max', name: '最大值' },
+                // { type: 'max', name: '最大值' },
                 // { type: 'min', name: '最小值' }
               ]
             },
@@ -204,7 +223,72 @@ $(function() {
     })
   }
   // 调用当日分片区异常炉台函数
-  dayAbnor()
+  getdayAbnor()
+
+  // 近n天异常炉台推移
+  function getweekAbnor() {
+    $.ajax({
+      type: 'GET',
+      url: '/tech/getweekAbnor',
+      headers: { Authorization: localStorage.getItem('token') || '' },
+      success: function(res) {
+        let xAxisArry = [];
+        let yAxisArry = [];
+        res.forEach(element => {
+          xAxisArry.push(element.formatDay);
+          yAxisArry.push(element.count);
+        });
+        const chartDom = document.querySelector('#weekAbnor');
+        const myChart = echarts.init(chartDom);
+
+        let option = {
+          title: {
+            text: '车间异常炉台推移',
+            padding: [10, 10, 10, 10],
+            x: 'center',
+            y: 'top',
+            textStyle: {
+              // fontStyle: 'oblique',
+              fontFamily: '微软雅黑'
+            }
+          },
+          grid: {
+            show: true,
+            containLable: true,
+            left: '4%',
+            right: '0',
+            top: '20%',
+            bottom: '8%',
+
+          },
+          xAxis: {
+            type: 'category',
+            data: xAxisArry
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [{
+            data: yAxisArry,
+            type: 'bar',
+            markPoint: {
+              data: [
+                { type: 'max', name: '最大值' },
+                { type: 'min', name: '最小值' }
+              ]
+            },
+            label: {
+              show: true
+            }
+          }]
+        };
+
+        myChart.setOption(option);
+
+      }
+    })
+  }
+  getweekAbnor();
 
   // 根据提交人负责片区自动选择片区
   $.ajax({
@@ -251,7 +335,6 @@ $(function() {
       $('.p-abCause').html('异常原因不能超过12个字符！')
     }
   })
-
   $('.abMeasure-limit').keyup(function() {
     $('.p-abMeasure').html('')
     if ($(this).val().length > 24) {

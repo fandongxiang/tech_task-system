@@ -84,8 +84,9 @@ body {
 
 /* 图表宽度 */
 
-#dayAbnor div {
-  width: 100%;
+#dayAbnor,
+#weekAbnor {
+  border: 1px black solid;
 }
 
 

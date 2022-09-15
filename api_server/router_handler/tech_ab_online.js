@@ -97,9 +97,26 @@ exports.updateAbnor = (req, res) => {
 
 // 当日分片区异常炉台路由函数
 exports.getdayAbnor = (req, res) => {
-  const dataStr = 'select t.zooms,count(*) as amount from (select if(puller>32,concat(zoom,2),concat(zoom,1)) zooms from abnormal_online where to_days(subDay) = to_days(now())) t group by t.zooms;'
+  const dataStr = 'select t.zooms,count(*) as amount from (select if(puller>32,concat(zoom,2),concat(zoom,1)) zooms from abnormal_online where to_days(subDay) = to_days(now())) t group by t.zooms order by t.zooms;'
   db.query(dataStr, (err, results) => {
     if (err) return res.cc(err)
+    res.send(results)
+  })
+}
+
+// 近10天车间异常炉台推移路由函数
+exports.getweekAbnor = (req, res) => {
+  const dataStr = `
+    SELECT 
+        (DATE_FORMAT(subDay, '%m-%d')) formatDay, COUNT(*) count
+    FROM
+        abnormal_online
+    WHERE
+        TO_DAYS(subDay) > (TO_DAYS(NOW()) - 20 )
+    GROUP BY formatDay;
+  `;
+  db.query(dataStr, (err, results) => {
+    if (err) return console.log(err);
     res.send(results)
   })
 }
