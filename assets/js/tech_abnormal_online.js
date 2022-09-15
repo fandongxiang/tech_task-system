@@ -74,13 +74,12 @@ $(function() {
       success: function(res) {
         if (res['status'] !== 0) return alert('获取炉台信息失败！')
         const pullerinfo = res['data']
-        console.log(pullerinfo);
-        // 根据提交时间自动更新运行时间
-        // for (let i = 0; i < pullerinfo.length; i++) {
-        //   let time = countDown(pullerinfo[i].subDay) + pullerinfo[i].runtime
-        //   pullerinfo[i].time = time
-        // }
-        // 根据提交时间自动更新运行时间（map方法）
+          // 根据提交时间自动更新运行时间
+          // for (let i = 0; i < pullerinfo.length; i++) {
+          //   let time = countDown(pullerinfo[i].subDay) + pullerinfo[i].runtime
+          //   pullerinfo[i].time = time
+          // }
+          // 根据提交时间自动更新运行时间（map方法）
         let newPullerArr = pullerinfo.map(Element => {
             let time = countDown(Element.subDay) + Element.runtime
             Element.time = time;
@@ -136,32 +135,34 @@ $(function() {
       headers: { Authorization: localStorage.getItem('token') || '' },
       success: function(res) {
         // y轴数据处理
-        let yAxisArry = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'D1', 'D2', 'E1', 'E2']
-          // 遍历查找片区赋值
-        for (var i = 0; i < yAxisArry.length; i++) {
-          var k = 0;
-          for (var j = 0; j < res.length; j++) {
-            if (yAxisArry[i] == res[j].zooms) {
-              k++;
-              yAxisArry[i] = res[j].amount
-            }
-          }
-          if (k == 0) {
-            yAxisArry[i] = 0;
-          }
-        }
-        // console.log(res[2].zooms);
-        // puller.forEach((element, index, arr) => {
-        //   // console.log(res[index].zooms);
-        //   console.log(index);
-        //   if (element == res[index].zooms) {
-        //     return element = res[index].amount
-        //   } else {
-        //     res.splice(index - 1, 1)
-        //     return element = 0;
+        // let yAxisArry = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'D1', 'D2', 'E1', 'E2']
+        //   // 遍历查找片区赋值
+        // for (var i = 0; i < yAxisArry.length; i++) {
+        //   var k = 0;
+        //   for (var j = 0; j < res.length; j++) {
+        //     if (yAxisArry[i] == res[j].zooms) {
+        //       k++;
+        //       yAxisArry[i] = res[j].amount
+        //     }
         //   }
-        // })
-        // console.log(puller);
+        //   if (k == 0) {
+        //     yAxisArry[i] = 0;
+        //   }
+        // }
+
+        // 处理0异常炉台片区
+        let puller = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'D1', 'D2', 'E1', 'E2']
+        if (res.slice(-1).zooms !== 'E2') {
+          res.push({ zooms: 'E2', amount: 0 })
+        }
+        let yAxisArry = puller.map((element, index) => {
+          if (element == res[index].zooms) {
+            return res[index].amount
+          } else {
+            res.splice(index, 0, 'abc');
+            return 0
+          }
+        })
 
         // echarts 图表渲染
         var chartDom = document.getElementById('dayAbnor');
