@@ -180,11 +180,11 @@
         {{if $value.puller
         < 10}} {{if $value.state !='等径' }} <td class="tdd bg-danger">{{$value.zoom}}0{{$value.puller}}</td>
           {{else}}
-          <td class="idclass bg-success">{{$value.zoom}}0{{$value.puller}}</td>
+          <td class="bg-success">{{$value.zoom}}0{{$value.puller}}</td>
           {{/if}} {{else if $value.puller >= 10}} {{if $value.state != '等径'}}
-          <td class="idclass bg-danger">{{$value.zoom}}{{$value.puller}}</td>
+          <td class="bg-danger">{{$value.zoom}}{{$value.puller}}</td>
           {{else}}
-          <td class="idclass bg-success">{{$value.zoom}}{{$value.puller}}</td>
+          <td class="bg-success">{{$value.zoom}}{{$value.puller}}</td>
           {{/if}} {{/if}}
           <!-- 分类 -->
           <td class="idclass" data-id="{{$value.id}}">{{$value.sort}}</td>

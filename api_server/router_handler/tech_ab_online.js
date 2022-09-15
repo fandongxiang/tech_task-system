@@ -87,8 +87,10 @@ exports.updateAbnor = (req, res) => {
   }
   const dataStr = 'insert into abnormal_online (id,abnormal,abMeasure,state)  values ? on duplicate key update abnormal = values(abnormal),abMeasure = values(abMeasure),state = values(state);'
   db.query(dataStr, [arr], (err, results) => {
-    if (err) return res.cc(err);
-    if (results.affectedRows == 0) return res.cc('插入失败')
+    if (err) return console.log(err);
+    // res.cc(err);
+    if (results.affectedRows == 0) return console.log(err);
+    // res.cc('插入失败')
     res.cc('更新成功！', status = 0)
   })
 }
