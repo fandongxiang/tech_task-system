@@ -406,4 +406,18 @@ $(function() {
       $('.p-abMeasure').html('异常原因不能超过24个字符！')
     }
   })
+
+  // 异常点必须采用/分割并且规定指定输入字符
+  let abnormal = $("input[name='abnormal']");
+  let p = $('.abnormal_note')
+  console.log(p);
+  abnormal.keyup(function() {
+    const reg = /^(([f转]|\d*|fd)\/)+([f转]|\d+|fd){1}$/gi
+    let result = $(this).val().match(reg);
+    if (!result) {
+      p.html('异常点只能输入数字、转、f或fd，并以/隔开！')
+    } else {
+      p.html('')
+    }
+  })
 })

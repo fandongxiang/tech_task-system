@@ -175,4 +175,44 @@
     }) 
   ```
 
+## 2020-09-18
+### 1. 异常炉台：新增异常炉台断线次数推移
+#### 1.1 SQL语句
+利用`replace()`函数代替想要统计的字符，然后用`length()`函数求得前后两次的差，得到`/`的次数，从而`+1`得到断线次数；
+  ``` sql
+    SELECT 
+        SUM((LENGTH(abnormal) - LENGTH(REPLACE(abnormal, '/',     ''))) + 1) count,
+        DATE_FORMAT(subDay, '%y-%m-%d') formatSubday
+    FROM
+        abnormal_online
+    WHERE
+        TO_DAYS(subDay) > (TO_DAYS(NOW()) - 20)
+    GROUP BY formatSubday
+    ORDER BY formatSubday
+  ```
+#### 1.2 对象解构的应用
+在每次后台返回对象数组时，可以用对象解构快速获得相应属性的值：
+  ``` js
+    success: res => {
+        let { status: status, message: message, data: data } = res
+    }
+  ```
+##### 1.3 用正则表达式对异常点输入格式进行限定
+
+  ``` js
+    // 异常点必须采用/分割并且规定指定输入字符
+    let abnormal = $("input[name='abnormal']");
+    let p = $('.abnormal_note')
+    abnormal.keyup(function() {
+      const reg = /^(([f转]|\d*|fd)\/)+([f转]|\d+|fd){1}$/gi
+      let result = $(this).val().match(reg);
+      if (!result) {
+        p.html('异常点只能输入数字、转、f或fd，并以/隔开！')
+      } else {
+        p.html('')
+      }
+    })
+  ```
+
+
 
