@@ -125,18 +125,14 @@ exports.getweekAbnor = (req, res) => {
 exports.getAbnorCount = (req, res) => {
   const dataStr = `
     SELECT 
-      t1.formatSubday, SUM(t1.length) count
+      SUM((LENGTH(abnormal) - LENGTH(REPLACE(abnormal, '/', ''))) + 1) count,
+      DATE_FORMAT(subDay, '%y-%m-%d') formatSubday
     FROM
-      (SELECT 
-          CONCAT(zoom, puller) formatPuller,
-              (LENGTH(abnormal) - LENGTH(REPLACE(abnormal, '/', '')) + 1) length,
-              DATE_FORMAT(subDay, '%m-%d') formatSubday
-      FROM
-          abnormal_online
-      WHERE
-          TO_DAYS(subDay) > (TO_DAYS(NOW()) - 20)
-      ORDER BY formatPuller) t1
-    GROUP BY t1.formatSubday
+      abnormal_online
+    WHERE
+      TO_DAYS(subDay) > (TO_DAYS(NOW()) - 20)
+    GROUP BY formatSubday
+    ORDER BY formatSubday
   `;
   db.query(dataStr, (err, results) => {
     if (err) return console.log(err);
