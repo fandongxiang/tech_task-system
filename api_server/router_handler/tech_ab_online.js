@@ -104,7 +104,7 @@ exports.getdayAbnor = (req, res) => {
   })
 }
 
-// 近10天车间异常炉台推移路由函数
+// 近n天车间异常炉台推移路由函数
 exports.getweekAbnor = (req, res) => {
   const dataStr = `
     SELECT 
@@ -118,5 +118,32 @@ exports.getweekAbnor = (req, res) => {
   db.query(dataStr, (err, results) => {
     if (err) return console.log(err);
     res.send(results)
+  })
+}
+
+// 近n天车间异常炉台贡献断线次数路由函数
+exports.getAbnorCount = (req, res) => {
+  const dataStr = `
+    SELECT 
+      t1.formatSubday, SUM(t1.length) count
+    FROM
+      (SELECT 
+          CONCAT(zoom, puller) formatPuller,
+              (LENGTH(abnormal) - LENGTH(REPLACE(abnormal, '/', '')) + 1) length,
+              DATE_FORMAT(subDay, '%m-%d') formatSubday
+      FROM
+          abnormal_online
+      WHERE
+          TO_DAYS(subDay) > (TO_DAYS(NOW()) - 20)
+      ORDER BY formatPuller) t1
+    GROUP BY t1.formatSubday
+  `;
+  db.query(dataStr, (err, results) => {
+    if (err) return console.log(err);
+    res.send({
+      status: 0,
+      message: '成功获取异常炉台断线次数！',
+      data: results
+    });
   })
 }

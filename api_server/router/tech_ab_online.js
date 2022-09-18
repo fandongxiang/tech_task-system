@@ -17,17 +17,20 @@ router.post('/subabnor', expressJoi(ab_schema.subabnor), tech_abnor_onlineHander
 // 删除炉台信息路由
 router.get('/delabnor', expressJoi(ab_schema.delabnor), tech_abnor_onlineHander.delAbnor)
 
-// 获取所有炉台信息的路由函数
+// 获取所有炉台信息的路由
 router.get('/getAllabnor', tech_abnor_onlineHander.getAllabnor)
 
-// 更新所有炉台信息的路由函数
+// 更新所有炉台信息的路由
 router.post('/updateAbnorOnline', tech_abnor_onlineHander.updateAbnor)
 
-// 当日分片区异常炉台路由函数
+// 当日分片区异常炉台路由
 router.get('/dayAbnor', tech_abnor_onlineHander.getdayAbnor)
 
-// 近10天车间异常炉台路由函数
+// 近n天车间异常炉台路由
 router.get('/getweekAbnor', tech_abnor_onlineHander.getweekAbnor)
+
+// 近n天异常炉台断线次数路由
+router.get('/getAbnorCount', tech_abnor_onlineHander.getAbnorCount)
 
 // 共享路由模块
 module.exports = router

@@ -291,6 +291,69 @@ $(function() {
   }
   getweekAbnor();
 
+  // 近n天异常炉台断线贡献数推移
+  function getAbnorCount(params) {
+    $.ajax({
+      type: 'GET',
+      url: '/tech/getAbnorCount',
+      headers: { Authorization: localStorage.getItem('token' || '') },
+      success: res => {
+        let { status: status, message: message, data: data } = res;
+        if (status != 0) return alert('获取车间异常炉台断线次数失败！');
+        let xAxisArry = [];
+        let yAxisArry = [];
+        data.forEach(element => {
+          xAxisArry.push(element.formatSubday);
+          yAxisArry.push(element.count)
+        });
+        console.log(yAxisArry);
+        const chartDom = document.querySelector('#abnorCount');
+        const myChart = echarts.init(chartDom);
+        let option = {
+          title: {
+            text: '车间异常炉台断线贡献数',
+            padding: [10, 10, 10, 10],
+            x: 'center',
+            y: 'top',
+            textStyle: {
+              fontFamily: '微软雅黑'
+            }
+          },
+          grid: {
+            show: true,
+            containLable: true,
+            left: '4%',
+            right: '0',
+            top: '20%',
+            bottom: '8%',
+          },
+          xAxis: {
+            type: 'category',
+            data: xAxisArry
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [{
+            data: yAxisArry,
+            type: 'bar',
+            markPoint: {
+              data: [
+                { type: 'max', name: '最大值' },
+                { type: 'min', name: '最小值' }
+              ]
+            },
+            label: {
+              show: true
+            }
+          }]
+        };
+        myChart.setOption(option);
+      }
+    })
+  }
+  getAbnorCount()
+
   // 根据提交人负责片区自动选择片区
   $.ajax({
     type: 'GET',
