@@ -410,7 +410,6 @@ $(function() {
   // 异常点必须采用/分割并且规定指定输入字符
   let abnormal = $("input[name='abnormal']");
   let p = $('.abnormal_note')
-  console.log(p);
   abnormal.keyup(function() {
     const reg = /^(([f转]|\d*|fd)\/)+([f转]|\d+|fd){1}$/gi
     let result = $(this).val().match(reg);
