@@ -126,7 +126,7 @@ exports.getAbnorCount = (req, res) => {
   const dataStr = `
     SELECT 
       SUM((LENGTH(abnormal) - LENGTH(REPLACE(abnormal, '/', ''))) + 1) count,
-      DATE_FORMAT(subDay, '%y-%m-%d') formatSubday
+      DATE_FORMAT(subDay, '%m-%d') formatSubday
     FROM
       abnormal_online
     WHERE
@@ -141,5 +141,49 @@ exports.getAbnorCount = (req, res) => {
       message: '成功获取异常炉台断线次数！',
       data: results
     });
+  })
+}
+
+// 近n天异常原因分类路由函数
+exports.getAbnorCause = (req, res) => {
+  const dataStr = `
+    SELECT 
+      case 
+    when abCause regexp '(干泵|满频|返气|炉压|抖动|籽晶|发白|对中)'
+      then '设备异常'
+      when abCause regexp '(功率|温度|温高|温低|低温|高温)'
+      then '引晶功率异常'
+      when abCause regexp '亮度'
+      then '亮度异常'
+      when abCause regexp '(液口距|埚位)'
+      then '液口距异常'
+      when abCause regexp '熔接'
+      then '熔接异常'
+    when abCause regexp '(头部拉速|拉速|降温|转肩降温|降温量)'
+      then '头部拉速异常'
+      when abCause regexp '翻料'
+      then '翻料'
+      when abCause regexp '频繁断提'
+      then '频繁断提'
+      when abCause regexp '(成晶差|成晶困难)'
+      then '成晶困难'
+      else 
+        '其它'
+      end as abCause_new,
+      count(*) count
+    FROM
+      abnormal_online
+    WHERE
+      TO_DAYS(subDay) > (TO_DAYS(NOW()) - 30)
+      group by abCause_new
+      order by count desc
+    `
+  db.query(dataStr, (err, results) => {
+    if (err) return console.log(err);
+    res.send({
+      status: 0,
+      message: '获取异常原因分类成功！',
+      data: results
+    })
   })
 }

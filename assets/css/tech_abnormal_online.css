@@ -85,7 +85,9 @@ body {
 /* 图表宽度 */
 
 #dayAbnor,
-#weekAbnor {
+#weekAbnor,
+#abnorCauseSort,
+#abnorCount {
   border: 1px black solid;
 }
 

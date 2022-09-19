@@ -39,6 +39,9 @@ $(function() {
         getMyPuller()
         getAllinfo()
         getdayAbnor()
+        getAbnorCount()
+        getweekAbnor()
+        getAbnorCause()
           // 提交成功后清空表单
         if (res.status !== 0) return alert(res.message)
         let zoom_value = $('#select').val()
@@ -60,6 +63,9 @@ $(function() {
         getMyPuller()
         getAllinfo()
         getdayAbnor()
+        getAbnorCount()
+        getweekAbnor()
+        getAbnorCause()
         alert('删除成功！')
       }
     })
@@ -102,7 +108,6 @@ $(function() {
   getAllinfo()
 
   // 更新炉台的请求
-  // 此处表单与表格嵌套 + 表单id不符 折腾 1h
   $('.upinfo').submit(function(e) {
     e.preventDefault()
     var data = $(this).serialize()
@@ -122,6 +127,9 @@ $(function() {
         if (res['status'] !== 0) return alert('更新炉台信息失败！')
         getMyPuller()
         getAllinfo()
+        getdayAbnor()
+        getAbnorCount()
+        getweekAbnor()
         alert('更新成功！')
       }
     })
@@ -353,6 +361,99 @@ $(function() {
     })
   }
   getAbnorCount()
+
+  // 近n天异常原因分类
+  function getAbnorCause() {
+    $.ajax({
+      type: 'GET',
+      url: '/tech/getAbnorCause',
+      headers: { Authorization: localStorage.getItem('token' || '') },
+      success: (res) => {
+        let { status: status, message: message, data: data } = res;
+        if (status !== 0) return alert(message);
+        console.log(data);
+        let dataArr = [];
+        data.forEach(element => {
+          dataArr.push({ value: element.count, name: element.abCause_new })
+        })
+        console.log(dataArr);
+        const chartDom = document.querySelector('#abnorCauseSort');
+        const myChart = echarts.init(chartDom);
+        let option = {
+          title: {
+            text: '车间异常炉台原因分类',
+            padding: [10, 10, 10, 10],
+            x: 'center',
+            y: 'top',
+            textStyle: {
+              fontFamily: '微软雅黑'
+            }
+          },
+          grid: {
+            show: true,
+            containLable: true,
+            left: '0%',
+            right: '0%',
+            top: '10%',
+            bottom: '0%',
+          },
+          // legend: {
+          //   orient: 'vertical',
+          //   // left: 'top',
+          //   // top: 'top'
+          //   x: 'right',
+          //   y: 'bottom'
+          // },
+          series: [{
+            data: dataArr,
+            type: 'pie',
+            radius: '50%',
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            },
+            label: {
+              formatter: '{b|{b}：}{per|{d}%}  ',
+              backgroundColor: '#F6F8FC',
+              borderColor: '#8C8D8E',
+              borderWidth: 1,
+              borderRadius: 4,
+              rich: {
+                a: {
+                  color: '#6E7079',
+                  lineHeight: 22,
+                  align: 'center'
+                },
+                hr: {
+                  borderColor: '#8C8D8E',
+                  width: '100%',
+                  borderWidth: 1,
+                  height: 0
+                },
+                b: {
+                  color: '#4C5058',
+                  fontSize: 14,
+                  fontWeight: 'bold',
+                  lineHeight: 33
+                },
+                per: {
+                  color: '#fff',
+                  backgroundColor: '#4C5058',
+                  padding: [3, 4],
+                  borderRadius: 4
+                }
+              }
+            },
+          }]
+        };
+        myChart.setOption(option);
+      }
+    })
+  }
+  getAbnorCause()
 
   // 根据提交人负责片区自动选择片区
   $.ajax({

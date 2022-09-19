@@ -32,5 +32,8 @@ router.get('/getweekAbnor', tech_abnor_onlineHander.getweekAbnor)
 // 近n天异常炉台断线次数路由
 router.get('/getAbnorCount', tech_abnor_onlineHander.getAbnorCount)
 
+// 近n天异常炉台原因分类路由
+router.get('/getAbnorCause', tech_abnor_onlineHander.getAbnorCause)
+
 // 共享路由模块
 module.exports = router

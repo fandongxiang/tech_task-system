@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>参数管理提交页</title>
+  <script src="../../assets/lib/JQuery.js"></script>
+</head>
+
+<body>
+  <div id="select">
+    片区选择
+    <select name="zoom" id="">
+      <option selected>A1</option>
+      <option>A2</option>
+      <option>B1</option>
+      <option>B2</option>
+      <option>C1</option>
+      <option>C2</option>
+      <option>D1</option>
+      <option>D2</option>
+      <option>E1</option>
+      <option>E2</option>
+    </select> 合同选择
+    <select name="contract" id="select_contract">
+      <option>890A0</option>
+      <option>890C0</option>
+      <option>PB237</option>
+      <option>新建合同</option>
+    </select>
+  </div>
+
+  <script>
+    $(function() {
+      // 新建合同
+      $('select[name="contract"]').on('change', function() {
+        console.log($(this).val());
+        if ($(this).val() == '新建合同') {
+          // window.location.href = '../tech/tech_arguments.html'
+          const newContract = prompt('请输入要添加的合同')
+          const newOption = document.createElement('option');
+          newOption.innerHTML = newContract;
+          $(this).prepend(newOption)
+          $(this).val(newContract)
+        }
+      })
+
+
+    })
+  </script>
+</body>
+
+</html>
