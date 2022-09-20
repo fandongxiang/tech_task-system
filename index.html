@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <title>工艺任务管理系统</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="./assets/font/tech/iconfont.css">
@@ -19,16 +20,18 @@
       -moz-osx-font-smoothing: grayscale;
     }
     /* 未退出按钮添加格式  */
+    
     #quit {
       color: white;
       font-size: 1.5rem;
       cursor: pointer;
     }
+    
     h1 {
       font-weight: bolder;
       margin-bottom: 2rem;
     }
-
+    
     .header {
       background: url('./assets/images/bg-index.png');
       background-position: center;
@@ -74,8 +77,12 @@
         <li class="nav-item">
           <a class="nav-link" href="#">公告</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">我的</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link" href="#" data-toggle="dropdown">我的</a>
+          <div class="dropdown-menu">
+            <a href="./home/admin/admin.html" class="dropdown-item" id="admin">后台管理</a>
+            <a href="#" class="dropdown-item">个人中心</a>
+          </div>
         </li>
         <li class="nav-item" id="search">
           <form class="form-inline">
@@ -90,15 +97,14 @@
   </nav>
   <!-- iframe区域 -->
   <div class="content">
-    <iframe style="width: 100%;height: 100%;right: 0px; scroll-behavior: smooth;" src="./home/index_frame.html"
-      name="b">
+    <iframe style="width: 100%;height: 100%;right: 0px; scroll-behavior: smooth;" src="./home/index_frame.html" name="b">
     </iframe>
   </div>
   <div class="jumbotron text-center" style="margin-bottom:0;background-color: #333333">
     <p style="color: white">fandongxiang@17395096946</p>
   </div>
   <script>
-    $(function () {
+    $(function() {
       // 获取用户名请求
       $.ajax({
         type: 'GET',
@@ -107,19 +113,24 @@
         headers: {
           Authorization: localStorage.getItem('token') || ''
         },
-        data: { username: 'fandongxiang' },
-        success: function (res) {
+        success: function(res) {
           if (res.status !== 0) return console.log(res.message)
           const nickname = res.data['nickname']
           $('.Uname').html(nickname)
+
+          // 根据用户名判断隐藏个人中心-后台管理
+          if (res.data['username'] != 'fandongxiang') {
+            const admin = document.querySelector('#admin')
+            admin.style.display = 'none'
+          }
         }
       })
 
       // 点击退出功能
-      $('#quit').on('click',function() {
+      $('#quit').on('click', function() {
         // 1. 清空token
         localStorage.removeItem('token')
-        // 2. 返回登陆页面
+          // 2. 返回登陆页面
         location.href = '/login.html'
       })
     })
