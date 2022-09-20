@@ -1,0 +1,88 @@
+/* 通用配置 */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.clearfix::after {
+  content: '';
+  /* 因为伪元素默认是行内样式，所以要转为块元素 */
+  display: block;
+  /*清除左右两边的浮动*/
+  clear: both;
+  height: 0;
+  /*隐藏content中的内容(避免不小心在content中填入了内容)*/
+  visibility: hidden;
+}
+
+#preview {
+  float: left;
+  width: 70vw;
+}
+
+#submit {
+  float: left;
+  width: 19vw;
+}
+
+
+/* form表单统一配置 */
+
+select,
+input,
+textarea {
+  padding: 3px 5px;
+  border-radius: 3px;
+}
+
+select:focus,
+input:focus,
+textarea:focus {
+  border: #007bff 1px solid;
+  outline: #007bff 1px solid;
+}
+
+#submit button {
+  padding: 3px 8px;
+  border-radius: 2px;
+  background-color: #007bff;
+  color: aliceblue;
+  border: none;
+}
+
+
+/* 单元格间距 */
+
+#select_zoom,
+#select_contract,
+#select_type,
+#select_discription {
+  width: 150px;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+#discription {
+  vertical-align: top;
+}
+
+
+/* preview */
+
+
+/* table */
+
+table {
+  border-collapse: collapse;
+}
+
+#argu td,
+#argu th {
+  padding: 3px 5px;
+}
+
+#argu h2 {
+  text-align: center;
+}
