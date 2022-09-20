@@ -6,15 +6,11 @@
   padding: 0;
 }
 
-.clearfix::after {
-  content: '';
-  /* 因为伪元素默认是行内样式，所以要转为块元素 */
+.clearfix:after {
+  content: " ";
   display: block;
-  /*清除左右两边的浮动*/
   clear: both;
   height: 0;
-  /*隐藏content中的内容(避免不小心在content中填入了内容)*/
-  visibility: hidden;
 }
 
 #preview {

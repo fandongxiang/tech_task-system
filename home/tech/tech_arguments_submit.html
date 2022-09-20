@@ -11,40 +11,42 @@
 </head>
 
 <body>
-  <!-- 预览区 -->
-  <div id="preview">
-    <table id="argu" border="1">
-      <thead>
-        <tr>
-          <td colspan="10">
-            <h2>等径斜率表</h2>
-          </td>
-        </tr>
-        <tr class="colName">
-          <th>序号</th>
-          <th>长度mm</th>
-          <th>晶转rpm</th>
-          <th>埚转rpm</th>
-          <th>功率</th>
-          <th>拉速</th>
-          <th>液口距</th>
-          <th>氩气流量</th>
-          <th>控制周期</th>
-          <th>控制系数</th>
-        </tr>
-      </thead>
-      <tbody>
+  <!-- 预览&提交区 -->
+  <div class="clearfix">
+    <!-- 预览区 -->
+    <div id="preview">
+      <table id="argu" border="1">
+        <thead>
+          <tr>
+            <td colspan="10">
+              <h2>等径斜率表</h2>
+            </td>
+          </tr>
+          <tr class="colName">
+            <th>序号</th>
+            <th>长度mm</th>
+            <th>晶转rpm</th>
+            <th>埚转rpm</th>
+            <th>功率</th>
+            <th>拉速</th>
+            <th>液口距</th>
+            <th>氩气流量</th>
+            <th>控制周期</th>
+            <th>控制系数</th>
+          </tr>
+        </thead>
+        <tbody>
 
-      </tbody>
-    </table>
-  </div>
-  <!-- 提交区 -->
-  <div id="submit" class="clearfix">
-    <form action="">
-      <!-- 片区选择 -->
-      <div>
-        <span>片区选择</span>
-        <select name="zoom" id="select_zoom">
+        </tbody>
+      </table>
+    </div>
+    <!-- 提交区 -->
+    <div id="submit">
+      <form action="">
+        <!-- 片区选择 -->
+        <div>
+          <span>片区选择</span>
+          <select name="zoom" id="select_zoom">
           <option selected>A1</option>
           <option>A2</option>
           <option>B1</option>
@@ -56,34 +58,36 @@
           <option>E1</option>
           <option>E2</option>
         </select>
-      </div>
-      <!-- 合同选择 -->
-      <div>
-        <span>合同选择</span>
-        <select name="contract" id="select_contract">
+        </div>
+        <!-- 合同选择 -->
+        <div>
+          <span>合同选择</span>
+          <select name="contract" id="select_contract">
           <option>890A0</option>
           <option>890C0</option>
           <option>PB237</option>
           <option>新建合同</option>
         </select>
-      </div>
-      <!-- 参数类型 -->
-      <div>
-        <span>参数类型</span>
-        <select name="type" id="select_type">
+        </div>
+        <!-- 参数类型 -->
+        <div>
+          <span>参数类型</span>
+          <select name="type" id="select_type">
           <option>等径</option>
           <option>放肩</option>
         </select>
-      </div>
-      <!-- 提交说明 -->
-      <div id="discription">
-        <span>提交说明</span>
-        <textarea name="" id="select_discription" cols="20" rows="3"></textarea>
-      </div>
-      <!-- 提交 -->
-      <button type="submit">提交</button>
-    </form>
+        </div>
+        <!-- 提交说明 -->
+        <div id="discription">
+          <span>提交说明</span>
+          <textarea name="" id="select_discription" cols="20" rows="3"></textarea>
+        </div>
+        <!-- 提交 -->
+        <button type="submit">提交</button>
+      </form>
+    </div>
   </div>
+
   <!-- 历史提交区 -->
   <div id="sub-history">
     <table id="sub_history">
