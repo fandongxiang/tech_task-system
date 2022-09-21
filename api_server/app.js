@@ -56,13 +56,17 @@ app.use((req, res, next) => {
   next()
 })
 
-// 导入并注册在线异常炉台路由模块
+// 导入并注册 在线异常炉台 路由模块
 const tech_ab_onlineRouter = require('./router/tech_ab_online')
 app.use('/tech', tech_ab_onlineRouter)
 
 // 导入并注册 工艺时间线 路由模块
 const tech_timeline = require('./router/tech_timeline')
 app.use('/tech/timeline', tech_timeline)
+
+// 导入并挂载 工艺参数 路由模块
+const tech_arguments = require('./router/tech_arguments')
+app.use('/tech/arguments', tech_arguments)
 
 // 测试多name属性
 const db = require('./db/tech')

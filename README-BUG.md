@@ -20,10 +20,10 @@
 
 ### 1.2 错误信息
 
-  ``` js
-    sqlMessage: "Incorrect integer value: 'undefinedfocolumn  'id' at row 1"；
-    code: "ER_TRUNCATED_WRONG_VALUE_FOR_FIELD"
-  ```
+    ``` js
+      sqlMessage: "Incorrect integer value:   'undefinedfocolumn  'id' at row 1"；
+      code: "ER_TRUNCATED_WRONG_VALUE_FOR_FIELD"
+    ```
   
 ### 1.3 原因
 

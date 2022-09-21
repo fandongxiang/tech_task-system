@@ -13,6 +13,14 @@
   height: 0;
 }
 
+
+/* 版面设置 */
+
+#page {
+  width: 90vw;
+  margin: 0 auto;
+}
+
 #preview {
   float: left;
   width: 70vw;
@@ -21,6 +29,18 @@
 #submit {
   float: left;
   width: 19vw;
+}
+
+
+/* table 表格统一配置*/
+
+table {
+  border-collapse: collapse;
+}
+
+td,
+th {
+  padding: 3px 5px;
 }
 
 
@@ -66,18 +86,6 @@ textarea:focus {
 
 
 /* preview */
-
-
-/* table */
-
-table {
-  border-collapse: collapse;
-}
-
-#argu td,
-#argu th {
-  padding: 3px 5px;
-}
 
 #argu h2 {
   text-align: center;

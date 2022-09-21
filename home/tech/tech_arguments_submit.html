@@ -7,46 +7,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>参数管理提交页</title>
   <script src="../../assets/lib/JQuery.js"></script>
+  <script src="../../assets/js/baseAPI.js"></script>
+  <script src="../../assets/lib/echarts.min.js"></script>
+  <script src="../../assets/lib/template-web.js"></script>
   <link rel="stylesheet" href="../../assets/css/tech_arguments_submit.css">
 </head>
 
 <body>
-  <!-- 预览&提交区 -->
-  <div class="clearfix">
-    <!-- 预览区 -->
-    <div id="preview">
-      <table id="argu" border="1">
-        <thead>
-          <tr>
-            <td colspan="10">
-              <h2>等径斜率表</h2>
-            </td>
-          </tr>
-          <tr class="colName">
-            <th>序号</th>
-            <th>长度mm</th>
-            <th>晶转rpm</th>
-            <th>埚转rpm</th>
-            <th>功率</th>
-            <th>拉速</th>
-            <th>液口距</th>
-            <th>氩气流量</th>
-            <th>控制周期</th>
-            <th>控制系数</th>
-          </tr>
-        </thead>
-        <tbody>
+  <!-- 版面div -->
+  <div id="page">
+    <!-- 预览&提交区 -->
+    <div class="clearfix">
+      <!-- 预览区 -->
+      <div id="preview">
+        <table id="argu" border="1">
+          <thead>
+            <tr>
+              <td colspan="10">
+                <h2>等径斜率表</h2>
+              </td>
+            </tr>
+            <tr class="colName">
+              <th>序号</th>
+              <th>长度mm</th>
+              <th>晶转rpm</th>
+              <th>埚转rpm</th>
+              <th>功率</th>
+              <th>拉速</th>
+              <th>液口距</th>
+              <th>氩气流量</th>
+              <th>控制周期</th>
+              <th>控制系数</th>
+            </tr>
+          </thead>
+          <tbody id="preview_tbody">
 
-        </tbody>
-      </table>
-    </div>
-    <!-- 提交区 -->
-    <div id="submit">
-      <form action="">
-        <!-- 片区选择 -->
-        <div>
-          <span>片区选择</span>
-          <select name="zoom" id="select_zoom">
+          </tbody>
+        </table>
+      </div>
+      <!-- 提交区 -->
+      <div id="submit">
+        <form action="">
+          <!-- 片区选择 -->
+          <div>
+            <span>片区选择</span>
+            <select name="zoom" id="select_zoom">
           <option selected>A1</option>
           <option>A2</option>
           <option>B1</option>
@@ -58,51 +63,70 @@
           <option>E1</option>
           <option>E2</option>
         </select>
-        </div>
-        <!-- 合同选择 -->
-        <div>
-          <span>合同选择</span>
-          <select name="contract" id="select_contract">
+          </div>
+          <!-- 合同选择 -->
+          <div>
+            <span>合同选择</span>
+            <select name="contract" id="select_contract">
           <option>890A0</option>
           <option>890C0</option>
           <option>PB237</option>
           <option>新建合同</option>
         </select>
-        </div>
-        <!-- 参数类型 -->
-        <div>
-          <span>参数类型</span>
-          <select name="type" id="select_type">
+          </div>
+          <!-- 参数类型 -->
+          <div>
+            <span>参数类型</span>
+            <select name="type" id="select_type">
           <option>等径</option>
           <option>放肩</option>
         </select>
-        </div>
-        <!-- 提交说明 -->
-        <div id="discription">
-          <span>提交说明</span>
-          <textarea name="" id="select_discription" cols="20" rows="3"></textarea>
-        </div>
-        <!-- 提交 -->
-        <button type="submit">提交</button>
-      </form>
+          </div>
+          <!-- 提交说明 -->
+          <div id="discription">
+            <span>提交说明</span>
+            <textarea name="" id="select_discription" cols="20" rows="3"></textarea>
+          </div>
+          <!-- 提交 -->
+          <button type="submit">提交</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- 历史提交区 -->
+    <div id="sub-history">
+      <table id="sub_history" border="1">
+        <thead>
+          <tr>
+            <th>片区</th>
+            <th>合同</th>
+            <th>参数类型</th>
+            <th>提交说明</th>
+            <th>提交人</th>
+            <th>提交时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+      </table>
     </div>
   </div>
-
-  <!-- 历史提交区 -->
-  <div id="sub-history">
-    <table id="sub_history">
-      <thead>
-        <tr>
-          <th>片区</th>
-          <th>合同</th>
-          <th>参数类型</th>
-          <th>提交说明</th>
-          <th>提交人</th>
-          <th>提交时间</th>
-        </tr>
-      </thead>
-    </table>
-  </div>
+  <!-- 提交预览区模板 -->
+  <script type="text/html" id="getPreview">
+    {{each data}}
+    <tr>
+      <td>{{$value.newId}}</td>
+      <td>{{$value.length}}</td>
+      <td>{{$value.seedRotation}}</td>
+      <td>{{$value.cruRotation}}</td>
+      <td>{{$value.mainHeater}}</td>
+      <td>{{$value.slSpeed}}</td>
+      <td>{{$value.meltLevel}}</td>
+      <td>{{$value.argonFlow}}</td>
+      <td>{{$value.controlTime}}</td>
+      <td>{{$value.controlRate}}</td>
+    </tr>
+    {{/each}}
+  </script>
   <script>
     $(function() {
       // 新建合同
@@ -117,6 +141,33 @@
           $(this).val(newContract)
         }
       })
+
+      // 获取预览区渲染参数
+      function getPreview() {
+        $.ajax({
+          type: 'POST',
+          url: '/tech/arguments/getPreview',
+          headers: {
+            Authorization: localStorage.getItem('token') || ''
+          },
+          success: (res) => {
+            let {
+              status,
+              message,
+              data
+            } = res
+            for (let i = 0; i < data.length; i++) {
+              data[i].newId = i + 1;
+            }
+            if (status !== 0) return alert("获取提交预览区信息失败！");
+            const dataStr = template('getPreview', {
+              data: data
+            });
+            $('#preview_tbody').html(dataStr)
+          }
+        })
+      }
+      getPreview()
 
 
     })
