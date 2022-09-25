@@ -16,9 +16,55 @@
 <body>
   <!-- 版面div -->
   <div id="page">
+    <!-- 头部 -->
+    <header class="clearfix">
+      <!-- 预览区头部 -->
+      <div id="header-left">
+        <p>对比预览区</p>
+      </div>
+      <!-- 提交区头部 -->
+      <div id="header-right">
+        <div id="submit">
+          <form action="">
+            <!-- 片区选择 -->
+            <span>片区选择</span>
+            <select name="zoom" id="select_zoom">
+                <option selected>A1</option>
+                <option>A2</option>
+                <option>B1</option>
+                <option>B2</option>
+                <option>C1</option>
+                <option>C2</option>
+                <option>D1</option>
+                <option>D2</option>
+                <option>E1</option>
+                <option>E2</option>
+            </select>
+            <!-- 合同选择 -->
+            <span>合同选择</span>
+            <select name="contract" id="select_contract">
+              <option>890A0</option>
+              <option>890C0</option>
+              <option>PB237</option>
+              <option>新建合同</option>
+            </select>
+            <!-- 参数类型 -->
+            <span>参数类型</span>
+            <select name="type" id="select_type">
+              <option>等径</option>
+              <option>放肩</option>
+            </select>
+            <!-- 提交说明 -->
+            <span>提交说明</span>
+            <input type="text" name="" id="select_discription">
+            <!-- 提交 -->
+          </form>
+        </div>
+      </div>
+    </header>
     <!-- 预览&提交区 -->
     <div class="clearfix">
-      <!-- 预览区 -->
+      <!-- 对比预览区 -->
       <div id="preview">
         <table id="argu" border="1">
           <thead>
@@ -27,11 +73,11 @@
                 <h2>等径斜率表</h2>
               </td>
             </tr>
-            <tr class="colName">
+            <tr>
               <th>序号</th>
               <th>长度mm</th>
-              <th>晶转rpm</th>
-              <th>埚转rpm</th>
+              <th>晶转</th>
+              <th>埚转</th>
               <th>功率</th>
               <th>拉速</th>
               <th>液口距</th>
@@ -45,56 +91,40 @@
           </tbody>
         </table>
       </div>
-      <!-- 提交区 -->
-      <div id="submit">
-        <form action="">
-          <!-- 片区选择 -->
-          <div>
-            <span>片区选择</span>
-            <select name="zoom" id="select_zoom">
-          <option selected>A1</option>
-          <option>A2</option>
-          <option>B1</option>
-          <option>B2</option>
-          <option>C1</option>
-          <option>C2</option>
-          <option>D1</option>
-          <option>D2</option>
-          <option>E1</option>
-          <option>E2</option>
-        </select>
-          </div>
-          <!-- 合同选择 -->
-          <div>
-            <span>合同选择</span>
-            <select name="contract" id="select_contract">
-          <option>890A0</option>
-          <option>890C0</option>
-          <option>PB237</option>
-          <option>新建合同</option>
-        </select>
-          </div>
-          <!-- 参数类型 -->
-          <div>
-            <span>参数类型</span>
-            <select name="type" id="select_type">
-          <option>等径</option>
-          <option>放肩</option>
-        </select>
-          </div>
-          <!-- 提交说明 -->
-          <div id="discription">
-            <span>提交说明</span>
-            <textarea name="" id="select_discription" cols="20" rows="3"></textarea>
-          </div>
-          <!-- 提交 -->
-          <button type="submit">提交</button>
-        </form>
+      <!-- 提交预览区 -->
+      <div id="pre-submit">
+        <table id="argu" border="1">
+          <thead>
+            <tr>
+              <td colspan="10">
+                <h2>等径斜率表</h2>
+              </td>
+            </tr>
+            <tr>
+              <th>序号</th>
+              <th>长度mm</th>
+              <th>晶转</th>
+              <th>埚转</th>
+              <th>功率</th>
+              <th>拉速</th>
+              <th>液口距</th>
+              <th>氩气流量</th>
+              <th>控制周期</th>
+              <th>控制系数</th>
+            </tr>
+          </thead>
+          <tbody id="sub_tbody">
+
+          </tbody>
+        </table>
       </div>
+
     </div>
 
     <!-- 历史提交区 -->
     <div id="sub-history">
+      <button id="sub_submit">提交</button>
+
       <table id="sub_history" border="1">
         <thead>
           <tr>
@@ -110,7 +140,7 @@
       </table>
     </div>
   </div>
-  <!-- 提交预览区模板 -->
+  <!-- 对比预览区模板 -->
   <script type="text/html" id="getPreview">
     {{each data}}
     <tr>
@@ -124,6 +154,24 @@
       <td>{{$value.argonFlow}}</td>
       <td>{{$value.controlTime}}</td>
       <td>{{$value.controlRate}}</td>
+    </tr>
+    {{/each}}
+  </script>
+
+  <!-- 提交预览区模板 -->
+  <script type="text/html" id="getSubmitPreview">
+    {{each data}}
+    <tr>
+      <td class="" contenteditable="true">{{$value.newId}}</td>
+      <td class="length" contenteditable="true">{{$value.length}}</td>
+      <td class="seedRotation" contenteditable="true">{{$value.seedRotation}}</td>
+      <td class="cruRotation" contenteditable="true">{{$value.cruRotation}}</td>
+      <td class="mainHeater" contenteditable="true">{{$value.mainHeater}}</td>
+      <td class="slSpeed" contenteditable="true">{{$value.slSpeed}}</td>
+      <td class="meltLevel" contenteditable="true">{{$value.meltLevel}}</td>
+      <td class="argonFlow" contenteditable="true">{{$value.argonFlow}}</td>
+      <td class="controlTime" contenteditable="true">{{$value.controlTime}}</td>
+      <td class="controlRate" contenteditable="true">{{$value.controlRate}}</td>
     </tr>
     {{/each}}
   </script>
@@ -144,30 +192,127 @@
 
       // 获取预览区渲染参数
       function getPreview() {
-        $.ajax({
-          type: 'POST',
-          url: '/tech/arguments/getPreview',
-          headers: {
-            Authorization: localStorage.getItem('token') || ''
-          },
-          success: (res) => {
-            let {
-              status,
-              message,
-              data
-            } = res
-            for (let i = 0; i < data.length; i++) {
-              data[i].newId = i + 1;
-            }
-            if (status !== 0) return alert("获取提交预览区信息失败！");
-            const dataStr = template('getPreview', {
-              data: data
-            });
-            $('#preview_tbody').html(dataStr)
+        let zoom = $('select[name="zoom"]').val()
+        let contract = $('select[name="contract"]').val()
+        let type = $('select[name="type"]').val()
+        var submitMessage = {
+            zoom: zoom,
+            contract: contract,
+            type: type
           }
+          // 提交信息改变
+        getSubmitAjax()
+        $('select[name="zoom"]').on('change', function() {
+          submitMessage.zoom = $(this).val()
+          getSubmitAjax()
         })
+        $('select[name="contract"]').on('change', function() {
+          submitMessage.contract = $(this).val()
+          getSubmitAjax()
+        })
+        $('select[name="type"]').on('change', function() {
+            submitMessage.type = $(this).val()
+            getSubmitAjax()
+          })
+          // 预览提交请求
+        function getSubmitAjax() {
+          $.ajax({
+            type: 'POST',
+            url: '/tech/arguments/getPreview',
+            headers: {
+              Authorization: localStorage.getItem('token') || ''
+            },
+            data: submitMessage,
+            success: (res) => {
+              let {
+                status,
+                message,
+                data
+              } = res
+              // 添加表格id
+              for (let i = 0; i < data.length; i++) {
+                data[i].newId = i + 1;
+              }
+              if (status !== 0) return alert("获取提交预览区信息失败！");
+              const dataStr_preview = template('getPreview', {
+                data: data
+              });
+              const dataStr_sub = template('getSubmitPreview', {
+                data: data
+              })
+              $('#preview_tbody').html(dataStr_preview);
+              $('#sub_tbody').html(dataStr_sub)
+
+            }
+          })
+        }
       }
       getPreview()
+
+      // 提交参数
+      $('#sub_submit').on('click', function() {
+        console.log($('#select_discription').val());
+        var data = {
+            0: [],
+            1: [],
+            2: [],
+            3: [],
+            4: [],
+            5: [],
+            6: [],
+            7: [],
+            8: [],
+            9: [],
+            10: [],
+            11: []
+          }
+          // 片区、合同、描述、长度
+        $('.length').each(function(index, element) {
+            data[`${index}`].push($('#select_zoom').val())
+            data[`${index}`].push($('#select_contract').val())
+            data[`${index}`].push($('#select_discription').val())
+            data[`${index}`].push($(this).html())
+          })
+          // 晶转
+        $('.seedRotation').each(function(index, element) {
+          data[`${index}`].push($(this).html())
+        })
+        $('.cruRotation').each(function(index, element) {
+          data[`${index}`].push($(this).html())
+        })
+        $('.mainHeater').each(function(index, element) {
+          data[`${index}`].push($(this).html())
+        })
+        $('.slSpeed').each(function(index, element) {
+          data[`${index}`].push($(this).html())
+        })
+        $('.meltLevel').each(function(index, element) {
+          data[`${index}`].push($(this).html())
+        })
+        $('.argonFlow').each(function(index, element) {
+          data[`${index}`].push($(this).html())
+        })
+        $('.controlTime').each(function(index, element) {
+          data[`${index}`].push($(this).html())
+        })
+        $('.controlRate').each(function(index, element) {
+          data[`${index}`].push($(this).html())
+        })
+        $.ajax({
+            type: 'POST',
+            url: '/tech/arguments/postArguments',
+            headers: {
+              Authorization: localStorage.getItem('token') || ''
+            },
+            data: data,
+            success: function(res) {
+              console.log(res);
+            }
+          })
+          // let lengthArr = $('.length').map(function() {
+          //   return $(this).html()
+          // }).get()
+      })
 
 
     })
