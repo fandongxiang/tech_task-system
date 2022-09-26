@@ -6,48 +6,79 @@ const sd = require('silly-datetime')
 
 // 获取 等径参数渲染预览区参数 路由函数
 exports.getPreview = ((req, res) => {
-  let dataStr = `
+  let { zoom, contract, type } = req.body;
+  if (contract == '请新建') {
+    const dataStr = `
     SELECT 
       *
     FROM
       tech_arguments_dengjing
     WHERE
-      zoom = 'A1' AND contract = '890A9'
+      zoom = 'init'
   `
-  db.query(dataStr, (err, results) => {
-    if (err) return console.log(err);
-    // 检测数据库是否有参数
-    if (results.length == 0) {
-      dataStr = `
+    db.query(dataStr, (err, results) => {
+      if (err) return console.log(err);
+      res.send({
+        status: 0,
+        message: "获取渲染预览区参数成功！",
+        data: results
+      })
+    })
+  } else {
+    const dataStr = `
+    SELECT 
+      *
+    FROM
+      tech_arguments_dengjing
+    WHERE
+      zoom = ? AND contract = ?
+    `
+    db.query(dataStr, [zoom, contract], (err, results) => {
+      if (err) return console.log(err);
+      if (results.length == 0) {
+        const dataStr = `
         SELECT 
           *
         FROM
           tech_arguments_dengjing
         WHERE
           zoom = 'init'
-        ORDER BY length
       `
-      db.query(dataStr, (err, results) => {
-        if (err) return console.log(err);
-        res.send({
-          status: 0,
-          message: "获取渲染预览区参数成功！",
-          data: results
+        db.query(dataStr, (err, results) => {
+          if (err) return console.log(err);
+          res.send({
+            status: 0,
+            message: "获取渲染预览区参数成功！",
+            data: results
+          })
         })
-      })
-    } else {
-      // 数据库有数据渲染
-      dataStr = `
-
-      `
-    }
-
-  })
+      } else {
+        const dataStr = `
+        SELECT 
+          *
+        FROM
+          tech_arguments_dengjing
+        WHERE
+          zoom = ? AND contract = ?
+        ORDER BY subDay
+        LIMIT 12
+        `
+        db.query(dataStr, [zoom, contract], (err, results) => {
+          if (err) return console.log(err);
+          res.send({
+            status: 0,
+            message: "获取渲染预览区参数成功！",
+            data: results
+          })
+        })
+      }
+    })
+  }
 })
+
 
 // 提交 参数 路由函数
 exports.postArguments = ((req, res) => {
-  console.log(req.user.nickname);
   const subDay = sd.format(new Date(), 'YYYY-MM-DD HH:mm:ss')
   let arr = []
   arr.push(req.body['0[]'])
@@ -81,3 +112,25 @@ exports.postArguments = ((req, res) => {
     })
   })
 })
+
+// 获取 对应片区合同号 路由函数
+exports.getContract = (req, res) => {
+  let zoom = req.body['zoom']
+  const dataStr = `
+    SELECT 
+      contract
+    FROM
+      tech_arguments_dengjing
+    WHERE
+      zoom = ?
+    GROUP BY contract
+  `
+  db.query(dataStr, zoom, (err, results) => {
+    if (err) return console.log(err);
+    res.send({
+      status: 0,
+      message: "获取渲染预览区参数成功！",
+      data: results
+    })
+  })
+}

@@ -42,7 +42,7 @@
             </select>
             <!-- 合同选择 -->
             <span>合同选择</span>
-            <select name="contract" id="select_contract">
+            <select name="contract" id="select_contract" class="b-select contractChange">
               <option>890A0</option>
               <option>890C0</option>
               <option>PB237</option>
@@ -50,7 +50,7 @@
             </select>
             <!-- 参数类型 -->
             <span>参数类型</span>
-            <select name="type" id="select_type">
+            <select name="type" id="select_type" class="b-select">
               <option>等径</option>
               <option>放肩</option>
             </select>
@@ -58,6 +58,7 @@
             <span>提交说明</span>
             <input type="text" name="" id="select_discription">
             <!-- 提交 -->
+            <button id="sub_submit">提交</button>
           </form>
         </div>
       </div>
@@ -123,8 +124,6 @@
 
     <!-- 历史提交区 -->
     <div id="sub-history">
-      <button id="sub_submit">提交</button>
-
       <table id="sub_history" border="1">
         <thead>
           <tr>
@@ -140,6 +139,7 @@
       </table>
     </div>
   </div>
+
   <!-- 对比预览区模板 -->
   <script type="text/html" id="getPreview">
     {{each data}}
@@ -175,10 +175,22 @@
     </tr>
     {{/each}}
   </script>
+
+  <!-- 合同选择模板 -->
+  <script type="text/html" id="getContract">
+    {{if data.length == 0}}
+    <option>请新建</option>
+    <option>新建合同</option>
+    {{else}} {{each data}}
+    <option>{{$value.contract}}</option>
+    {{/each}}
+    <option>新建合同</option>
+    {{/if}}
+  </script>
   <script>
     $(function() {
       // 新建合同
-      $('select[name="contract"]').on('change', function() {
+      $('.contractChange').on('change', function() {
         console.log($(this).val());
         if ($(this).val() == '新建合同') {
           // window.location.href = '../tech/tech_arguments.html'
@@ -190,64 +202,104 @@
         }
       })
 
-      // 获取预览区渲染参数
+      // 预览区渲染 函数
       function getPreview() {
-        let zoom = $('select[name="zoom"]').val()
-        let contract = $('select[name="contract"]').val()
-        let type = $('select[name="type"]').val()
-        var submitMessage = {
-            zoom: zoom,
-            contract: contract,
-            type: type
-          }
-          // 提交信息改变
-        getSubmitAjax()
+        // 首次预渲染
+        let submitMessage = { // 这个为后续函数公用对象
+          zoom: $('select[name="zoom"]').val(),
+          contract: $('select[name="contract"]').val(),
+          type: $('select[name="type"]').val()
+        }
+        let zoomMessage = { // 这个函数为后续函数公用对象
+          zoom: $('select[name="zoom"]').val()
+        }
+        getContractAjax(zoomMessage)
+        getSubmitAjax(submitMessage)
+
+        // 片区、合同、参数类型选择后渲染
         $('select[name="zoom"]').on('change', function() {
-          submitMessage.zoom = $(this).val()
-          getSubmitAjax()
+          // 合同渲染 + 参数渲染
+          // 注意：这里 参数渲染 必须写在 合同渲染ajax成功函数里，不然得不到参数
+          zoomMessage = {
+            zoom: $(this).val()
+          }
+          getContractAjax(zoomMessage)
         })
         $('select[name="contract"]').on('change', function() {
           submitMessage.contract = $(this).val()
-          getSubmitAjax()
+          getSubmitAjax(submitMessage)
         })
         $('select[name="type"]').on('change', function() {
-            submitMessage.type = $(this).val()
-            getSubmitAjax()
-          })
-          // 预览提交请求
-        function getSubmitAjax() {
-          $.ajax({
-            type: 'POST',
-            url: '/tech/arguments/getPreview',
-            headers: {
-              Authorization: localStorage.getItem('token') || ''
-            },
-            data: submitMessage,
-            success: (res) => {
-              let {
-                status,
-                message,
-                data
-              } = res
-              // 添加表格id
-              for (let i = 0; i < data.length; i++) {
-                data[i].newId = i + 1;
-              }
-              if (status !== 0) return alert("获取提交预览区信息失败！");
-              const dataStr_preview = template('getPreview', {
-                data: data
-              });
-              const dataStr_sub = template('getSubmitPreview', {
-                data: data
-              })
-              $('#preview_tbody').html(dataStr_preview);
-              $('#sub_tbody').html(dataStr_sub)
-
-            }
-          })
-        }
+          submitMessage.type = $(this).val()
+          getSubmitAjax(submitMessage)
+        })
       }
       getPreview()
+
+      // 合同渲染 ajax请求函数
+      function getContractAjax(zoomMessage) {
+        $.ajax({
+          type: 'POST',
+          url: '/tech/arguments/getContract',
+          headers: {
+            Authorization: localStorage.getItem('token') || ''
+          },
+          data: zoomMessage,
+          success: (res) => {
+            let {
+              status,
+              message,
+              data
+            } = res;
+            if (status != 0) return alert('合同获取失败！');
+            const dataStr = template('getContract', {
+              data: data
+            });
+            $('#select_contract').html(dataStr)
+
+            // 调用 getSubmitAjax()
+            let submitMessage = {
+              zoom: $('select[name="zoom"]').val(),
+              contract: $('select[name="contract"]').val(),
+              type: $('select[name="type"]').val()
+            }
+            getSubmitAjax(submitMessage)
+          }
+        })
+      }
+
+      // 参数渲染 ajax请求函数
+      function getSubmitAjax(submitMessage) {
+        $.ajax({
+          type: 'POST',
+          url: '/tech/arguments/getPreview',
+          headers: {
+            Authorization: localStorage.getItem('token') || ''
+          },
+          data: submitMessage,
+          success: (res) => {
+            console.log(res);
+            let {
+              status,
+              message,
+              data
+            } = res
+            // 添加表格id
+            for (let i = 0; i < data.length; i++) {
+              data[i].newId = i + 1;
+            }
+            if (status !== 0) return alert("获取提交预览区信息失败！");
+            const dataStr_preview = template('getPreview', {
+              data: data
+            });
+            const dataStr_sub = template('getSubmitPreview', {
+              data: data
+            })
+            $('#preview_tbody').html(dataStr_preview);
+            $('#sub_tbody').html(dataStr_sub)
+          }
+        })
+      }
 
       // 提交参数
       $('#sub_submit').on('click', function() {
@@ -299,22 +351,17 @@
           data[`${index}`].push($(this).html())
         })
         $.ajax({
-            type: 'POST',
-            url: '/tech/arguments/postArguments',
-            headers: {
-              Authorization: localStorage.getItem('token') || ''
-            },
-            data: data,
-            success: function(res) {
-              console.log(res);
-            }
-          })
-          // let lengthArr = $('.length').map(function() {
-          //   return $(this).html()
-          // }).get()
+          type: 'POST',
+          url: '/tech/arguments/postArguments',
+          headers: {
+            Authorization: localStorage.getItem('token') || ''
+          },
+          data: data,
+          success: function(res) {
+            console.log(res);
+          }
+        })
       })
-
-
     })
   </script>
 </body>

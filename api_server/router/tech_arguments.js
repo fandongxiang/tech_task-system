@@ -10,5 +10,8 @@ router.post('/getPreview', tech_arguments.getPreview)
 // 提交 参数 路由
 router.post('/postArguments', tech_arguments.postArguments)
 
+// 获取 对应片区合同号 路由
+router.post('/getContract', tech_arguments.getContract)
+
 // 共享路由模块
 module.exports = router

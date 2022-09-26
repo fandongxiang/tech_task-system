@@ -67,6 +67,11 @@ textarea:focus {
   outline: #007bff 1px solid;
 }
 
+.b-select {
+  width: 70px;
+  text-align: left;
+}
+
 #submit button {
   padding: 3px 8px;
   border-radius: 2px;
@@ -82,7 +87,6 @@ textarea:focus {
 #select_contract,
 #select_type,
 #select_discription {
-  width: 50px;
   margin-left: 10px;
 }
 
