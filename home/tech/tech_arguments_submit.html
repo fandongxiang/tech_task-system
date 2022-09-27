@@ -127,15 +127,18 @@
       <table id="sub_history" border="1">
         <thead>
           <tr>
+            <th>序号</th>
             <th>片区</th>
             <th>合同</th>
-            <th>参数类型</th>
             <th>提交说明</th>
             <th>提交人</th>
             <th>提交时间</th>
             <th>操作</th>
           </tr>
         </thead>
+        <tbody id="submitHistory_tbody">
+
+        </tbody>
       </table>
     </div>
   </div>
@@ -145,15 +148,15 @@
     {{each data}}
     <tr>
       <td>{{$value.newId}}</td>
-      <td>{{$value.length}}</td>
-      <td>{{$value.seedRotation}}</td>
-      <td>{{$value.cruRotation}}</td>
-      <td>{{$value.mainHeater}}</td>
-      <td>{{$value.slSpeed}}</td>
-      <td>{{$value.meltLevel}}</td>
-      <td>{{$value.argonFlow}}</td>
-      <td>{{$value.controlTime}}</td>
-      <td>{{$value.controlRate}}</td>
+      <td class="compare_length" data-newId="{{$value.newId}}">{{$value.length}}</td>
+      <td class="compare_seedRotation" data-newId="{{$value.newId}}">{{$value.seedRotation}}</td>
+      <td class="compare_cruRotation" data-newId="{{$value.newId}}">{{$value.cruRotation}}</td>
+      <td class="compare_mainHeater" data-newId="{{$value.newId}}">{{$value.mainHeater}}</td>
+      <td class="compare_slSpeed" data-newId="{{$value.newId}}">{{$value.slSpeed}}</td>
+      <td class="compare_meltLevel" data-newId="{{$value.newId}}">{{$value.meltLevel}}</td>
+      <td class="compare_argonFlow" data-newId="{{$value.newId}}">{{$value.argonFlow}}</td>
+      <td class="compare_controlTime" data-newId="{{$value.newId}}">{{$value.controlTime}}</td>
+      <td class="compare_controlRate" data-newId="{{$value.newId}}">{{$value.controlRate}}</td>
     </tr>
     {{/each}}
   </script>
@@ -162,16 +165,16 @@
   <script type="text/html" id="getSubmitPreview">
     {{each data}}
     <tr>
-      <td class="" contenteditable="true">{{$value.newId}}</td>
-      <td class="length" contenteditable="true">{{$value.length}}</td>
-      <td class="seedRotation" contenteditable="true">{{$value.seedRotation}}</td>
-      <td class="cruRotation" contenteditable="true">{{$value.cruRotation}}</td>
-      <td class="mainHeater" contenteditable="true">{{$value.mainHeater}}</td>
-      <td class="slSpeed" contenteditable="true">{{$value.slSpeed}}</td>
-      <td class="meltLevel" contenteditable="true">{{$value.meltLevel}}</td>
-      <td class="argonFlow" contenteditable="true">{{$value.argonFlow}}</td>
-      <td class="controlTime" contenteditable="true">{{$value.controlTime}}</td>
-      <td class="controlRate" contenteditable="true">{{$value.controlRate}}</td>
+      <td>{{$value.newId}}</td>
+      <td class="length" contenteditable="true" data-newId="{{$value.newId}}">{{$value.length}}</td>
+      <td class="seedRotation" contenteditable="true" data-newId="{{$value.newId}}">{{$value.seedRotation}}</td>
+      <td class="cruRotation" contenteditable="true" data-newId="{{$value.newId}}">{{$value.cruRotation}}</td>
+      <td class="mainHeater" contenteditable="true" data-newId="{{$value.newId}}">{{$value.mainHeater}}</td>
+      <td class="slSpeed" contenteditable="true" data-newId="{{$value.newId}}">{{$value.slSpeed}}</td>
+      <td class="meltLevel" contenteditable="true" data-newId="{{$value.newId}}">{{$value.meltLevel}}</td>
+      <td class="argonFlow" contenteditable="true" data-newId="{{$value.newId}}">{{$value.argonFlow}}</td>
+      <td class="controlTime" contenteditable="true" data-newId="{{$value.newId}}">{{$value.controlTime}}</td>
+      <td class="controlRate" contenteditable="true" data-newId="{{$value.newId}}">{{$value.controlRate}}</td>
     </tr>
     {{/each}}
   </script>
@@ -186,6 +189,21 @@
     {{/each}}
     <option>新建合同</option>
     {{/if}}
+  </script>
+
+  <!-- 历史提交区模板 -->
+  <script type="text/html" id="getHistorySubmit">
+    {{each data}}
+    <tr>
+      <td>{{$value.newId}}</td>
+      <td>{{$value.zoom}}</td>
+      <td>{{$value.contract}}</td>
+      <td>{{$value.discription}}</td>
+      <td>{{$value.submitter}}</td>
+      <td>{{$value.subDay}}</td>
+      <td><a href="javascript:;">删除</a></td>
+    </tr>
+    {{/each}}
   </script>
   <script>
     $(function() {
@@ -213,17 +231,21 @@
         let zoomMessage = { // 这个函数为后续函数公用对象
           zoom: $('select[name="zoom"]').val()
         }
-        getContractAjax(zoomMessage)
-        getSubmitAjax(submitMessage)
+        getContractAjax(zoomMessage);
+        getSubmitAjax(submitMessage);
+        getHistorySubmit(zoomMessage);
 
         // 片区、合同、参数类型选择后渲染
         $('select[name="zoom"]').on('change', function() {
           // 合同渲染 + 参数渲染
           // 注意：这里 参数渲染 必须写在 合同渲染ajax成功函数里，不然得不到参数
           zoomMessage = {
-            zoom: $(this).val()
-          }
-          getContractAjax(zoomMessage)
+              zoom: $(this).val()
+            }
+            // 调用合同渲染函数
+          getContractAjax(zoomMessage);
+          // 调用历史提交区渲染函数
+          getHistorySubmit(zoomMessage);
         })
         $('select[name="contract"]').on('change', function() {
           submitMessage.contract = $(this).val()
@@ -278,7 +300,6 @@
           },
           data: submitMessage,
           success: (res) => {
-            console.log(res);
             let {
               status,
               message,
@@ -297,6 +318,16 @@
             })
             $('#preview_tbody').html(dataStr_preview);
             $('#sub_tbody').html(dataStr_sub)
+              // 调用对比函数
+            compareArguments('length');
+            compareArguments('seedRotation');
+            compareArguments('cruRotation');
+            compareArguments('mainHeater');
+            compareArguments('slSpeed');
+            compareArguments('meltLevel');
+            compareArguments('argonFlow');
+            compareArguments('controlTime');
+            compareArguments('controlRate');
           }
         })
       }
@@ -362,6 +393,58 @@
           }
         })
       })
+
+      // 对比提交区和预览区参数函数
+      function compareArguments(str) {
+        let ele = `.${str}`;
+        let compare_ele = `.compare_${str}`;
+        let ele_data = `data-newId`;
+        $(ele).blur(function() {
+          let id = $(this).attr(ele_data);
+          let value = $(this).html();
+          let $length = $(this);
+          $(compare_ele).each(function() {
+            let compare_id = $(this).attr(ele_data);
+            let compare_value = $(this).html();
+            if (id == compare_id && value != compare_value) {
+              $(this).css('backgroundColor', 'red')
+              $length.css('backgroundColor', 'green')
+            } else if (id == compare_id && value == compare_value) {
+              $(this).css('backgroundColor', '')
+              $length.css('backgroundColor', '')
+            }
+          })
+        })
+      }
+
+      // 历史提交区渲染
+      function getHistorySubmit(zoomMessage) {
+        $.ajax({
+          type: 'POST',
+          url: '/tech/arguments/getHistorySubmit',
+          headers: {
+            Authorization: localStorage.getItem('token') || ''
+          },
+          data: zoomMessage,
+          success: function(res) {
+            let {
+              status,
+              message,
+              data
+            } = res;
+            if (status != 0) return alert(message);
+            data.map((element, index) => {
+              element.newId = index + 1;
+            });
+            const dataStr_history = template('getHistorySubmit', {
+              data: data
+            });
+            $('#submitHistory_tbody').html(dataStr_history);
+          }
+        })
+      }
+
+      // next
     })
   </script>
 </body>

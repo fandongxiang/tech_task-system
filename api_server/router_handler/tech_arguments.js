@@ -134,3 +134,40 @@ exports.getContract = (req, res) => {
     })
   })
 }
+
+// 获取 历史提交区 路由函数
+exports.getHistorySubmit = (req, res) => {
+  let zoom = req.body['zoom'];
+  console.log(zoom);
+  const dataStr = `
+    SELECT 
+      zoom, contract, discription, submitter, (date_format(subDay,'%Y-%m-%d %H:%i')) subDay
+    FROM
+      tech_arguments_dengjing
+    WHERE
+      zoom = ?
+    GROUP BY zoom , contract , subDay
+  `
+  db.query(dataStr, zoom, (err, results) => {
+    if (err) return console.log(err);
+    res.send({
+      status: 0,
+      message: '获取历史提交区信息成功！',
+      data: results
+    })
+  })
+}
+
+// 删除 历史提交区数据 路由函数
+exports.deleteArguments = (req, res) => {
+  const dataStr = `
+  UPDATE tech_arguments_dengjing 
+  SET 
+      status = 1
+  WHERE
+      zoom = ?
+      AND contract = ?
+      AND (DATE_FORMAT(subDay, '%Y-%m-%d %H:%i')) = ?
+  `
+    // db.query(dataStr,)
+}

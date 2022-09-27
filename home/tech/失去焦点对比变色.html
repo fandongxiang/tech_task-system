@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../../assets/lib/JQuery.js"></script>
+</head>
+
+<body>
+  <table border="1">
+    <tr>
+      <td class="td1" contenteditable="true">我是td11</td>
+      <td class="td1" contenteditable="true">我是td12</td>
+      <td class="td1" contenteditable="true">我是td13</td>
+      <td class="td1" contenteditable="true">我是td14</td>
+    </tr>
+    <tr>
+      <td class="td2">我是td21</td>
+      <td class="td2">我是td22</td>
+      <td class="td2">我是td23</td>
+      <td class="td2">我是td24</td>
+    </tr>
+  </table>
+
+  <script>
+    $(function() {
+      function blurChangeColor(str1, str2) {
+        let ele1 = `.${str1}`;
+        let ele2 = `.${str2}`;
+        $(ele1).blur(function() {
+          let index = $(this).index();
+          let element = $(ele2)[index];
+          let value = element.innerHTML;
+          console.log(index);
+          console.log($(this).html());
+          console.log(value);
+        })
+      }
+      blurChangeColor('td1', 'td2');
+
+      let arr = [{
+        name: 'fan'
+      }, {
+        sex: '男'
+      }];
+      console.log(arr);
+      arr.map((element, index, array) => {
+        element.number = index + 1;
+      })
+
+      // $('.td1').blur(function() {
+      //   let index = $(this).index();
+      //   let element = $('.td2')[index]
+      //   let value = element.innerHTML
+      //   console.log(index);
+      //   console.log($(this).html());
+      //   console.log(value);
+      //   if ($(this).html() != value) {
+      //     $(this).css('backgroundColor', 'red')
+      //   }
+      // })
+    })
+  </script>
+</body>
+
+</html>
