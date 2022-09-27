@@ -5,13 +5,13 @@ $.ajaxPrefilter(function(options) {
   options.url = 'http://192.168.1.124:3008' + options.url
 
   // 全局统一挂载 complete ，实现权限拦截
-  options.complete = function(res) {
-    // 通过 res.responseJSON.status 拿到服务器响应回来的数据
-    if (res.responseJSON.status === 1 && res.responseJSON.message == '身份认证失败！') {
-      // 1。 强制清空 token
-      localStorage.removeItem('token')
-        // 2. 强制跳转到登陆页面
-      location.href = '/login.html'
-    }
-  }
+  // options.complete = function(res) {
+  //   // 通过 res.responseJSON.status 拿到服务器响应回来的数据
+  //   if (res.responseJSON.status === 1 && res.responseJSON.message == '身份认证失败！') {
+  //     // 1。 强制清空 token
+  //     localStorage.removeItem('token')
+  //       // 2. 强制跳转到登陆页面
+  //     location.href = '/login.html'
+  //   }
+  // }
 })

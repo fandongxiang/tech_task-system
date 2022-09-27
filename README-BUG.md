@@ -120,3 +120,16 @@
       </div>
       <div></div>
     ```
+
+### 4. 参数提交bug
+
+### 1. 通过给单元格添加`blur`事件后获取`$(this).index()`获取到的`index`始终为`1`，原因是`index`是在当前父元素中的下标，而不是在该类里面的下标；
+
+### 2. 箭头函数没有this
+
+  ``` js
+     $('.length').blur(function() {
+    console.log($(this).attr('data-length'));
+    $('.compare_length').each(() => {
+        console.log($(this).html());
+  ```

@@ -21,14 +21,20 @@
   margin: 0 auto;
 }
 
-#preview {
-  float: left;
-  width: 70vw;
+header {
+  margin: 10px 0 10px 0;
 }
 
-#submit {
+#preview,
+#header-left {
   float: left;
-  width: 19vw;
+  width: 45vw;
+}
+
+#pre-submit,
+#header-right {
+  float: right;
+  width: 45vw;
 }
 
 
@@ -41,6 +47,7 @@ table {
 td,
 th {
   padding: 3px 5px;
+  text-align: center;
 }
 
 
@@ -60,6 +67,11 @@ textarea:focus {
   outline: #007bff 1px solid;
 }
 
+.b-select {
+  width: 70px;
+  text-align: left;
+}
+
 #submit button {
   padding: 3px 8px;
   border-radius: 2px;
@@ -75,13 +87,7 @@ textarea:focus {
 #select_contract,
 #select_type,
 #select_discription {
-  width: 150px;
-  margin-top: 10px;
   margin-left: 10px;
-}
-
-#discription {
-  vertical-align: top;
 }
 
 
