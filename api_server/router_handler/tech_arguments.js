@@ -15,6 +15,7 @@ exports.getPreview = ((req, res) => {
       tech_arguments_dengjing
     WHERE
       zoom = 'init'
+      AND status = 0
   `
     db.query(dataStr, (err, results) => {
       if (err) return console.log(err);
@@ -32,6 +33,7 @@ exports.getPreview = ((req, res) => {
       tech_arguments_dengjing
     WHERE
       zoom = ? AND contract = ?
+      AND status = 0
     `
     db.query(dataStr, [zoom, contract], (err, results) => {
       if (err) return console.log(err);
@@ -43,6 +45,7 @@ exports.getPreview = ((req, res) => {
           tech_arguments_dengjing
         WHERE
           zoom = 'init'
+          AND status = 0
       `
         db.query(dataStr, (err, results) => {
           if (err) return console.log(err);
@@ -60,7 +63,8 @@ exports.getPreview = ((req, res) => {
           tech_arguments_dengjing
         WHERE
           zoom = ? AND contract = ?
-        ORDER BY subDay
+          AND status = 0
+          ORDER BY subDay desc,length
         LIMIT 12
         `
         db.query(dataStr, [zoom, contract], (err, results) => {
@@ -74,6 +78,30 @@ exports.getPreview = ((req, res) => {
       }
     })
   }
+})
+
+// 获取 等径参数首页渲染 路由函数
+exports.getCurrentPreview = ((req, res) => {
+  let { zoom, contract, type } = req.body;
+  const dataStr = `
+        SELECT 
+          *
+        FROM
+          tech_arguments_dengjing
+        WHERE
+          zoom = ? AND contract = ?
+          AND status = 0
+          ORDER BY subDay desc,length
+        LIMIT 12
+        `
+  db.query(dataStr, [zoom, contract], (err, results) => {
+    if (err) return console.log(err);
+    res.send({
+      status: 0,
+      message: "获取渲染预览区参数成功！",
+      data: results
+    })
+  })
 })
 
 
@@ -123,6 +151,7 @@ exports.getContract = (req, res) => {
       tech_arguments_dengjing
     WHERE
       zoom = ?
+      AND status = 0
     GROUP BY contract
   `
   db.query(dataStr, zoom, (err, results) => {
@@ -138,7 +167,6 @@ exports.getContract = (req, res) => {
 // 获取 历史提交区 路由函数
 exports.getHistorySubmit = (req, res) => {
   let zoom = req.body['zoom'];
-  console.log(zoom);
   const dataStr = `
     SELECT 
       zoom, contract, discription, submitter, (date_format(subDay,'%Y-%m-%d %H:%i')) subDay
@@ -146,6 +174,7 @@ exports.getHistorySubmit = (req, res) => {
       tech_arguments_dengjing
     WHERE
       zoom = ?
+      AND status = 0
     GROUP BY zoom , contract , subDay
   `
   db.query(dataStr, zoom, (err, results) => {
@@ -160,6 +189,7 @@ exports.getHistorySubmit = (req, res) => {
 
 // 删除 历史提交区数据 路由函数
 exports.deleteArguments = (req, res) => {
+  let { zoom, contract, subDay } = req.body
   const dataStr = `
   UPDATE tech_arguments_dengjing 
   SET 
@@ -169,5 +199,13 @@ exports.deleteArguments = (req, res) => {
       AND contract = ?
       AND (DATE_FORMAT(subDay, '%Y-%m-%d %H:%i')) = ?
   `
-    // db.query(dataStr,)
+  db.query(dataStr, [zoom, contract, subDay], (err, results) => {
+    if (err) return res.cc(err)
+    if (results.affectedRows != 12) return res.cc('删除数据失败！')
+    res.send({
+      status: 0,
+      message: '删除数据成功！',
+      data: results
+    })
+  })
 }
