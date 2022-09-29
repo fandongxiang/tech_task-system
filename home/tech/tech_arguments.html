@@ -25,7 +25,7 @@
           <form action="">
             <!-- 片区选择 -->
             <span>片区选择</span>
-            <select name="zoom" id="select_zoom">
+            <select name="zoom" id="compare_zoom">
                 <option selected>A1</option>
                 <option>A2</option>
                 <option>B1</option>
@@ -39,7 +39,7 @@
             </select>
             <!-- 合同选择 -->
             <span>合同选择</span>
-            <select name="contract" id="select_contract" class="b-select contractChange">
+            <select name="contract" id="compare_contract" class="b-select contractChange">
               <option>890A0</option>
               <option>890C0</option>
               <option>PB237</option>
@@ -47,13 +47,16 @@
             </select>
             <!-- 参数类型 -->
             <span>参数类型</span>
-            <select name="type" id="select_type" class="b-select">
+            <select name="type" id="compare_type" class="b-select">
               <option>等径</option>
               <option>放肩</option>
             </select>
             <!-- 提交说明 -->
             <span>提交说明</span>
-            <input type="text" name="" id="select_discription">
+            <select name="type" id="compare_discription" class="b-select">
+              <option>第一次提交</option>
+              <option>测试</option>
+            </select>
           </form>
         </div>
       </div>
@@ -112,7 +115,7 @@
             </tr>
             <tr>
               <th>序号</th>
-              <th>长度mm</th>
+              <th>长度</th>
               <th>晶转</th>
               <th>埚转</th>
               <th>功率</th>
@@ -139,7 +142,7 @@
             </tr>
             <tr>
               <th>序号</th>
-              <th>长度mm</th>
+              <th>长度</th>
               <th>晶转</th>
               <th>埚转</th>
               <th>功率</th>
@@ -161,7 +164,7 @@
     </div>
 
     <!-- 历史提交区 -->
-    <div id="sub-history">
+    <!-- <div id="sub-history">
       <table id="sub_history" border="1">
         <thead>
           <tr>
@@ -178,11 +181,11 @@
 
         </tbody>
       </table>
-    </div>
+    </div> -->
   </div>
 
   <!-- 对比预览区模板 -->
-  <script type="text/html" id="current_Preview">
+  <script type="text/html" id="compare_Preview">
     {{each data}}
     <tr>
       <td>{{$value.newId}}</td>
@@ -200,46 +203,32 @@
   </script>
 
   <!-- 提交预览区模板 -->
-  <script type="text/html" id="compare_Preview">
+  <script type="text/html" id="current_Preview">
     {{each data}}
     <tr>
       <td>{{$value.newId}}</td>
-      <td class="length" contenteditable="true" data-newId="{{$value.newId}}">{{$value.length}}</td>
-      <td class="seedRotation" contenteditable="true" data-newId="{{$value.newId}}">{{$value.seedRotation}}</td>
-      <td class="cruRotation" contenteditable="true" data-newId="{{$value.newId}}">{{$value.cruRotation}}</td>
-      <td class="mainHeater" contenteditable="true" data-newId="{{$value.newId}}">{{$value.mainHeater}}</td>
-      <td class="slSpeed" contenteditable="true" data-newId="{{$value.newId}}">{{$value.slSpeed}}</td>
-      <td class="meltLevel" contenteditable="true" data-newId="{{$value.newId}}">{{$value.meltLevel}}</td>
-      <td class="argonFlow" contenteditable="true" data-newId="{{$value.newId}}">{{$value.argonFlow}}</td>
-      <td class="controlTime" contenteditable="true" data-newId="{{$value.newId}}">{{$value.controlTime}}</td>
-      <td class="controlRate" contenteditable="true" data-newId="{{$value.newId}}">{{$value.controlRate}}</td>
+      <td class="length" data-newId="{{$value.newId}}">{{$value.length}}</td>
+      <td class="seedRotation" data-newId="{{$value.newId}}">{{$value.seedRotation}}</td>
+      <td class="cruRotation" data-newId="{{$value.newId}}">{{$value.cruRotation}}</td>
+      <td class="mainHeater" data-newId="{{$value.newId}}">{{$value.mainHeater}}</td>
+      <td class="slSpeed" data-newId="{{$value.newId}}">{{$value.slSpeed}}</td>
+      <td class="meltLevel" data-newId="{{$value.newId}}">{{$value.meltLevel}}</td>
+      <td class="argonFlow" data-newId="{{$value.newId}}">{{$value.argonFlow}}</td>
+      <td class="controlTime" data-newId="{{$value.newId}}">{{$value.controlTime}}</td>
+      <td class="controlRate" data-newId="{{$value.newId}}">{{$value.controlRate}}</td>
     </tr>
     {{/each}}
   </script>
 
-  <!-- 当前合同选择模板 -->
-  <script type="text/html" id="current_Contract">
+  <!-- 公用合同选择模板 -->
+  <script type="text/html" id="public_Contract">
     {{each data}}
     <option>{{$value.contract}}</option>
     {{/each}}
   </script>
 
-  <!-- 对比合同选择模板 -->
-  <script type="text/html" id="compare_Contract">
-    {{each data}}
-    <option>{{$value.contract}}</option>
-    {{/each}}
-  </script>
-
-  <!-- 当前提交说明模板 -->
-  <script type="text/html" id="current_Discription">
-    {{each data}}
-    <option>{{$value.discription}}</option>
-    {{/each}}
-  </script>
-
-  <!-- 对比提交说明模板 -->
-  <script type="text/html" id="compare_Discription">
+  <!-- 公用提交说明模板 -->
+  <script type="text/html" id="public_Discription">
     {{each data}}
     <option>{{$value.discription}}</option>
     {{/each}}

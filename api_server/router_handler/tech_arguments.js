@@ -80,31 +80,6 @@ exports.getPreview = ((req, res) => {
   }
 })
 
-// 获取 等径参数首页渲染 路由函数
-exports.getCurrentPreview = ((req, res) => {
-  let { zoom, contract, type } = req.body;
-  const dataStr = `
-        SELECT 
-          *
-        FROM
-          tech_arguments_dengjing
-        WHERE
-          zoom = ? AND contract = ?
-          AND status = 0
-          ORDER BY subDay desc,length
-        LIMIT 12
-        `
-  db.query(dataStr, [zoom, contract], (err, results) => {
-    if (err) return console.log(err);
-    res.send({
-      status: 0,
-      message: "获取渲染预览区参数成功！",
-      data: results
-    })
-  })
-})
-
-
 // 提交 参数 路由函数
 exports.postArguments = ((req, res) => {
   const subDay = sd.format(new Date(), 'YYYY-MM-DD HH:mm:ss')
@@ -209,3 +184,52 @@ exports.deleteArguments = (req, res) => {
     })
   })
 }
+
+// 获取 公共参数渲染 路由函数
+exports.getPublicPreview = ((req, res) => {
+  let { zoom, contract, type, discription } = req.body;
+  const dataStr = `
+        SELECT 
+          *
+        FROM
+          tech_arguments_dengjing
+        WHERE
+          zoom = ? AND contract = ? 
+          AND discription = ?
+          AND status = 0
+          ORDER BY subDay desc,length
+        LIMIT 12
+        `
+  db.query(dataStr, [zoom, contract, discription], (err, results) => {
+    if (err) return console.log(err);
+    res.send({
+      status: 0,
+      message: "获取渲染预览区参数成功！",
+      data: results
+    })
+  })
+})
+
+// 获取 公共提交说明 路由函数
+exports.getPublicDiscription = ((req, res) => {
+  let { zoom, contract, type } = req.body;
+  const dataStr = `
+    SELECT 
+      discription
+    FROM
+      tech_arguments_dengjing
+    WHERE
+      zoom = ? AND contract = ?
+          AND status = 0
+    GROUP BY discription
+    ORDER BY subDay;
+    `
+  db.query(dataStr, [zoom, contract], (err, results) => {
+    if (err) return console.log(err);
+    res.send({
+      status: 0,
+      message: "获取渲染预览区参数成功！",
+      data: results
+    })
+  })
+})
