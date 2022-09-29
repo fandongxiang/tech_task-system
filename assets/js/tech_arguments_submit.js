@@ -40,6 +40,7 @@ $(function() {
       getHistorySubmit(zoomMessage);
     })
     $('select[name="contract"]').on('change', function() {
+      submitMessage.zoom = $('select[name="zoom"]').val()
       submitMessage.contract = $(this).val()
       getSubmitAjax(submitMessage)
     })
@@ -248,7 +249,6 @@ $(function() {
       contract: tr.children()[2].innerHTML,
       subDay: tr.children()[5].innerHTML
     }
-    console.log(data);
     $.ajax({
       type: 'POST',
       url: '/tech/arguments/deleteArguments',
@@ -265,6 +265,34 @@ $(function() {
         if (status != 0) return alert(message);
         alert('删除参数成功！')
         getPreview()
+      }
+    })
+  })
+
+  // 限制同一片区、同合同提交说明不能相同
+  $('#select_discription').blur(function() {
+    let discriptionMessage = {
+      zoom: $('select[name="zoom"]').val(),
+      contract: $('select[name="contract"]').val(),
+      type: $('select[name="type"]').val(),
+    }
+    discription = $(this).val()
+    $.ajax({
+      type: 'POST',
+      url: '/tech/arguments/getSameContractDiscription',
+      headers: {
+        Authorization: localStorage.getItem('token') || ''
+      },
+      data: discriptionMessage,
+      success: (res) => {
+        let { status, message, data } = res;
+        if (status != 0) alert(message);
+        console.log(discription);
+        console.log(data);
+        if (data.some((element) => { return element.discription == discription })) {
+          $('#select_discription').val('')
+          alert('同片区、同合同提交说明已存在！')
+        }
       }
     })
   })

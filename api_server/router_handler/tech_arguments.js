@@ -185,6 +185,29 @@ exports.deleteArguments = (req, res) => {
   })
 }
 
+// 获取 同片区同合同提交说明
+exports.getSameContractDiscription = (req, res) => {
+  let { zoom, contract } = req.body;
+  dataStr = `
+    SELECT 
+      discription
+    FROM
+      tech_arguments_dengjing
+    WHERE
+      zoom = ? AND contract = ?
+          AND status = 0
+    GROUP BY discription
+  `
+  db.query(dataStr, [zoom, contract], (err, results) => {
+    if (err) return res.cc('获取同片区同合同提交说明失败！');
+    res.send({
+      status: 0,
+      message: '获取同片区同合同提交说明成功！',
+      data: results
+    })
+  })
+}
+
 // 获取 公共参数渲染 路由函数
 exports.getPublicPreview = ((req, res) => {
   let { zoom, contract, type, discription } = req.body;
