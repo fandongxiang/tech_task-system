@@ -1,25 +1,23 @@
 // 导入express模块
 const express = require('express')
-  // 新建服务器
+
+// 新建服务器
 const app = express()
 app.listen(3008, () => {
   console.log('tech&teskSystem server running at http://127.0.0.1:3007');
 })
 
 // 托管静态资源
-app.use(express.static('../../tech_task-system/', { index: 'login.html' }))
-app.use(express.static('../assets/css/'))
-app.use(express.static('../assets/font/'))
-app.use(express.static('../assets/images/'))
-app.use(express.static('../assets/js/'))
-app.use(express.static('../assets/lib/'))
+const path = require('path')
+const finalPath = path.join(__dirname, '..', '..', 'tech_task-system')
+app.use(express.static(finalPath, { index: 'login.html' }))
 
 // 配置跨域中间件
 const cors = require('cors');
-const { urlencoded } = require('express');
 app.use(cors())
 
 // 配置解析x-www.form-urlencoded表单数据中间件
+const { urlencoded } = require('express');
 app.use(urlencoded({ extended: false }))
 
 // 导入@hapi/joi模块
@@ -51,7 +49,6 @@ app.use('/api', userRouter) // 挂在路由前缀api
 const userinfoRouter = require('./router/userinfo')
 app.use('/my', userinfoRouter)
 
-// 全局登录拦截处理函数
 app.use((req, res, next) => {
   next()
 })
@@ -68,29 +65,6 @@ app.use('/tech/timeline', tech_timeline)
 const tech_arguments = require('./router/tech_arguments')
 app.use('/tech/arguments', tech_arguments)
 
-// 测试多name属性
-const db = require('./db/tech')
-app.post('/api/test', (req, res) => {
-  // 接收前端 form.serialize() 序列化对象数组
-  var data = req.body
-  console.log(data);
-  var arr = []
-  let { id: idArr, uname: unameArr, pw: pwArr } = data // es6 解构赋值
-  console.log(unameArr);
-  for (let i = 0; i < unameArr.length; i++) {
-    arr.push([idArr[i], unameArr[i], pwArr[i]])
-  }
-  // console.log([arr]);                    // 数组外面加 [] 到底是什么
-  // 单纯插入
-  // const dataStr = 'insert into test (uname,pw)  values ?'
-  // 更新插入 : 必须提交 含有 Primary Key 或 Unique 字段，进行冲突检测
-  const dataStr = 'replace into test (id,uname,pw)  values ?'
-  db.query(dataStr, [arr], (err, results) => {
-    if (err) return res.cc(err)
-    if (results.affectedRows == 0) return res.cc('插入失败')
-    res.cc('插入成功！')
-  })
-})
 
 // 在最后导入错误级别中间件
 const Joi = require('@hapi/joi');

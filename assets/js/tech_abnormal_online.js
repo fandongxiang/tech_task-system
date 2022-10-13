@@ -1,4 +1,7 @@
 $(function() {
+  // 导入公共头部文件
+  $('#header').load('/home/public/header-computer.html')
+
   // 表格中 input与td 宽度自适应
   $('.test').bind('input propertychange', function() {
     var $this = $(this);
@@ -142,7 +145,7 @@ $(function() {
       url: '/tech/dayAbnor',
       headers: { Authorization: localStorage.getItem('token') || '' },
       success: function(res) {
-        // y轴数据处理
+        // 处理0异常炉台片区方法1——双重for循环遍历
         // let yAxisArry = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'D1', 'D2', 'E1', 'E2']
         //   // 遍历查找片区赋值
         // for (var i = 0; i < yAxisArry.length; i++) {
@@ -158,7 +161,7 @@ $(function() {
         //   }
         // }
 
-        // 处理0异常炉台片区
+        // 处理0异常炉台片区方法2————map循环遍历
         let puller = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'D1', 'D2', 'E1', 'E2']
         if (res.slice(-1).zooms !== 'E2') {
           res.push({ zooms: 'E2', amount: 0 })
@@ -314,7 +317,6 @@ $(function() {
           xAxisArry.push(element.formatSubday);
           yAxisArry.push(element.count)
         });
-        console.log(yAxisArry);
         const chartDom = document.querySelector('#abnorCount');
         const myChart = echarts.init(chartDom);
         let option = {
@@ -371,12 +373,10 @@ $(function() {
       success: (res) => {
         let { status: status, message: message, data: data } = res;
         if (status !== 0) return alert(message);
-        console.log(data);
         let dataArr = [];
         data.forEach(element => {
           dataArr.push({ value: element.count, name: element.abCause_new })
         })
-        console.log(dataArr);
         const chartDom = document.querySelector('#abnorCauseSort');
         const myChart = echarts.init(chartDom);
         let option = {

@@ -121,7 +121,7 @@
       <div></div>
     ```
 
-### 4. 参数提交bug
+## 4. 参数提交bug
 
 ### 1. 通过给单元格添加`blur`事件后获取`$(this).index()`获取到的`index`始终为`1`，原因是`index`是在当前父元素中的下标，而不是在该类里面的下标；
 
@@ -133,3 +133,35 @@
     $('.compare_length').each(() => {
         console.log($(this).html());
   ```
+
+## 5. Uncaught TypeError: Cannot read properties of undefined (reading 'status')
+
+### 5.1 报错原因
+
+导入公共复用页面`header-computer.html`时使用`jquery.load()`方法，该方法返回对象中无`res.responseJSON`对象，经过`base-API.js`中统一拦截函数时，导致产生`res.responseJSON。status`报错。
+
+  ``` js
+    $('#header').load('/home/public/header-computer.html')
+  ```
+
+### 5.2 解决方法
+
+为使用`load`方法，在统一拦截函数中加入判断是否存在`res.responseJSON`条件。
+
+  ``` js
+  // 全局统一挂载 complete ，实现权限拦截
+    options.complete = function(res) {
+      // 解决 Jquery.load 无 responseJSON 方法
+      if (res.responseJSON != undefined) {
+        // 通过 res.responseJSON.status 拿到服务器响应回来的数据
+        if (res.responseJSON.status === 1 && res.responseJSON.  message == '身份认证失败！') {
+          // 1。 强制清空 token
+          localStorage.removeItem('token')
+            // 2. 强制跳转到登陆页面
+          location.href = '/login.html'
+        }
+      }
+    }
+  ```
+
+> **注意**：统一拦截函数中拦截的是`Node`中错误级别中间件返回的`if (err.name === 'UnauthorizedError') return res.cc('身份认证失败！')`，而不是每次路由函数中`res.send()`中的返回值。即使每次node函数中没有返回相关`status`值，但都存在`res.responseJSON`对象，所以`res.responseJSON.status`只会报`undefined`而不会报错。
