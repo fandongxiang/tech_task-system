@@ -11,10 +11,12 @@
   <script src="../../assets/lib/echarts.min.js"></script>
   <script src="../../assets/lib/template-web.js"></script>
   <script src="../../assets/js/tech_arguments.js"></script>
-  <link rel="stylesheet" href="../../assets/css/tech_arguments_submit.css">
+  <link rel="stylesheet" href="../../assets/css/tech_arguments.css">
 </head>
 
 <body>
+  <!-- 公共头部文件 -->
+  <div id="header"></div>
   <!-- 版面div -->
   <div id="page">
     <!-- 头部 -->
@@ -154,33 +156,24 @@
             </tr>
           </thead>
           <tbody id="current_tbody">
-
           </tbody>
         </table>
+      </div>
+      <!-- 转到提交区 -->
+      <div id="to-submit">
         <!-- 提交 -->
         <button id="create_button">提交参数</button>
       </div>
+    </div>
+    <!-- 曲线对比区 -->
+    <div>
+      <div id="compareLine" style="width:900px;height:400px">
+
+      </div>
+    </div>
+    <div class="black" style="height: 100px;">
 
     </div>
-
-    <!-- 历史提交区 -->
-    <!-- <div id="sub-history">
-      <table id="sub_history" border="1">
-        <thead>
-          <tr>
-            <th>序号</th>
-            <th>片区</th>
-            <th>合同</th>
-            <th>提交说明</th>
-            <th>提交人</th>
-            <th>提交时间</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody id="submitHistory_tbody">
-        </tbody>
-      </table>
-    </div> -->
   </div>
 
   <!-- 对比预览区模板 -->

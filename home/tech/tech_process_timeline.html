@@ -2,58 +2,62 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>工艺时间线</title>
-    <script src="../../assets/lib/JQuery.js"></script>
-    <script src="../../assets/js/baseAPI.js"></script>
-    <script src="../../assets/js/bootstrap.bundle.js"></script>
-    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
-    <script src="../../assets/lib/template-web.js"></script>
-    <link rel="stylesheet" href="../../assets/css/tech_process_timeline.css">
-    <style>
-        .page {
-            width: 100%;
-            background: #F0F0F0 url('img/dian2.png') repeat-x;
-            padding-top: 100px;
-        }
-
-        .form-group,
-        .btn {
-            float: right !important;
-            margin-right: 0.5rem;
-        }
-        a {
-            text-decoration: none;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>工艺时间线</title>
+  <script src="../../assets/lib/JQuery.js"></script>
+  <script src="../../assets/js/baseAPI.js"></script>
+  <script src="../../assets/js/bootstrap.bundle.js"></script>
+  <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
+  <script src="../../assets/lib/template-web.js"></script>
+  <script src="../../assets/js/tech_process_timeline.js"></script>
+  <link rel="stylesheet" href="../../assets/css/tech_process_timeline.css">
+  <style>
+    .page {
+      width: 100%;
+      background: #F0F0F0 url('img/dian2.png') repeat-x;
+      padding-top: 100px;
+    }
+    
+    .form-group,
+    .btn {
+      float: right !important;
+      margin-right: 0.5rem;
+    }
+    
+    a {
+      text-decoration: none;
+    }
+  </style>
 </head>
 
 <body>
-    <!-- 顶部选择区 -->
-    <div class="container">
-        <a href="./tech_process_timeline_submit.html" style="float: right;padding: 0.375rem 0.75rem;font-size: 1rem;background-color: #28a745;border-radius: 0.25rem;color: white;">新建</a>
-        <form action="/" id="select" class="mt-2" >
-            <button type="submit" class="btn btn-primary">查询</button>
-            <div class="form-group">
-                <select id="inputState" class="form-control" name="affectSort">
+  <!-- 公共头部 -->
+  <div id="header"></div>
+  <!-- 顶部选择区 -->
+  <div class="container">
+    <a href="./tech_process_timeline_submit.html" style="float: right;padding: 0.375rem 0.75rem;font-size: 1rem;background-color: #28a745;border-radius: 0.25rem;color: white;">新建</a>
+    <form action="/" id="select" class="mt-2">
+      <button type="submit" class="btn btn-primary">查询</button>
+      <div class="form-group">
+        <select id="inputState" class="form-control" name="affectSort">
                     <option selected>全部</option>
                     <option>断线</option>
                     <option>品质</option>
                     <option>事故</option>
                 </select>
-            </div>
-            <div class="form-group">
-                <select id="inputState" class="form-control" name="changeSort">
+      </div>
+      <div class="form-group">
+        <select id="inputState" class="form-control" name="changeSort">
                     <option selected>全部</option>
                     <option>工艺</option>
                     <option>热场</option>
                     <option>人员</option>
                 </select>
-            </div>
-            <div class="form-group">
-                <select id="zooms" class="form-control" name="zoom">
+      </div>
+      <div class="form-group">
+        <select id="zooms" class="form-control" name="zoom">
                     <option selected>车间</option>
                     <option>A1</option>
                     <option>A2</option>
@@ -66,290 +70,132 @@
                     <option>E1</option>
                     <option>E2</option>
                 </select>
-            </div>
-        </form>
+      </div>
+    </form>
 
 
-        <!-- 内容区 -->
-        <div class="page">
-            <div class="box">
-                <ul class="event_year" style="position: fixed;">
-                    <li class="current"><label for="2022">2022</label></li>
-                    <li class=""><label for="2021">2021</label></li>
-                    <li><label for="2020">2020</label></li>
-                    <li><label for="2019">2019</label></li>
-                </ul>
-                <ul class="event_list">
-                    <div style="display: block;" id="zoominfo-2022">
+    <!-- 内容区 -->
+    <div class="page">
+      <div class="box">
+        <ul class="event_year" style="position: fixed;">
+          <li class="current"><label for="2022">2022</label></li>
+          <li class=""><label for="2021">2021</label></li>
+          <li><label for="2020">2020</label></li>
+          <li><label for="2019">2019</label></li>
+        </ul>
+        <ul class="event_list">
+          <div style="display: block;" id="zoominfo-2022">
 
-                    </div>
-                    <div id="zoominfo-2021">
-                        <h3 id="2021">2021</h3>
-                        <li>
-                            <span>5月</span>
-                            <div>
-                                <p>发布国内首个HTML5实验室</p>
-                            </div>
-                        </li>
-                    </div>
-                    <div id="zoominfo-2020">
-                        <h3 id="2020">2020</h3>
-                        <li>
-                            <span>5月</span>
-                            <div>
-                                <p>发布国内首个HTML5实验室</p>
-                            </div>
-                        </li>
-                    </div>
-
-                    <div id="zoominfo-2019">
-                        <h3 id="2019">2019</h3>
-                        <li>
-                            <span>5月</span>
-                            <div>
-                                <p>发布国内首个HTML5实验室</p>
-                            </div>
-                        </li>
-                    </div>
-                </ul>
-                <div class="clearfix"></div>
-
-            </div>
-
-        </div>
-    </div>
-
-    <!-- 渲染模板 -->
-    <!-- 2022年 -->
-    <script type="text/html" id="timeline-2022">
-        <h3 id="2022">2022</h3>
-        {{each data}}
-        <li>
-            <i>{{$value.subDay}}</i>
-            <div>
-                <p><span>目的：{{$value.purpose}}</span>
-                    <span style="float: right;border: 1px solid red;" >{{$value.affectSort}}</span>
-                    <span style="float: right;border: 1px solid blue;margin-right: 5px;" >{{$value.changeSort}}</span>
-                </p>
-                <p>
-                    <span>内容：{{$value.content}}</span> 
-                </p>
-            </div>
-        </li>
-        {{/each}}
-    </script>
-    <!-- 2021年 -->
-    <script type="text/html" id="timeline-2021">
-        <h3 id="2021">2021</h3>
-        {{each data}}
-        <li>
-            <i>{{$value.subDay}}</i>
-            <div>
-                <p><span>目的：{{$value.purpose}}</span>
-                    <span style="float: right;border: 1px solid red;" >{{$value.affectSort}}</span>
-                    <span style="float: right;border: 1px solid blue;margin-right: 5px;" >{{$value.changeSort}}</span>
-                </p>
-                <p>
-                    <span>内容：{{$value.content}}</span> 
-                </p>
-            </div>
-        </li>
-        {{/each}}
-    </script>
-    <!-- 2020年 -->
-    <script type="text/html" id="timeline-2020">
+          </div>
+          <div id="zoominfo-2021">
+            <h3 id="2021">2021</h3>
+            <li>
+              <span>5月</span>
+              <div>
+                <p>发布国内首个HTML5实验室</p>
+              </div>
+            </li>
+          </div>
+          <div id="zoominfo-2020">
             <h3 id="2020">2020</h3>
-            {{each data}}
             <li>
-                <i>{{$value.subDay}}</i>
-                <div>
-                    <p><span>目的：{{$value.purpose}}</span>
-                        <span style="float: right;border: 1px solid red;" >{{$value.affectSort}}</span>
-                        <span style="float: right;border: 1px solid blue;margin-right: 5px;" >{{$value.changeSort}}</span>
-                    </p>
-                    <p>
-                        <span>内容：{{$value.content}}</span> 
-                    </p>
-                </div>
+              <span>5月</span>
+              <div>
+                <p>发布国内首个HTML5实验室</p>
+              </div>
             </li>
-            {{/each}}
-    </script>
-    <!-- 2019年 -->
-    <script type="text/html" id="timeline-2019">
+          </div>
+
+          <div id="zoominfo-2019">
             <h3 id="2019">2019</h3>
-            {{each data}}
             <li>
-                <i>{{$value.subDay}}</i>
-                <div>
-                    <p><span>目的：{{$value.purpose}}</span>
-                        <span style="float: right;border: 1px solid red;" >{{$value.affectSort}}</span>
-                        <span style="float: right;border: 1px solid blue;margin-right: 5px;" >{{$value.changeSort}}</span>
-                    </p>
-                    <p>
-                        <span>内容：{{$value.content}}</span> 
-                    </p>
-                </div>
+              <span>5月</span>
+              <div>
+                <p>发布国内首个HTML5实验室</p>
+              </div>
             </li>
-            {{/each}}
-    </script>
-    <script>
-        $(function () {
-            $('label').click(function () {
-                $('.event_year>li').removeClass('current');
-                $(this).parent('li').addClass('current');
-                var year = $(this).attr('for');
-                $('#' + year).parent().prevAll('div').slideUp(800);
-                $('#' + year).parent().slideDown(800).nextAll('div').slideDown(800);
-            });
-            // 格式化渲染函数
-            function formatFn(res, year) {
-                let arr = [];
-                const info = res.message
-                const selectYear = '' + year
-                for (var i = 0; i < info.length; i++) {
-                    switch (info[i].subDay.substr(0, 4)) {
-                        case selectYear:
-                            arr.push(info[i])
-                            break;
-                    }
-                }
-                formatDate(arr)
-                // 格式化日期格式不了，用字符串截取函数
-                function getDate(string) {
-                    const m = string.substr(5, 2)
-                    const d = (parseInt(string.substr(8, 2)) + 1) < 10 ? '0' + (parseInt(string.substr(8, 2)) + 1) : (parseInt(string.substr(8, 2)) + 1)
-                    return m + '月' + d + '日'
-                }
-                function formatDate(info) {
-                    for (var i = 0; i < info.length; i++) {
-                        info[i].subDay = getDate(info[i].subDay)
-                    }
-                }
-                const tid = 'timeline-' + year
-                const eid = '#zoominfo-' + year
-                const data = template(tid, { data: arr })
-                $(eid).html(data)
-            }
+          </div>
+        </ul>
+        <div class="clearfix"></div>
 
-            // 渲染 2022 年首页
-            function getAllzoom2022() {
-                $.ajax({
-                    type: 'GET',
-                    url: '/tech/timeline/getAllzooms',
-                    headers: { Authorization: localStorage.getItem('token') || '' },
-                    success: function (res) {
-                        formatFn(res, 2022)
-                    }
-                })
-            }
-            getAllzoom2022()
+      </div>
 
-            // 渲染 2021 年首页数据
-            function getAllzoom2021() {
-                $.ajax({
-                    type: 'GET',
-                    url: '/tech/timeline/getAllzooms',
-                    headers: { Authorization: localStorage.getItem('token') || '' },
-                    success: function (res) {
-                        formatFn(res, 2021)
-                    }
-                })
-            }
-            getAllzoom2021()
+    </div>
+  </div>
 
-            // 渲染 2020 年首页数据
-            function getAllzoom2020() {
-                $.ajax({
-                    type: 'GET',
-                    url: '/tech/timeline/getAllzooms',
-                    headers: { Authorization: localStorage.getItem('token') || '' },
-                    success: function (res) {
-                        formatFn(res, 2020)
-                    }
-                })
-            }
-            getAllzoom2020()
-
-              // 渲染 2021 年首页数据
-              function getAllzoom2019() {
-                $.ajax({
-                    type: 'GET',
-                    url: '/tech/timeline/getAllzooms',
-                    headers: { Authorization: localStorage.getItem('token') || '' },
-                    success: function (res) {
-                        formatFn(res, 2019)
-                    }
-                })
-            }
-            getAllzoom2019()
-
-            // 筛选 2022 年数据
-            $('#select').submit(function (e) {
-                e.preventDefault()
-                console.log($('#select').serialize());
-                const data = $('#select').serialize()
-                $.ajax({
-                    type: 'POST',
-                    url: '/tech/timeline/getOnezoom',
-                    headers: { Authorization: localStorage.getItem('token') || '' },
-                    data: data,
-                    success: function (res) {
-                        formatFn(res, 2022)
-                        console.log(res);
-                    }
-                })
-            })
-
-            // 筛选 2021 年数据
-            $('#select').submit(function (e) {
-                e.preventDefault()
-                console.log($('#select').serialize());
-                const data = $('#select').serialize()
-                $.ajax({
-                    type: 'POST',
-                    url: '/tech/timeline/getOnezoom',
-                    headers: { Authorization: localStorage.getItem('token') || '' },
-                    data: data,
-                    success: function (res) {
-                        formatFn(res, 2021)
-                    }
-                })
-            })
-
-            // 筛选 2020 年数据
-            $('#select').submit(function (e) {
-                e.preventDefault()
-                console.log($('#select').serialize());
-                const data = $('#select').serialize()
-                $.ajax({
-                    type: 'POST',
-                    url: '/tech/timeline/getOnezoom',
-                    headers: { Authorization: localStorage.getItem('token') || '' },
-                    data: data,
-                    success: function (res) {
-                        formatFn(res, 2020)
-                    }
-                })
-            })
-
-            // 筛选 2019 年数据
-            $('#select').submit(function (e) {
-                e.preventDefault()
-                console.log($('#select').serialize());
-                const data = $('#select').serialize()
-                $.ajax({
-                    type: 'POST',
-                    url: '/tech/timeline/getOnezoom',
-                    headers: { Authorization: localStorage.getItem('token') || '' },
-                    data: data,
-                    success: function (res) {
-                        formatFn(res, 2019)
-                    }
-                })
-            })
-
-        });
-    </script>
+  <!-- 渲染模板 -->
+  <!-- 2022年 -->
+  <script type="text/html" id="timeline-2022">
+    <h3 id="2022">2022</h3>
+    {{each data}}
+    <li>
+      <i>{{$value.subDay}}</i>
+      <div>
+        <p><span>目的：{{$value.purpose}}</span>
+          <span style="float: right;border: 1px solid red;">{{$value.affectSort}}</span>
+          <span style="float: right;border: 1px solid blue;margin-right: 5px;">{{$value.changeSort}}</span>
+        </p>
+        <p>
+          <span>内容：{{$value.content}}</span>
+        </p>
+      </div>
+    </li>
+    {{/each}}
+  </script>
+  <!-- 2021年 -->
+  <script type="text/html" id="timeline-2021">
+    <h3 id="2021">2021</h3>
+    {{each data}}
+    <li>
+      <i>{{$value.subDay}}</i>
+      <div>
+        <p><span>目的：{{$value.purpose}}</span>
+          <span style="float: right;border: 1px solid red;">{{$value.affectSort}}</span>
+          <span style="float: right;border: 1px solid blue;margin-right: 5px;">{{$value.changeSort}}</span>
+        </p>
+        <p>
+          <span>内容：{{$value.content}}</span>
+        </p>
+      </div>
+    </li>
+    {{/each}}
+  </script>
+  <!-- 2020年 -->
+  <script type="text/html" id="timeline-2020">
+    <h3 id="2020">2020</h3>
+    {{each data}}
+    <li>
+      <i>{{$value.subDay}}</i>
+      <div>
+        <p><span>目的：{{$value.purpose}}</span>
+          <span style="float: right;border: 1px solid red;">{{$value.affectSort}}</span>
+          <span style="float: right;border: 1px solid blue;margin-right: 5px;">{{$value.changeSort}}</span>
+        </p>
+        <p>
+          <span>内容：{{$value.content}}</span>
+        </p>
+      </div>
+    </li>
+    {{/each}}
+  </script>
+  <!-- 2019年 -->
+  <script type="text/html" id="timeline-2019">
+    <h3 id="2019">2019</h3>
+    {{each data}}
+    <li>
+      <i>{{$value.subDay}}</i>
+      <div>
+        <p><span>目的：{{$value.purpose}}</span>
+          <span style="float: right;border: 1px solid red;">{{$value.affectSort}}</span>
+          <span style="float: right;border: 1px solid blue;margin-right: 5px;">{{$value.changeSort}}</span>
+        </p>
+        <p>
+          <span>内容：{{$value.content}}</span>
+        </p>
+      </div>
+    </li>
+    {{/each}}
+  </script>
 </body>
 
 </html>

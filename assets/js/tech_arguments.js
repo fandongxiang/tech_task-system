@@ -1,4 +1,7 @@
 $(function() {
+  // 导入公共头部文件
+  $('#header').load('/home/public/header-computer.html')
+
   // 前往提交页面按钮
   let createButton = document.querySelector('#create_button')
   createButton.addEventListener('click', function() {
@@ -47,7 +50,6 @@ $(function() {
     $(contract).on('change', function() {
       contractMessage.zoom = $(`#${current}_zoom`).val()
       contractMessage.contract = $(this).val()
-      console.log(contractMessage);
       getPublicDiscriptionAjax(contractMessage, `${current}`)
     })
 
@@ -56,7 +58,6 @@ $(function() {
       discriptionMessage.zoom = $(`#${current}_zoom`).val()
       discriptionMessage.contract = $(`#${current}_contract`).val()
       discriptionMessage.discription = $(this).val()
-      console.log(discriptionMessage);
       getPublicPreviewAjax(discriptionMessage, `${current}`)
     })
 
@@ -167,17 +168,18 @@ $(function() {
             data: data
           });
           $(`#${current}_tbody`).html(dataStr_preview);
-          // 调用对比函数
-          compareArguments('length');
-          compareArguments('seedRotation');
-          compareArguments('cruRotation');
-          compareArguments('mainHeater');
-          compareArguments('slSpeed');
-          compareArguments('meltLevel');
-          compareArguments('argonFlow');
-          compareArguments('controlTime');
-          compareArguments('controlRate');
+          compareHeaterAndSlspeed()
         }
+        // 调用对比函数
+        compareArguments('length');
+        compareArguments('seedRotation');
+        compareArguments('cruRotation');
+        compareArguments('mainHeater');
+        compareArguments('slSpeed');
+        compareArguments('meltLevel');
+        compareArguments('argonFlow');
+        compareArguments('controlTime');
+        compareArguments('controlRate');
       }
     })
   }
@@ -205,30 +207,170 @@ $(function() {
     })
   }
 
-  // 历史提交区渲染
-  function getHistorySubmit(zoomMessage) {
-    $.ajax({
-      type: 'POST',
-      url: '/tech/arguments/getHistorySubmit',
-      headers: {
-        Authorization: localStorage.getItem('token') || ''
-      },
-      data: zoomMessage,
-      success: function(res) {
-        let {
-          status,
-          message,
-          data
-        } = res;
-        if (status != 0) return alert(message);
-        data.map((element, index) => {
-          element.newId = index + 1;
-        });
-        const dataStr_history = template('getHistorySubmit', {
-          data: data
-        });
-        $('#submitHistory_tbody').html(dataStr_history);
+  // 功率-拉速 对比曲线函数
+  function compareHeaterAndSlspeed() {
+    // 获取长度并集
+    let currentLengthArr = []
+    let compareLengthArr = []
+    $('.length').each((index, ele) => currentLengthArr.push(parseInt(ele.innerHTML)));
+    $('.compare_length').each((index, ele) => compareLengthArr.push(parseInt(ele.innerHTML)));
+    let unionLength = [...new Set([...currentLengthArr, ...compareLengthArr])].sort((a, b) => a < b ? -1 : a > b ? 1 : 0);
+
+    // 获取功率参数
+    let currentHeatsArr = [];
+    let compareHeatsArr = [];
+    $('.mainHeater').each((index, ele) => currentHeatsArr.push(parseFloat(ele.innerHTML)));
+    $('.compare_mainHeater').each((index, ele) => compareHeatsArr.push(parseFloat(ele.innerHTML)));
+
+    // 获取拉速参数
+    let currentSlspeed = [];
+    let compareSlspeed = [];
+    $('.slSpeed').each((index, ele) => currentSlspeed.push(parseInt(ele.innerHTML)));
+    $('.compare_slSpeed').each((index, ele) => compareSlspeed.push(parseInt(ele.innerHTML)));
+
+    // 参数处理函数
+    function getNewValue(unionLength, currentLength, currentXXX, index) {
+      return Math.floor(((currentXXX[index] - currentXXX[index - 1]) / (currentLength[index] - currentLength[index - 1]) * (unionLength[index] - currentLength[index - 1]) + currentXXX[index - 1]) * 10) / 10
+    }
+
+    unionLength.forEach((ele, index) => {
+      if (currentLengthArr.indexOf(ele) == -1) {
+        let newCurrentHeat = getNewValue(unionLength, currentLengthArr, currentHeatsArr, index);
+        let newCurrentSlspeed = getNewValue(unionLength, currentLengthArr, currentSlspeed, index);
+        currentHeatsArr.splice(index, 0, newCurrentHeat)
+        currentSlspeed.splice(index, 0, newCurrentSlspeed)
+        currentLengthArr.splice(index, 0, unionLength[index])
       }
+      if (compareLengthArr.indexOf(ele) == -1) {
+        let newCompareHeat = getNewValue(unionLength, compareLengthArr, compareHeatsArr, index);
+        let newCompareSlspeed = getNewValue(unionLength, compareLengthArr, compareSlspeed, index);
+        compareHeatsArr.splice(index, 0, newCompareHeat)
+        compareSlspeed.splice(index, 0, newCompareSlspeed)
+        compareLengthArr.splice(index, 0, unionLength[index])
+      }
+
     })
+    console.log(currentHeatsArr);
+    console.log(currentSlspeed);
+    console.log(compareHeatsArr);
+    console.log(compareSlspeed);
+
+    var chartDom = document.getElementById('compareLine');
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    option = {
+      title: {
+        text: '功率-拉速曲线对比图',
+        left: 'center',
+        top: 10,
+        borderColor: 'blank',
+        borderWidth: 1,
+        borderRadius: [5, 5, 5, 5]
+      },
+      legend: {
+        left: 'right',
+        top: 'middle',
+        orient: 'vertical',
+      },
+      grid: {
+        left: '5 %',
+        right: '15 %',
+        top: '11 %',
+        bottom: '8 %'
+      },
+      xAxis: {
+        type: 'category',
+        data: unionLength,
+        axisTick: {
+          // 强制坐标值与刻度对齐
+          alignWithLabel: true,
+        },
+        // x 轴线与网格线对齐
+        // boundaryGap: false,
+        splitLine: {
+          show: true,
+          lineStyle: {
+            type: 'dashed',
+            color: '#55b9b4'
+          }
+        }
+      },
+      yAxis: [{
+          name: '拉速(mm/h)',
+          type: 'value',
+          // y 轴自适应
+          // min: function(value) {
+          //   return value.min - 10
+          // },
+          min: 65,
+          max: 115,
+          // y 轴分割段数
+          splitNumber: 10,
+          // y 轴线显示
+          axisLine: {
+            show: true,
+            // symbol: ['none', 'arrow'],
+            // symbolSize: [5, 10]
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              type: 'dashed',
+              color: '#55b9b4'
+            }
+          }
+        },
+        {
+          name: '功率(Kw)',
+          type: 'value',
+          // y 轴自适应
+          min: 5,
+          max: -5,
+          // y 轴分割段数
+          splitNumber: 10,
+          // y 轴线显示
+          axisLine: {
+            show: true,
+            // symbol: ['none', 'arrow'],
+            // symbolSize: [5, 10]
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              type: 'dashed',
+              color: '#55b9b4'
+            }
+          }
+        }
+      ],
+      series: [{
+          name: '当前拉速曲线',
+          type: 'line',
+          yAxisIndex: 0,
+          data: currentSlspeed,
+        },
+        {
+          name: '对比拉速曲线',
+          type: 'line',
+          yAxisIndex: 0,
+          data: compareSlspeed,
+        },
+        {
+          name: '当前功率曲线',
+          type: 'line',
+          yAxisIndex: 1,
+          data: currentHeatsArr,
+        },
+        {
+          name: '对比功率曲线',
+          type: 'line',
+          yAxisIndex: 1,
+          data: compareHeatsArr,
+        }
+      ]
+    };
+
+    option && myChart.setOption(option);
   }
 })

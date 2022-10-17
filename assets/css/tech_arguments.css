@@ -13,6 +13,10 @@
   height: 0;
 }
 
+h2 {
+  font-size: 1.5rem !important;
+}
+
 
 /* 版面统一设置 */
 
@@ -30,7 +34,7 @@ table {
 
 td,
 th {
-  padding: 3px 5px;
+  padding: 0px 5px;
   text-align: center;
 }
 
@@ -40,7 +44,7 @@ th {
 select,
 input,
 textarea {
-  padding: 3px 5px;
+  padding: 0px 5px;
   border-radius: 3px;
 }
 
@@ -74,13 +78,20 @@ header {
 #preview,
 #header-left {
   float: left;
-  width: 40vw;
+  width: 45vw;
 }
 
 #pre-submit,
 #header-right {
   float: left;
-  width: 55vw;
+}
+
+#to-submit {
+  float: right;
+}
+
+#to-submit #create_button {
+  padding: 20px 10px;
 }
 
 
@@ -93,8 +104,14 @@ header {
   margin-left: 10px;
 }
 
-#select_contract {
-  width: 75px;
+#compare_contract,
+#current_contract {
+  width: 80px;
+}
+
+#compare_discription,
+#current_discription {
+  width: 120px;
 }
 
 
@@ -109,8 +126,9 @@ header {
 }
 
 
-/* 历史提交区 */
+/* 功率-拉速曲线对比 */
 
-#sub-history {
-  margin-top: 20px
+#compareLine {
+  margin-top: 20px;
+  border: 1px solid black;
 }
