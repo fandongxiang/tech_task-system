@@ -123,12 +123,25 @@ header {
 
 #pre-submit thead tr:first-child {
   background-color: rgb(95, 95, 235);
+  background-color: rgb(245, 120, 118);
 }
 
 
 /* 功率-拉速曲线对比 */
 
-#compareLine {
+#compareHeatSpeedLine {
+  width: 60vw;
+  height: 400px;
+  margin-top: 20px;
+  border: 1px solid black;
+}
+
+
+/* 晶埚转对比曲线 */
+
+#compareRotationLine {
+  width: 60vw;
+  height: 400px;
   margin-top: 20px;
   border: 1px solid black;
 }
