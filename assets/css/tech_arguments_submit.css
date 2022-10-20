@@ -65,6 +65,15 @@ textarea:focus {
 }
 
 
+/* 初始参数 */
+
+#header-left p span {
+  margin-right: 6px;
+  /* border-bottom: 2px solid pink;
+  padding-bottom: 0.5px; */
+}
+
+
 /* 提交区 */
 
 header {
@@ -112,5 +121,11 @@ header {
 /* 历史提交区 */
 
 #sub-history {
-  margin-top: 20px
+  margin-top: 20px;
+  margin-left: 40vw;
+}
+
+#sub-history th,
+#sub-history td {
+  padding: 1px 10px;
 }

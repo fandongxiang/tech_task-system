@@ -21,7 +21,12 @@
     <header class="clearfix">
       <!-- 预览区头部 -->
       <div id="header-left">
-        <p>对比预览区</p>
+        <p id="previewHeader">
+          <!-- 片区：<span style="text-decoration: underline;">A1</span> 合同：
+          <span style="text-decoration: underline;">890A0</span> 参数类型：
+          <span style="text-decoration: underline;">等径</span> 提交说明：
+          <span style="text-decoration: underline;">第一次提交测试</span> -->
+        </p>
       </div>
       <!-- 提交区头部 -->
       <div id="header-right">
@@ -179,6 +184,14 @@
       <td class="controlRate" contenteditable="true" data-newId="{{$value.newId}}">{{$value.controlRate}}</td>
     </tr>
     {{/each}}
+  </script>
+
+  <!-- 初始参数表头模板 -->
+  <script type="text/html" id="getPreviewHeader">
+    片区：<span style="text-decoration: underline;">{{zoom}}</span> 合同：
+    <span style="text-decoration: underline;">{{contract}}</span> 参数类型：
+    <span style="text-decoration: underline;">等径</span> 提交说明：
+    <span style="text-decoration: underline;">{{discription}}</span>
   </script>
 
   <!-- 合同选择模板 -->

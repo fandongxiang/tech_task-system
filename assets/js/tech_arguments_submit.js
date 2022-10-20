@@ -98,6 +98,13 @@ $(function() {
           message,
           data
         } = res
+        console.log(data[0]);
+
+        // 渲染初始参数表头信息
+        const dataStr_previewHeader = template('getPreviewHeader', data[0])
+        $('#previewHeader').html(dataStr_previewHeader)
+
+        // 渲染初始和提交区参数
         // 添加表格id
         for (let i = 0; i < data.length; i++) {
           data[i].newId = i + 1;
