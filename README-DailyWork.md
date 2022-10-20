@@ -392,5 +392,128 @@
 ### 1. 参数管理
 
 ### 1.1 自动生成参数长度-拉速-功率曲线：
-1. 求得对比和当前参数长度并集；
-2. 该参数存在某长度，使用该参数拉速、功率；不存在某长度Ln，Pn=（Pn+1 - Pn-1）/（Ln+1 - Ln-1）* (Ln - Ln-1)；
+
+1. 遍历参数元素获取参数数组：封装成函数；
+   
+    ``` js
+      function getArgumentsArr(element, arr) {
+        $(`.${element}`).each((index, ele) => arr.push(parseFloat(ele.innerHTML)))   // string 类型 转为 数值
+      }
+    ```
+
+2. 求得对比和当前参数长度并集，通过`Set()`数据类型；
+   
+   ``` js
+    let unionLength = [...new Set([...currentLengthArr, ...compareLengthArr])].sort((a, b) => a < b ? -1 : a > b ? 1 : 0);
+   ```
+
+3. 该参数存在某长度，使用该参数拉速、功率；不存在某长度Ln，Pn=（Pn+1 - Pn-1）/（Ln+1 - Ln-1）* (Ln - Ln-1)；
+
+  ``` js
+    function getNewValue(unionLength, currentLength, currentXXX, index) {
+      return Math.floor(((currentXXX[index] - currentXXX[index - 1]) / (currentLength[index] - currentLength[index - 1]) * (unionLength[index] - currentLength[index - 1]) + currentXXX[index - 1]) * 10) / 10
+    }
+  ```
+
+4. 遍历`unionLength`，不存在某长度后调用3中处理函数，并将新长度和新值`splice`进数组中。
+
+  ``` js
+    unionLength.forEach((ele, index,arr) => {
+      if (currentLengthArr.indexOf(ele) == -1) {
+        let newCurrentHeat = getNewValue(arr, currentLengthArr, currentHeatsArr, index);
+        let newCurrentSlspeed = getNewValue(arr, currentLengthArr, currentSlspeed, index);
+        let newCurrentSeedRotation = getNewValue(arr, currentLengthArr, currentSeedRotation, index);
+        let newCurrentCruRotation = getNewValue(arr, currentLengthArr, currentCruRotation, index);
+        currentLengthArr.splice(index, 0, ele)
+        currentHeatsArr.splice(index, 0, newCurrentHeat)
+        currentSlspeed.splice(index, 0, newCurrentSlspeed)
+        currentSeedRotation.splice(index, 0, newCurrentSeedRotation)
+        currentCruRotation.splice(index, 0, newCurrentCruRotation)
+      }
+      if (compareLengthArr.indexOf(ele) == -1) {
+        let newCompareHeat = getNewValue(arr, compareLengthArr, compareHeatsArr, index);
+        let newCompareSlspeed = getNewValue(arr, compareLengthArr, compareSlspeed, index);
+        let newCompareSeedRotation = getNewValue(arr, compareLengthArr, compareSeedRotation, index);
+        let newCompareCruRotation = getNewValue(arr, compareLengthArr, compareCruRotation, index);
+        compareLengthArr.splice(index, 0, ele)
+        compareHeatsArr.splice(index, 0, newCompareHeat)
+        compareSlspeed.splice(index, 0, newCompareSlspeed)
+        compareSeedRotation.splice(index, 0, newCompareSeedRotation)
+        compareCruRotation.splice(index, 0, newCompareCruRotation)
+      }
+    })
+  ```
+
+5. `echart`相关图表配置：
+
+    ``` js
+      <!-- 调整图表区边距 -->
+        grid: {
+        left: '6 %',
+        right: '13 %',
+        top: '12 %',
+        bottom: '8 %'
+        }
+
+      <!-- 次坐标轴 yAxisIndex 自动与 yAxis顺序对应-->
+        series: [{
+          name: '当前晶转',
+          type: 'line',
+          yAxisIndex: 0,
+          data: currentSeedRotation,
+          label: {
+            show: true,
+            position: 'top',
+          }
+        ]
+
+        <!-- y 坐标轴线显示 -->
+        yAxis: [{
+          name: '晶转(rpm)',
+          nameLocation: 'center',
+          type: 'value',
+          // y 轴线显示
+          axisLine: {
+            show: true,
+          }
+        ]
+
+        <!-- 网格线：  splitLine -->
+        yAxis: [{
+          name: '晶转(rpm)',
+          nameLocation: 'center',
+          type: 'value',
+          splitLine: {
+            show: true,
+            lineStyle: {
+              type: 'dashed',
+              color: '#55b9b4'
+            }
+          }
+        ]
+
+        <!-- 强制x坐标值与刻度对齐 及 x -->
+        xAxis: {
+          type: 'category',
+          data: unionLength,
+          axisTick: {
+            // 强制坐标值与刻度对齐
+            alignWithLabel: true,
+          },
+          // x 轴线与网格线对齐
+          boundaryGap: false,
+        }
+        
+        <!-- y 轴分割 -->
+          yAxis: [{
+              name: '晶转(rpm)',
+              nameLocation: 'center',
+              nameGap: 30,
+              type: 'value',
+              min: 7,
+              max: 12,
+              // y 轴分割段数
+              splitNumber: 10,
+            }
+          ]
+    ```

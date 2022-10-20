@@ -249,24 +249,24 @@ $(function() {
     function getNewValue(unionLength, currentLength, currentXXX, index) {
       return Math.floor(((currentXXX[index] - currentXXX[index - 1]) / (currentLength[index] - currentLength[index - 1]) * (unionLength[index] - currentLength[index - 1]) + currentXXX[index - 1]) * 10) / 10
     }
-    unionLength.forEach((ele, index) => {
+    unionLength.forEach((ele, index, arr) => {
       if (currentLengthArr.indexOf(ele) == -1) {
-        let newCurrentHeat = getNewValue(unionLength, currentLengthArr, currentHeatsArr, index);
-        let newCurrentSlspeed = getNewValue(unionLength, currentLengthArr, currentSlspeed, index);
-        let newCurrentSeedRotation = getNewValue(unionLength, currentLengthArr, currentSeedRotation, index);
-        let newCurrentCruRotation = getNewValue(unionLength, currentLengthArr, currentCruRotation, index);
-        currentLengthArr.splice(index, 0, unionLength[index])
+        let newCurrentHeat = getNewValue(arr, currentLengthArr, currentHeatsArr, index);
+        let newCurrentSlspeed = getNewValue(arr, currentLengthArr, currentSlspeed, index);
+        let newCurrentSeedRotation = getNewValue(arr, currentLengthArr, currentSeedRotation, index);
+        let newCurrentCruRotation = getNewValue(arr, currentLengthArr, currentCruRotation, index);
+        currentLengthArr.splice(index, 0, ele)
         currentHeatsArr.splice(index, 0, newCurrentHeat)
         currentSlspeed.splice(index, 0, newCurrentSlspeed)
         currentSeedRotation.splice(index, 0, newCurrentSeedRotation)
         currentCruRotation.splice(index, 0, newCurrentCruRotation)
       }
       if (compareLengthArr.indexOf(ele) == -1) {
-        let newCompareHeat = getNewValue(unionLength, compareLengthArr, compareHeatsArr, index);
-        let newCompareSlspeed = getNewValue(unionLength, compareLengthArr, compareSlspeed, index);
-        let newCompareSeedRotation = getNewValue(unionLength, compareLengthArr, compareSeedRotation, index);
-        let newCompareCruRotation = getNewValue(unionLength, compareLengthArr, compareCruRotation, index);
-        compareLengthArr.splice(index, 0, unionLength[index])
+        let newCompareHeat = getNewValue(arr, compareLengthArr, compareHeatsArr, index);
+        let newCompareSlspeed = getNewValue(arr, compareLengthArr, compareSlspeed, index);
+        let newCompareSeedRotation = getNewValue(arr, compareLengthArr, compareSeedRotation, index);
+        let newCompareCruRotation = getNewValue(arr, compareLengthArr, compareCruRotation, index);
+        compareLengthArr.splice(index, 0, ele)
         compareHeatsArr.splice(index, 0, newCompareHeat)
         compareSlspeed.splice(index, 0, newCompareSlspeed)
         compareSeedRotation.splice(index, 0, newCompareSeedRotation)
