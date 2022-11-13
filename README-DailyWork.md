@@ -98,6 +98,9 @@
 
 #### 2.1 将原来`my_db_01`数据库中的`users`表格复制到`tech_task`总表中
 
+1. 可以用数据库备份和导入的方式复制数据库；
+2. 可以用以下`SQL`语句分三步实现数据库结构域内容的复制；
+
   ``` sql
     <!-- 1.显示原表结构 -->
     SHOW create table my_db_01.users;
@@ -320,3 +323,197 @@
       },
     }]
   ```
+
+## 2022-09-27
+
+### 1. 工艺参数
+
+
+#### 1.1 工艺参数提交页
+
+1. **总版面固定边距**：`div#page`控制总内容的边距；
+2. **可输入单元格**：为`td`单元格添加`contenteditable="true"`属性实现可输入单元格；
+3. **请求模块化**：独立成函数，方便后续结构修改；
+   a. 合同请求(`getContractMessage()`);
+   b. 参数请求(`getSubmitMessage()`);
+   c. 对比功能(`compareArgumets()`)
+4. **请求渲染顺序**：
+   a. 合同请求`ajax:success`函数中嵌套参数请求顺序;
+   b. 参数请求`ajax:success`函数中嵌套参数对比函数（因为success后才能获取合同、提交说明）；
+5. **页面首次渲染**：获取`zoom`默认片区，传入`getContract()`函数渲染；
+6. **下拉选择渲染**：采用`change`事件，自动渲染，不用点击查询；
+7. **默认参数渲染**：
+   a. 选择片区无合同或新建合同后，渲染数据库`init`默认参数，方便提交；
+   b. 选择片区后有合同，渲染该合同最近一次提交参数；
+8. **历史提交渲染**：片区选择后，渲染该片区所有历史提交参数信息；
+9.  **参数提交功能**：为每列参数添加类名，遍历获取值`push`进数组，加入以参数名为键的对象数组中，然后传入后端；
+10. **提交说明限制**：
+  a. 为提交说明`input`添加`blur`事件，实现失去焦点后发起`ajax`请求获取数据库同区同合同提交说明;
+  b. 然后通过`some()`与当前值对比，存在则`alert()`和清空输入框；
+
+## 2022-09-28
+
+### 1.工艺参数
+
+#### 1.1 工艺参数历史提交区参数删除
+
+1. 数据库新增`status`列，默认状态为`0`，删除时不真正删除，将值置为`1`；
+
+#### 1.2 工艺参数首页
+
+1. **删除合同新增功能**：删除合同新增函数和下拉“请新增”选项；
+2. **新增提交说明渲染**：
+  a. 根据片区、合同`group by`提交说明;
+  b. 提交说明由`input`改为`select`下拉；
+3. **请求渲染顺序**：因为success后才能获取合同、提交说明
+   a. 合同请求`ajax:success`中嵌套提交说明请求;
+   b. 提交说明请求`ajax:success`中嵌套参数请求顺序;
+   c. 参数请求`ajax:success`中嵌套参数对比；
+4. **参数渲染**：参数渲染sql没有参数时不渲染默认`init`参数，直接渲染为空；
+5. **自动对比参数**：`foreach`嵌套遍历当前和对比参数，且必须放在参数渲染成功后；
+6. **功率-拉速对比曲线图**；未完成
+
+## 2022-10-14
+
+### 1. 网站布局之公共头部
+
+1. 完成抽离网站公共电脑头部`header-computer.html`,在页面添加`<div>header</div>`通过`$('#header').load(..)`导入；
+2. 导入后`baseAPI.js`中统一拦截函数`complete`报错`res.responseJSON.status`报错`status is undefined`，原因为`load`发起的`ajax`请求中无`res.respnseJSON`对象，添加判断条件解决；
+3. 关于前后端拦截：后端通过`joi`全局中间件，前端通过后端拦截返回的`res.cc('身份验证失败')`拦截；
+
+## 2022-10-15
+
+### 1. 参数管理
+
+1. CSS布局优化：解决公共头部导入后，自动使用`bootstrap.css`样式问题（待解决）；
+
+## 2022-10-17 
+
+### 1. 参数管理
+
+#### 1.1 自动生成参数长度-拉速-功率曲线：
+
+1. 遍历参数元素获取参数数组：封装成函数；
+   
+    ``` js
+      function getArgumentsArr(element, arr) {
+        $(`.${element}`).each((index, ele) => arr.push(parseFloat(ele.innerHTML)))   // string 类型 转为 数值
+      }
+    ```
+
+2. 求得对比和当前参数长度并集，通过`Set()`数据类型；
+   
+   ``` js
+    let unionLength = [...new Set([...currentLengthArr, ...compareLengthArr])].sort((a, b) => a < b ? -1 : a > b ? 1 : 0);
+   ```
+
+3. 该参数存在某长度，使用该参数拉速、功率；不存在某长度Ln，Pn=（Pn+1 - Pn-1）/（Ln+1 - Ln-1）* (Ln - Ln-1)；
+
+  ``` js
+    function getNewValue(unionLength, currentLength, currentXXX, index) {
+      return Math.floor(((currentXXX[index] - currentXXX[index - 1]) / (currentLength[index] - currentLength[index - 1]) * (unionLength[index] - currentLength[index - 1]) + currentXXX[index - 1]) * 10) / 10
+    }
+  ```
+
+4. 遍历`unionLength`，不存在某长度后调用3中处理函数，并将新长度和新值`splice`进数组中。
+
+  ``` js
+    unionLength.forEach((ele, index,arr) => {
+      if (currentLengthArr.indexOf(ele) == -1) {
+        let newCurrentHeat = getNewValue(arr, currentLengthArr, currentHeatsArr, index);
+        let newCurrentSlspeed = getNewValue(arr, currentLengthArr, currentSlspeed, index);
+        let newCurrentSeedRotation = getNewValue(arr, currentLengthArr, currentSeedRotation, index);
+        let newCurrentCruRotation = getNewValue(arr, currentLengthArr, currentCruRotation, index);
+        currentLengthArr.splice(index, 0, ele)
+        currentHeatsArr.splice(index, 0, newCurrentHeat)
+        currentSlspeed.splice(index, 0, newCurrentSlspeed)
+        currentSeedRotation.splice(index, 0, newCurrentSeedRotation)
+        currentCruRotation.splice(index, 0, newCurrentCruRotation)
+      }
+      if (compareLengthArr.indexOf(ele) == -1) {
+        let newCompareHeat = getNewValue(arr, compareLengthArr, compareHeatsArr, index);
+        let newCompareSlspeed = getNewValue(arr, compareLengthArr, compareSlspeed, index);
+        let newCompareSeedRotation = getNewValue(arr, compareLengthArr, compareSeedRotation, index);
+        let newCompareCruRotation = getNewValue(arr, compareLengthArr, compareCruRotation, index);
+        compareLengthArr.splice(index, 0, ele)
+        compareHeatsArr.splice(index, 0, newCompareHeat)
+        compareSlspeed.splice(index, 0, newCompareSlspeed)
+        compareSeedRotation.splice(index, 0, newCompareSeedRotation)
+        compareCruRotation.splice(index, 0, newCompareCruRotation)
+      }
+    })
+  ```
+
+5. `echart`相关图表配置：
+
+    ``` js
+      <!-- 调整图表区边距 -->
+        grid: {
+        left: '6 %',
+        right: '13 %',
+        top: '12 %',
+        bottom: '8 %'
+        }
+
+      <!-- 次坐标轴 yAxisIndex 自动与 yAxis顺序对应-->
+        series: [{
+          name: '当前晶转',
+          type: 'line',
+          yAxisIndex: 0,
+          data: currentSeedRotation,
+          label: {
+            show: true,
+            position: 'top',
+          }
+        ]
+
+        <!-- y 坐标轴线显示 -->
+        yAxis: [{
+          name: '晶转(rpm)',
+          nameLocation: 'center',
+          type: 'value',
+          // y 轴线显示
+          axisLine: {
+            show: true,
+          }
+        ]
+
+        <!-- 网格线：  splitLine -->
+        yAxis: [{
+          name: '晶转(rpm)',
+          nameLocation: 'center',
+          type: 'value',
+          splitLine: {
+            show: true,
+            lineStyle: {
+              type: 'dashed',
+              color: '#55b9b4'
+            }
+          }
+        ]
+
+        <!-- 强制x坐标值与刻度对齐 及 x -->
+        xAxis: {
+          type: 'category',
+          data: unionLength,
+          axisTick: {
+            // 强制坐标值与刻度对齐
+            alignWithLabel: true,
+          },
+          // x 轴线与网格线对齐
+          boundaryGap: false,
+        }
+        
+        <!-- y 轴分割 -->
+          yAxis: [{
+              name: '晶转(rpm)',
+              nameLocation: 'center',
+              nameGap: 30,
+              type: 'value',
+              min: 7,
+              max: 12,
+              // y 轴分割段数
+              splitNumber: 10,
+            }
+          ]
+    ```

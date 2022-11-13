@@ -7,48 +7,218 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>参数管理提交页</title>
   <script src="../../assets/lib/JQuery.js"></script>
+  <script src="../../assets/js/baseAPI.js"></script>
+  <script src="../../assets/lib/echarts.min.js"></script>
+  <script src="../../assets/lib/template-web.js"></script>
+  <script src="../../assets/js/tech_arguments_submit.js"></script>
+  <link rel="stylesheet" href="../../assets/css/tech_arguments_submit.css">
 </head>
 
 <body>
-  <div id="select">
-    片区选择
-    <select name="zoom" id="">
-      <option selected>A1</option>
-      <option>A2</option>
-      <option>B1</option>
-      <option>B2</option>
-      <option>C1</option>
-      <option>C2</option>
-      <option>D1</option>
-      <option>D2</option>
-      <option>E1</option>
-      <option>E2</option>
-    </select> 合同选择
-    <select name="contract" id="select_contract">
-      <option>890A0</option>
-      <option>890C0</option>
-      <option>PB237</option>
-      <option>新建合同</option>
-    </select>
+  <!-- 版面div -->
+  <div id="page">
+    <!-- 头部 -->
+    <header class="clearfix">
+      <!-- 预览区头部 -->
+      <div id="header-left">
+        <p id="previewHeader">
+          <!-- 片区：<span style="text-decoration: underline;">A1</span> 合同：
+          <span style="text-decoration: underline;">890A0</span> 参数类型：
+          <span style="text-decoration: underline;">等径</span> 提交说明：
+          <span style="text-decoration: underline;">第一次提交测试</span> -->
+        </p>
+      </div>
+      <!-- 提交区头部 -->
+      <div id="header-right">
+        <div id="submit">
+          <form action="">
+            <!-- 片区选择 -->
+            <span>片区选择</span>
+            <select name="zoom" id="select_zoom">
+                <option selected>A1</option>
+                <option>A2</option>
+                <option>B1</option>
+                <option>B2</option>
+                <option>C1</option>
+                <option>C2</option>
+                <option>D1</option>
+                <option>D2</option>
+                <option>E1</option>
+                <option>E2</option>
+            </select>
+            <!-- 合同选择 -->
+            <span>合同选择</span>
+            <select name="contract" id="select_contract" class="b-select contractChange">
+              <option>890A0</option>
+              <option>890C0</option>
+              <option>PB237</option>
+              <option>新建合同</option>
+            </select>
+            <!-- 参数类型 -->
+            <span>参数类型</span>
+            <select name="type" id="select_type" class="b-select">
+              <option>等径</option>
+              <option>放肩</option>
+            </select>
+            <!-- 提交说明 -->
+            <span>提交说明</span>
+            <input type="text" name="" id="select_discription">
+            <!-- 提交 -->
+            <button id="sub_submit">提交</button>
+          </form>
+        </div>
+      </div>
+    </header>
+
+    <!-- 预览&提交区 -->
+    <div class="clearfix">
+      <!-- 对比预览区 -->
+      <div id="preview">
+        <table id="argu" border="1">
+          <thead>
+            <tr>
+              <td colspan="10">
+                <h2>等径斜率表</h2>
+              </td>
+            </tr>
+            <tr>
+              <th>序号</th>
+              <th>长度</th>
+              <th>晶转</th>
+              <th>埚转</th>
+              <th>功率</th>
+              <th>拉速</th>
+              <th>液口距</th>
+              <th>氩气流量</th>
+              <th>控制周期</th>
+              <th>控制系数</th>
+            </tr>
+          </thead>
+          <tbody id="preview_tbody">
+
+          </tbody>
+        </table>
+      </div>
+      <!-- 提交预览区 -->
+      <div id="pre-submit">
+        <table id="argu" border="1">
+          <thead>
+            <tr>
+              <td colspan="10">
+                <h2>等径斜率表</h2>
+              </td>
+            </tr>
+            <tr>
+              <th>序号</th>
+              <th>长度</th>
+              <th>晶转</th>
+              <th>埚转</th>
+              <th>功率</th>
+              <th>拉速</th>
+              <th>液口距</th>
+              <th>氩气流量</th>
+              <th>控制周期</th>
+              <th>控制系数</th>
+            </tr>
+          </thead>
+          <tbody id="sub_tbody">
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- 历史提交区 -->
+    <div id="sub-history">
+      <table id="sub_history" border="1">
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>片区</th>
+            <th>合同</th>
+            <th>提交说明</th>
+            <th>提交人</th>
+            <th>提交时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="submitHistory_tbody">
+
+        </tbody>
+      </table>
+    </div>
   </div>
 
-  <script>
-    $(function() {
-      // 新建合同
-      $('select[name="contract"]').on('change', function() {
-        console.log($(this).val());
-        if ($(this).val() == '新建合同') {
-          // window.location.href = '../tech/tech_arguments.html'
-          const newContract = prompt('请输入要添加的合同')
-          const newOption = document.createElement('option');
-          newOption.innerHTML = newContract;
-          $(this).prepend(newOption)
-          $(this).val(newContract)
-        }
-      })
+  <!-- 对比预览区模板 -->
+  <script type="text/html" id="getPreview">
+    {{each data}}
+    <tr>
+      <td>{{$value.newId}}</td>
+      <td class="compare_length" data-newId="{{$value.newId}}">{{$value.length}}</td>
+      <td class="compare_seedRotation" data-newId="{{$value.newId}}">{{$value.seedRotation}}</td>
+      <td class="compare_cruRotation" data-newId="{{$value.newId}}">{{$value.cruRotation}}</td>
+      <td class="compare_mainHeater" data-newId="{{$value.newId}}">{{$value.mainHeater}}</td>
+      <td class="compare_slSpeed" data-newId="{{$value.newId}}">{{$value.slSpeed}}</td>
+      <td class="compare_meltLevel" data-newId="{{$value.newId}}">{{$value.meltLevel}}</td>
+      <td class="compare_argonFlow" data-newId="{{$value.newId}}">{{$value.argonFlow}}</td>
+      <td class="compare_controlTime" data-newId="{{$value.newId}}">{{$value.controlTime}}</td>
+      <td class="compare_controlRate" data-newId="{{$value.newId}}">{{$value.controlRate}}</td>
+    </tr>
+    {{/each}}
+  </script>
 
+  <!-- 提交预览区模板 -->
+  <script type="text/html" id="getSubmitPreview">
+    {{each data}}
+    <tr>
+      <td>{{$value.newId}}</td>
+      <td class="length" contenteditable="true" data-newId="{{$value.newId}}">{{$value.length}}</td>
+      <td class="seedRotation" contenteditable="true" data-newId="{{$value.newId}}">{{$value.seedRotation}}</td>
+      <td class="cruRotation" contenteditable="true" data-newId="{{$value.newId}}">{{$value.cruRotation}}</td>
+      <td class="mainHeater" contenteditable="true" data-newId="{{$value.newId}}">{{$value.mainHeater}}</td>
+      <td class="slSpeed" contenteditable="true" data-newId="{{$value.newId}}">{{$value.slSpeed}}</td>
+      <td class="meltLevel" contenteditable="true" data-newId="{{$value.newId}}">{{$value.meltLevel}}</td>
+      <td class="argonFlow" contenteditable="true" data-newId="{{$value.newId}}">{{$value.argonFlow}}</td>
+      <td class="controlTime" contenteditable="true" data-newId="{{$value.newId}}">{{$value.controlTime}}</td>
+      <td class="controlRate" contenteditable="true" data-newId="{{$value.newId}}">{{$value.controlRate}}</td>
+    </tr>
+    {{/each}}
+  </script>
 
-    })
+  <!-- 初始参数表头模板 -->
+  <script type="text/html" id="getPreviewHeader">
+    片区：<span style="text-decoration: underline;">{{zoom}}</span> 合同：
+    <span style="text-decoration: underline;">{{contract}}</span> 参数类型：
+    <span style="text-decoration: underline;">等径</span> 提交说明：
+    <span style="text-decoration: underline;">{{discription}}</span>
+  </script>
+
+  <!-- 合同选择模板 -->
+  <script type="text/html" id="getContract">
+    {{if data.length == 0}}
+    <option>请新建</option>
+    <option>新建合同</option>
+    {{else}} {{each data}}
+    <option>{{$value.contract}}</option>
+    {{/each}}
+    <option>新建合同</option>
+    {{/if}}
+  </script>
+
+  <!-- 历史提交区模板 -->
+  <script type="text/html" id="getHistorySubmit">
+    {{each data}}
+    <tr>
+      <td>{{$value.newId}}</td>
+      <td>{{$value.zoom}}</td>
+      <td>{{$value.contract}}</td>
+      <td>{{$value.discription}}</td>
+      <td>{{$value.submitter}}</td>
+      <td>{{$value.subDay}}</td>
+      <td><a href="javascript:;" class="delete_submit">删除</a></td>
+    </tr>
+    {{/each}}
   </script>
 </body>
 

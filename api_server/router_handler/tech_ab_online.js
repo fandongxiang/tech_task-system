@@ -80,6 +80,7 @@ exports.delAbnor = (req, res) => {
 // 更新所有炉台信息的路由函数
 exports.updateAbnor = (req, res) => {
   const data = req.body
+  console.log(data);
   const { abnormal: abnormalArr, abMeasure: abMeasureArr, state: stateArr, id: idArr } = data
   const arr = []
   for (var i = 0; i < abnormalArr.length; i++) {

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../../assets/lib/JQuery.js"></script>
+  <style>
+    html,
+    body {
+      padding: 0;
+      margin: 0;
+    }
+    
+    td {
+      width: 20px;
+      height: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <table border="1">
+    <tr>
+      <td contenteditable="true" class="name"></td>
+      <td contenteditable="true"></td>
+      <td contenteditable="true"></td>
+      <td contenteditable="true"></td>
+    </tr>
+  </table>
+  <script>
+    $('.name').keyup(function() {
+      var $this = $(this);
+      console.log($this.html());
+      let text_length = $this.html().length; //获取当前文本框的长度
+      if (text_length == 0) {
+        console.log('hhahah');
+        $this.css("width", "20px");
+      } else {
+        let current_width = parseInt(text_length) * 14; //该14是改变前的宽度除以当前字符串的长度,算出每个字符的长度
+        $this.css("width", current_width + "px");
+      }
+    })
+
+    function add() {
+      let a = 3;
+      hello(a)
+    };
+
+    function hello(num) {
+      let b = 5;
+      console.log(num + b);
+    }
+    add()
+  </script>
+</body>
+
+</html>
